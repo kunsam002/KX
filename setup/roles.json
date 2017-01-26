@@ -1,0 +1,12 @@
+[
+	{"name": "super_admin", "title": "Super Admin Rights", "assignable": false},
+	{"name": "reports_permission", "title": "View & Generate Reports"},
+	{"name": "clients_permission", "title": "Manage Clients Relations"},
+	{"name": "client_activation_permission", "title": "Activate/Deactivate Clients"},
+	{"name": "messages_permission", "title": "View & Respond to Messages"},
+	{"name": "complaints_permission", "title": "View & Respond to Complaints"},
+	{"name": "finance_permission", "title": "Manage Finance & Remittance"},
+	{"name": "assets_permission", "title": "Manage Platform Assets"},
+	{"name": "staff_permission", "title": "Manage Staff Members"},
+	{"name": "transactions_permission", "title": "View Transactions"}
+]

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+	<!--<![endif]-->
+
+  <head>
+		<meta charset="utf-8">
+		<title>Kampus Xchange {% if page_title %}| {{page_title}}{% endif %}</title>
+		<meta name="description" content="Kampus Xchange">
+		<meta name="author" content="">
+
+		<!-- Mobile Meta -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="images/favicon.ico">
+
+		<!-- Web Fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Raleway:700,400,300' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
+
+		{% assets "main-global-css" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+	</head>
+
+	<!-- body classes:  -->
+	<!-- "boxed": boxed layout mode e.g. <body class="boxed"> -->
+	<!-- "pattern-1 ... pattern-9": background patterns for boxed layout mode e.g. <body class="boxed pattern-1"> -->
+	<!-- "transparent-header": makes the header transparent and pulls the banner to top -->
+	<!-- "gradient-background-header": applies gradient background to header -->
+	<!-- "page-loader-1 ... page-loader-6": add a page loader to the page (more info @components-page-loaders.html) -->
+	<body class="no-trans    ">
+
+		<!-- scrollToTop -->
+		<!-- ================ -->
+		<div class="scrollToTop circle"><i class="icon-up-open-big"></i></div>
+
+		<!-- page wrapper start -->
+		<!-- ================ -->
+		<div class="page-wrapper">
+      {% block header%}
+			<!-- header-container start -->
+			<div class="header-container">
+
+				<!-- header-top start -->
+				<!-- classes:  -->
+				<!-- "dark": dark version of header top e.g. class="header-top dark" -->
+				<!-- "colored": colored version of header top e.g. class="header-top colored" -->
+				<!-- ================ -->
+				<div class="header-top dark ">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-3 col-sm-6 col-md-9">
+								<!-- header-top-first start -->
+								<!-- ================ -->
+								<div class="header-top-first clearfix">
+									<ul class="social-links circle small clearfix hidden-xs">
+										<li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+										<li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
+										<li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
+										<li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+									</ul>
+									<div class="social-links hidden-lg hidden-md hidden-sm circle small">
+										<div class="btn-group dropdown">
+											<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share-alt"></i></button>
+											<ul class="dropdown-menu dropdown-animation">
+												<li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+												<li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
+												<li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
+												<li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+											</ul>
+										</div>
+									</div>
+									<ul class="list-inline hidden-sm hidden-xs">
+										<li><i class="fa fa-phone pr-5 pl-10"></i>+234 813 010 7796</li>
+										<li><i class="fa fa-envelope-o pr-5 pl-10"></i> info@kampusxchange.com</li>
+									</ul>
+								</div>
+								<!-- header-top-first end -->
+							</div>
+							<div class="col-xs-9 col-sm-6 col-md-3">
+
+								<!-- header-top-second start -->
+								<!-- ================ -->
+								<div id="header-top-second"  class="clearfix">
+
+									<!-- header top dropdowns start -->
+									<!-- ================ -->
+									<div class="header-top-dropdown text-right">
+										<div class="btn-group">
+											<a href="{{url_for('.signup')}}" class="btn btn-default btn-sm"><i class="fa fa-user pr-10"></i> Sign Up</a>
+										</div>
+										<div class="btn-group dropdown">
+											<button type="button" class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown"><i class="fa fa-lock pr-10"></i> Login</button>
+											<ul class="dropdown-menu dropdown-menu-right dropdown-animation">
+												<li>
+													<form name="login_form" class="login-form margin-clear" method="post" action="{{url_for('.login')}}">
+                            {{login_form.csrf_token}}
+														<div class="form-group has-feedback">
+															<label class="control-label">Username</label>
+															<input name="username" id="username" type="text" class="form-control" placeholder="">
+															<i class="fa fa-user form-control-feedback"></i>
+														</div>
+														<div class="form-group has-feedback">
+															<label class="control-label">Password</label>
+															<input name="password" id="password" type="password" class="form-control" placeholder="">
+															<i class="fa fa-lock form-control-feedback"></i>
+														</div>
+														<button type="submit" class="btn btn-gray btn-sm">Log In</button>
+														<span class="pl-5 pr-5">or</span>
+														<button type="submit" class="btn btn-default btn-sm">Sing Up</button>
+														<ul>
+															<li><a href="#">Forgot your password?</a></li>
+														</ul>
+														<span class="text-center">Login with</span>
+														<ul class="social-links circle small colored clearfix">
+															<li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+															<li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+															<li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
+														</ul>
+													</form>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<!--  header top dropdowns end -->
+								</div>
+								<!-- header-top-second end -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- header-top end -->
+
+				<!-- header start -->
+				<!-- classes:  -->
+				<!-- "fixed": enables fixed navigation mode (sticky menu) e.g. class="header fixed clearfix" -->
+				<!-- "dark": dark version of header e.g. class="header dark clearfix" -->
+				<!-- "full-width": mandatory class for the full-width menu layout -->
+				<!-- "centered": mandatory class for the centered logo layout -->
+				<!-- ================ -->
+				<header class="header  fixed    clearfix">
+
+					<div class="container">
+						<div class="row">
+							<div class="col-md-3 ">
+								<!-- header-left start -->
+								<!-- ================ -->
+								<div class="header-left clearfix">
+
+									<!-- header dropdown buttons -->
+									<div class="header-dropdown-buttons visible-xs">
+										<div class="btn-group dropdown">
+											<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-search"></i></button>
+											<ul class="dropdown-menu dropdown-menu-right dropdown-animation">
+												<li>
+													<form role="search" class="search-box margin-clear">
+														<div class="form-group has-feedback">
+															<input type="text" class="form-control" placeholder="Search">
+															<i class="icon-search form-control-feedback"></i>
+														</div>
+													</form>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<!-- header dropdown buttons end-->
+
+									<!-- logo -->
+									<div id="logo" class="logo">
+										<a href="/"><img id="logo_img" src="/static/images/logo_light_blue.png" alt="The Project"></a>
+									</div>
+
+									<!-- name-and-slogan -->
+									<div class="site-slogan">
+										Multipurpose HTML5 Template
+									</div>
+
+								</div>
+								<!-- header-left end -->
+
+							</div>
+							<div class="col-md-9">
+
+								<!-- header-right start -->
+								<!-- ================ -->
+								<div class="header-right clearfix">
+
+								<!-- main-navigation start -->
+								<!-- classes: -->
+								<!-- "onclick": Makes the dropdowns open on click, this the default bootstrap behavior e.g. class="main-navigation onclick" -->
+								<!-- "animated": Enables animations on dropdowns opening e.g. class="main-navigation animated" -->
+								<!-- "with-dropdown-buttons": Mandatory class that adds extra space, to the main navigation, for the search and cart dropdowns -->
+								<!-- ================ -->
+								<div class="main-navigation  animated with-dropdown-buttons">
+
+									<!-- navbar start -->
+									<!-- ================ -->
+									<nav class="navbar navbar-default" role="navigation">
+										<div class="container-fluid">
+
+											<!-- Toggle get grouped for better mobile display -->
+											<div class="navbar-header">
+												<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+													<span class="sr-only">Toggle navigation</span>
+													<span class="icon-bar"></span>
+													<span class="icon-bar"></span>
+													<span class="icon-bar"></span>
+												</button>
+
+											</div>
+
+											<!-- Collect the nav links, forms, and other content for toggling -->
+											<div class="collapse navbar-collapse" id="navbar-collapse-1">
+												<!-- main-menu -->
+												<ul class="nav navbar-nav ">
+                          <li class="mega-menu">
+														<a href="{{url_for('.index')}}">Home</a>
+													</li>
+													<!-- mega-menu start -->
+													<li class="dropdown  mega-menu">
+														<a href="{{url_for('.categories')}}" class="dropdown-toggle" data-toggle="dropdown">Categories</a>
+														<ul class="dropdown-menu">
+															<li>
+																<div class="row">
+																	<div class="col-md-12">
+																		<h4 class="title"><i class="fa fa-laptop pr-10"></i> Demos</h4>
+																		<div class="row">
+																			<div class="col-sm-6 col-md-3">
+																				<div class="divider"></div>
+																				<ul class="menu">
+																					<li ><a href="index.html"><i class="icon-home pr-10"></i>Home Default</a></li>
+																					<li ><a href="index-corporate-1.html"><i class="icon-suitcase pr-10"></i>Corporate 1</a></li>
+																					<li ><a href="index-corporate-2.html"><i class="icon-suitcase pr-10"></i>Corporate 2</a></li>
+																					<li ><a href="index-corporate-3.html"><i class="icon-suitcase pr-10"></i>Corporate 3</a></li>
+																					<li ><a href="index-corporate-4.html"><i class="icon-home pr-10"></i>Corporate 4 <span class="badge">NEW</span></a></li>
+																					<li ><a href="index-shop.html"><i class="icon-basket-1 pr-10"></i>Commerce 1</a></li>
+																				</ul>
+																			</div>
+																			<div class="col-sm-6 col-md-3">
+																				<div class="divider"></div>
+																				<ul class="menu">
+																					<li ><a href="index-shop-2.html"><i class="icon-basket-1 pr-10"></i>Commerce 2</a></li>
+																					<li ><a href="index-portfolio.html"><i class="icon-briefcase pr-10"></i>Portfolio/Agency</a></li>
+																					<li ><a href="index-medical.html"><i class="fa fa-ambulance pr-10"></i>Medical</a></li>
+																					<li ><a href="index-restaurant.html"><i class="fa fa-cutlery pr-10"></i>Restaurant</a></li>
+																					<li ><a href="index-wedding.html"><i class="icon-heart pr-10"></i>Wedding</a></li>
+																					<li ><a href="index-landing.html"><i class="fa fa-star pr-10"></i>Landing Page</a></li>
+																				</ul>
+																			</div>
+																			<div class="col-sm-6 col-md-3">
+																				<div class="divider"></div>
+																				<ul class="menu">
+																					<li ><a href="page-coming-soon.html"><i class="fa fa-clock-o pr-10"></i>Coming Soon</a></li>
+																					<li ><a href="index-one-page.html"><i class="icon-home pr-10"></i>One Page Version</a></li>
+																					<li ><a href="index-construction.html"><i class="fa fa-building pr-10"></i>Construction <span class="badge">v1.1</span></a></li>
+																					<li ><a href="index-education.html"><i class="fa fa-graduation-cap pr-10"></i>Education <span class="badge">v1.1</span></a></li>
+																					<li ><a href="index-hotel.html"><i class="fa fa-bed pr-10"></i>Hotel <span class="badge">v1.1</span></a></li>
+																					<li ><a href="index-blog.html"><i class="fa fa-pencil pr-10"></i>Blog <span class="badge">v1.1</span></a></li>
+																				</ul>
+																			</div>
+																			<div class="col-sm-6 col-md-3">
+																				<div class="divider"></div>
+																				<ul class="menu">
+																					<li ><a href="index-beauty.html"><i class="fa fa-magic pr-10"></i>Beauty Center <span class="badge">v1.1</span></a></li>
+																					<li ><a href="index-gym.html"><i class="fa fa-heartbeat pr-10"></i>Gym <span class="badge">NEW</span></a></li>
+																					<li ><a href="index-resume.html"><i class="fa fa-user pr-10"></i>Resume <span class="badge">NEW</span></a></li>
+																					<li ><a href="index-agency.html"><i class="fa fa-users pr-10"></i>Agency <span class="badge">NEW</span></a></li>
+																					<li ><a href="index-logistics.html"><i class="fa fa-truck pr-10"></i>Logistics <span class="badge">NEW</span></a></li>
+																				</ul>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</li>
+														</ul>
+													</li>
+													<!-- mega-menu end -->
+													<!-- mega-menu start -->
+													<li class="mega-menu">
+														<a href="#">Pages</a>
+													</li>
+													<!-- mega-menu end -->
+													<li class="mega-menu">
+														<a href="#">Categories</a>
+													</li>
+													<li class="mega-menu">
+														<a href="#">About</a>
+													</li>
+													<li class="mega-menu">
+														<a href="#">Contact</a>
+													</li>
+												</ul>
+												<!-- main-menu end -->
+
+												<!-- header dropdown buttons -->
+												<div class="header-dropdown-buttons hidden-xs ">
+													<div class="btn-group dropdown">
+														<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-search"></i></button>
+														<ul class="dropdown-menu dropdown-menu-right dropdown-animation">
+															<li>
+																<form role="search" class="search-box margin-clear">
+																	<div class="form-group has-feedback">
+																		<input type="text" class="form-control" placeholder="Search">
+																		<i class="icon-search form-control-feedback"></i>
+																	</div>
+																</form>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<!-- header dropdown buttons end-->
+
+											</div>
+
+										</div>
+									</nav>
+									<!-- navbar end -->
+
+								</div>
+								<!-- main-navigation end -->
+								</div>
+								<!-- header-right end -->
+
+							</div>
+						</div>
+					</div>
+
+				</header>
+				<!-- header end -->
+			</div>
+			<!-- header-container end -->
+      {% endblock header %}
+
+
+      {% block body %}
+      {% endblock body%}
+
+      {% block footer%}
+			<!-- footer start (Add "dark" class to #footer in order to enable dark footer) -->
+			<!-- ================ -->
+			<footer id="footer" class="clearfix dark">
+
+				<!-- .footer start -->
+				<!-- ================ -->
+				<div class="footer">
+					<div class="container">
+						<div class="footer-inner">
+							<div class="row">
+								<div class="col-md-6 col-md-offset-3">
+									<div class="footer-content text-center padding-ver-clear">
+										<div class="logo-footer"><img id="logo-footer" class="center-block" src="/static/images/logo_light_blue.png" alt=""></div>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus illo vel dolorum soluta consectetur doloribus sit. Delectus non tenetur odit dicta vitae debitis suscipit doloribus. Lorem ipsum dolor sit amet, illo vel dolorum soluta consectetur.</p>
+										<ul class="list-inline mb-20">
+											<li><i class="text-default fa fa-map-marker pr-5"></i>Yaba, Lagos</li>
+											<li><a href="tel:+00 1234567890" class="link-dark"><i class="text-default fa fa-phone pl-10 pr-5"></i>+234 813 010 7796</a></li>
+											<li><a href="mailto:info@kampusxchange.com" class="link-dark"><i class="text-default fa fa-envelope-o pl-10 pr-5"></i>info@kampusxchange.com</a></li>
+										</ul>
+										<ul class="social-links circle animated-effect-1 margin-clear">
+											<li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+											<li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+											<li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
+											<li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
+											<li class="xing"><a target="_blank" href="http://www.xing.com"><i class="fa fa-xing"></i></a></li>
+										</ul>
+										<div class="separator"></div>
+										<p class="text-center margin-clear">Copyright © 2016 <a href="/">Kampus Xchange</a>. All Rights Reserved</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- .footer end -->
+
+			</footer>
+			<!-- footer end -->
+      {% endblock footer %}
+		</div>
+		<!-- page-wrapper end -->
+
+    {% assets "main-global-js" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+	</body>
+</html>

@@ -1,0 +1,5 @@
+[
+	{"name": "super_admin", "title": "Super Admin", "permanent": true},
+	{"name": "staff", "title": "Staff", "permanent": false},
+	{"name": "atele_support", "title": "Atele Support"}
+]

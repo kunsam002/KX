@@ -1,0 +1,199 @@
+{% extends 'public/layout.html' %}
+{% block body %}
+<!-- banner start -->
+<!-- ================ -->
+<div class="banner dark-translucent-bg padding-bottom-clear" style="background-image:url('/static/images/shop-banner.jpg');background-position: 50% 32%;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 text-center col-md-offset-2 pv-20">
+        <h2 class="title object-non-visible" data-animation-effect="fadeIn" data-effect-delay="100">Welcome to <strong>Kampus Xchange</strong></h2>
+        <div class="separator object-non-visible mt-10" data-animation-effect="fadeIn" data-effect-delay="100"></div>
+        <p class="text-center object-non-visible" data-animation-effect="fadeIn" data-effect-delay="100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi perferendis magnam ea necessitatibus, officiis voluptas odit! Aperiam omnis, cupiditate laudantium velit nostrum, exercitationem accusamus, possimus soluta illo deserunt tempora qui.</p>
+      </div>
+    </div>
+  </div>
+  <!-- section start -->
+  <!-- ================ -->
+  <div class="dark-translucent-bg section">
+    <div class="container">
+      <!-- filters start -->
+      <div class="sorting-filters text-center mb-20">
+        <form name="form" class="form-inline">
+          {{form.csrf_token}}
+          <div class="form-group">
+            <label>State</label>
+            <!-- <select class="form-control">
+              <option selected="selected">Date</option>
+              <option>Price</option>
+              <option>Model</option>
+            </select> -->
+            {{form.state_id(class="form-control")}}
+          </div>
+          <div class="form-group">
+            <label>Institution</label>
+            <!-- <select class="form-control">
+              <option selected="selected">Acs</option>
+              <option>Desc</option>
+            </select> -->
+            {{form.university_id(class="form-control")}}
+          </div>
+          <div class="form-group">
+            <label>Price $ (min/max)</label>
+            <div class="row grid-space-10">
+              <div class="col-sm-6">
+                <input type="text" class="form-control">
+              </div>
+              <div class="col-sm-6">
+                <input type="text" class="form-control col-xs-6">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select class="form-control">
+              <option selected="selected">Smartphones</option>
+              <option>Tablets</option>
+              <option>Smart Watches</option>
+              <option>Desktops</option>
+              <option>Software</option>
+              <option>Accessories</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <a href="#" class="btn btn-default">Submit</a>
+          </div>
+        </form>
+      </div>
+      <!-- filters end -->
+    </div>
+  </div>
+  <!-- section end -->
+</div>
+<!-- banner end -->
+<section class="main-container">
+
+	<div class="container">
+		<div class="row">
+
+			<!-- main start -->
+			<!-- ================ -->
+			<div class="main col-md-12">
+
+				<div class="row">
+					<div class="col-md-4">
+						<h3>Home Accessories</h3>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Furniture</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Bed/ mattress</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Wall Hanger</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Racks (shoe,plate etc)</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Mirror</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Cupboard</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Suit Case</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Wall drops</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Curtain</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Carpet /Rug</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Basket</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Chess of drawers</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Tv Stand</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Other</a></li>
+						</ul>
+						<h3>HOME APPLIANCES	</h3>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Blender</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Fan</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Rechargeable light</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Pressing iron</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Toaster</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Electric Kettle</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Gas Cooker</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Hot Plate</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Hair Dryer</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Hair Straighter </a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Stove</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Pots</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Cutlery</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Dishes</a></li>
+							<li><a href="#"><i class="icon-right-open"></i>Other</a></li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<h3>Features</h3>
+						<h6>One</h6>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+						<h6>Two</h6>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+						<h6>Three</h6>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+						<h6>Four</h6>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+						<h3>Electronics</h3>
+						<h6>Large</h6>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+						<h6>Medium</h6>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<h3>Shop</h3>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+						<h3>Portfolio</h3>
+						<h6>One</h6>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+						<h6>Two</h6>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+						<h3>Components</h3>
+						<ul class="list">
+							<li><a href="#"><i class="icon-right-open"></i>Donno</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<!-- main end -->
+
+		</div>
+	</div>
+</section>
+<!-- main-container end -->
+
+<!-- footer top start -->
+<!-- ================ -->
+<div class="dark-bg  default-hovered footer-top animated-text">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="call-to-action text-center">
+					<div class="row">
+						<div class="col-sm-8">
+							<h2>Great Platform</h2>
+							<h2>Buy and Sell</h2>
+						</div>
+						<div class="col-sm-4">
+							<p class="mt-10"><a href="#" class="btn btn-animated btn-lg btn-gray-transparent ">Purchase<i class="fa fa-cart-arrow-down pl-20"></i></a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- footer top end -->
+{% endblock body %}
