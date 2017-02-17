@@ -1,1 +1,1 @@
-web: python manage.py setup_app
+web: python manage.py start_apps
