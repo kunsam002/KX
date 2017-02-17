@@ -60,3 +60,10 @@ class SiteDevConfig(Config):
 
 
     LOGIN_VIEW = '.login'
+
+
+class TestProdConfig(SiteDevConfig):
+    PROTOCOL = "http://"
+    DOMAIN = "k-x.herokuapp.com"
+
+    SQLALCHEMY_DATABASE_URI = "postgres://xpzqyykkgoloce:f8a8db502e81618de9c7253a987a4d6c54e42d48e105311fb64da0ad42f261aa@ec2-54-75-239-190.eu-west-1.compute.amazonaws.com:5432/dcstr4ghk35c7m"

@@ -7,8 +7,9 @@ from factories import create_app, initialize_api, initialize_blueprints
 from flask.ext.migrate import MigrateCommand
 from model_migrations import *
 from xlrd import open_workbook
+from multiprocessing import Process
 
-app = create_app('kx', 'config.SiteDevConfig')
+app = create_app('kx', 'config.TestProdConfig')
 
 logger = app.logger
 
@@ -82,6 +83,26 @@ def setup_app():
     syncdb()
     install_assets()
 
+def runInParallel(*fns):
+    proc = []
+    for fn in fns:
+        p = Process(target=fn)
+        p.start()
+        proc.append(p)
+    for p in proc:
+        p.join()
+
+
+@manager.command
+def start_apps():
+    runInParallel(runserver)
+
+
+@manager.command
+def db_upgrade():
+    coms = ["upgrade", "migrate", "upgrade"]
+    for i in coms:
+        manager.add_command('db', i)
 
 
 if __name__ == "__main__":

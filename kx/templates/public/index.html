@@ -22,22 +22,13 @@
           {{form.csrf_token}}
           <div class="form-group">
             <label>State</label>
-            <!-- <select class="form-control">
-              <option selected="selected">Date</option>
-              <option>Price</option>
-              <option>Model</option>
-            </select> -->
             {{form.state_id(class="form-control")}}
           </div>
           <div class="form-group">
             <label>Institution</label>
-            <!-- <select class="form-control">
-              <option selected="selected">Acs</option>
-              <option>Desc</option>
-            </select> -->
             {{form.university_id(class="form-control")}}
           </div>
-          <div class="form-group">
+          <div class="form-group" style="width:25%">
             <label>Price $ (min/max)</label>
             <div class="row grid-space-10">
               <div class="col-sm-6">
