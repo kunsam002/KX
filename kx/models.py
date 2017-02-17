@@ -227,6 +227,7 @@ class Image(AppMixin, db.Model):
     def __repr__(self):
         return '<Image %r>' % self.name
 
+
 class Message(AppMixin, db.Model):
 
     __searchable__ = True
@@ -314,6 +315,7 @@ class User(db.Model, UserMixin, AppMixin):
     current_login_at = db.Column(db.DateTime)
     last_login_ip = db.Column(db.String(200))
     current_login_ip = db.Column(db.String(200))
+    university_id = db.Column(db.Integer, db.ForeignKey('university.id'), nullable=True)
 
     def update_last_login(self):
         if self.current_login_at is None and self.last_login_at is None:
@@ -475,47 +477,9 @@ class University(AppMixin, db.Model):
     state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=True)
     country_id = db.Column(
         db.Integer, db.ForeignKey('country.id'), nullable=True)
-
-    def add_user(self, username, email, password, full_name=None, is_staff=True, is_verified=True, is_admin=False, is_global=False, is_super_admin=False, active=False):
-        """
-        Adds a user to a university
-
-        :param username: username (should be unique)
-        :type username: string
-        :param email: email address (should be unique)
-        :type email: string
-        :param password: user's password. (this is automatically encrypted)
-        :type email: string
-        :param full_name: user's full name (optional)
-        :type full_name: string
-        :param active
-
-        :returns: a User object or None
-        :rtype: dml.models.User
-
-        """
-        try:
-            user = User(username=username, email=email,
-                        full_name=full_name, active=active, is_staff=True, is_verified=True, is_mtn=False, is_global=False, is_super_admin=False)
-            user.generate_password(password)
-            self.users.append(user)
-            db.session.commit()
-            if is_admin:
-                self.owner_id = user.id
-                db.session.add(self)
-                db.session.commit()
-            return user
-        except:
-            db.session.rollback()
-            raise
+    users = db.relationship('User', backref='university', lazy='dynamic')
 
 
-    @property
-    def owner(self):
-        if self.owner_id:
-            return User.query.get(self.owner_id)
-        else:
-            return None
 
 class Banner(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -550,8 +514,7 @@ class Section(AppMixin, db.Model):
         'Image', backref='section', lazy='dynamic', cascade="all,delete-orphan")
     products = db.relationship(
         'Product', backref='section', lazy='dynamic')
-    sla_refund_period = db.Column(db.Integer, default=0)
-    sla_type = db.Column(db.String(200), nullable=True)
+
 
     @property
     def cover_image(self):
@@ -932,331 +895,6 @@ class Option(AppMixin, db.Model):
     values = db.Column(db.String(200), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey(
         'product.id'), nullable=False)
-
-
-class SessionCart(AppMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=True)
-    total = db.Column(db.Float, default=0.0)
-    phone = db.Column(db.String(200), nullable=True)
-    email = db.Column(db.String(200), nullable=True)
-    address_line1 = db.Column(db.String(200), nullable=True)
-    address_line2 = db.Column(db.String(200), nullable=True)
-    city = db.Column(db.String(200), nullable=True)
-    state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=True)
-    country_id = db.Column(
-        db.Integer, db.ForeignKey('country.id'), nullable=True)
-    payment_option_id = db.Column(
-        db.Integer, db.ForeignKey('payment_option.id'), nullable=True)
-    delivery_option_id = db.Column(
-        db.Integer, db.ForeignKey('delivery_option.id'), nullable=True)
-    cart_items = db.relationship(
-        'SessionCartItem', cascade="all,delete-orphan", backref='session_cart', lazy='dynamic')
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    auto_set_shipment = db.Column(db.Boolean, default=False)
-    shipment_name = db.Column(db.String(200), nullable=True)
-    shipment_phone = db.Column(db.String(200), nullable=True)
-    shipment_address = db.Column(db.String(300), nullable=True)
-    shipment_city = db.Column(db.String(200))
-    shipment_description = db.Column(db.String(200))
-    shipment_state = db.Column(db.String(200), nullable=True)
-    shipment_country = db.Column(db.String(200), nullable=True)
-    is_gtb_cust = db.Column(db.Boolean, default=False)
-    unconfirmed = db.Column(db.Boolean, default=False)
-
-    # @property
-    # def delivery_charge(self):
-    #     s_state = State.query.filter(State.name == self.shipment_state).first()
-    #     if s_state:
-    #         _charge = self.shop.fetch_delivery_charge(s_state.id) or 0.0
-    #     else:
-    #         return 0.0
-    #
-    #     if self.delivery_option and self.delivery_option.handle == "customer_pickup":
-    #         return 0.0
-    #     else:
-    #         types = []
-    #         p = "Product"
-    #         for i in self.cart_items:
-    #             types.append(i.variant.product.product_type)
-    #         if p in types:
-    #             return _charge
-    #         else:
-    #             return 0.0
-
-    def add_item(self, variant_id, quantity, replace=False, **kwargs):
-        """ Append a session cart item to the cart """
-
-        cart_item = SessionCartItem.query.filter(
-            SessionCartItem.session_cart == self, SessionCartItem.variant_id == variant_id).first()
-        if cart_item:
-            if replace:
-                cart_item.quantity = quantity
-            else:
-                cart_item.quantity += quantity
-        else:
-            cart_item = SessionCartItem(session_cart=self, variant_id=variant_id, quantity=quantity)
-
-        db.session.add(cart_item)
-        db.session.commit()
-        logger.info("Item Successfully added to SessionCartItem")
-
-        for key, value in kwargs.items():
-
-            if isinstance(value, (str, unicode)):
-                logger.info("Instance check to validate extra value")
-
-                extra = SessionCartItemExtra(
-                    session_cart_item_id=cart_item.id)
-                extra.name = key.upper().replace("_", " ")
-                extra.value = value
-
-                db.session.add(extra)
-                db.session.commit()
-                logger.info(
-                    "Extra Info. Successfully added to SessionCartItem")
-
-        return cart_item
-
-    def add_donation_item(self, variant_id, **kwargs):
-        """ Append a session cart item to the cart """
-        price = kwargs["price"]
-        cart_item = SessionCartItem.query.filter(
-            SessionCartItem.session_cart_id == self.id, SessionCartItem.variant_id == variant_id).first()
-
-        if cart_item:
-            cart_item._price = price
-            cart_item.price = price
-        else:
-            cart_item = SessionCartItem(session_cart_id=self.id,
-                                        quantity=1, _price=price, price=price, variant_id=variant_id, is_flexible=True)
-
-        db.session.add(cart_item)
-        db.session.commit()
-        logger.info("Item Successfully added to SessionCartItem")
-
-        kwargs.pop("price", [])
-
-        for key, value in kwargs.items():
-            if isinstance(value, (str, unicode, list)):
-                logger.info("Instance check to validate extra value")
-                extra = SessionCartItemExtra(
-                    session_cart_item_id=cart_item.id)
-                extra.name = key.upper().replace("_", " ")
-                extra.value = value
-
-                db.session.add(extra)
-                db.session.commit()
-                logger.info(
-                    "Extra Info. Successfully added to SessionCartItem")
-        return cart_item
-
-    def items(self):
-        return SessionCartItem.query.filter(SessionCartItem.session_cart == self).order_by(asc(SessionCartItem.variant_id)).all()
-
-    @property
-    def cart_total(self):
-        return sum([c.total for c in self.cart_items.filter().all()])
-
-    @property
-    def total(self):
-        return self.delivery_charge + sum([c.total for c in self.cart_items.filter().all()])
-
-    @property
-    def total_quantity(self):
-        return sum([c.quantity for c in self.cart_items.filter().all()])
-
-
-class SessionCartItem(AppMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    session_cart_id = db.Column(db.Integer, db.ForeignKey(
-        'session_cart.id'), nullable=False)
-    variant_id = db.Column(
-        db.Integer, db.ForeignKey('variant.id'), nullable=True)
-    quantity = db.Column(db.Integer, default=0)
-    is_flexible = db.Column(db.Boolean, default=False)
-    _price = db.Column(db.Float, default=0.0)
-
-    @hybrid_property
-    def price(self):
-        if self.is_flexible:
-            return self._price
-        else:
-            return self.variant.cart_price
-
-    @property
-    def product_type(self):
-        return self.variant.product.product_type
-
-    @price.setter
-    def price(self, value):
-        """ the setter for quantity """
-        self._price = value
-
-    @hybrid_property
-    def total(self):
-        """Calculates the total charge of this item """
-        return self.quantity * self.price
-
-    def __repr__(self):
-        return '<Session Cart Item %r>' % self.variant.id
-
-
-
-class Order(AppMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    discount = db.Column(db.Float, default=0.0)
-    delivery_charge = db.Column(db.Float, default=0.0)
-    code = db.Column(db.String(200), nullable=False)
-    coupon_code = db.Column(db.String(200), nullable=True)
-    message = db.Column(db.Text, nullable=True)
-    cart_name = db.Column(db.String(200), nullable=True)
-    # considering either verified or not
-    verified_status = db.Column(db.Boolean, default=False)
-    payment_option_id = db.Column(db.Integer, db.ForeignKey(
-        'payment_option.id'), nullable=False)
-    payment_status_id = db.Column(
-        db.Integer, db.ForeignKey('payment_status.id'), nullable=True)
-    delivery_option_id = db.Column(
-        db.Integer, db.ForeignKey('delivery_option.id'), nullable=True)
-    delivery_status_id = db.Column(
-        db.Integer, db.ForeignKey('delivery_status.id'), nullable=True)
-    order_status_id = db.Column(
-        db.Integer, db.ForeignKey('order_status.id'), nullable=True)
-    # Adding address information to the order
-    email = db.Column(db.String(200), nullable=False)
-    phone = db.Column(db.String(200), nullable=False)
-    address_line1 = db.Column(db.String(200), nullable=False)
-    address_line2 = db.Column(db.String(200), nullable=True)
-    city = db.Column(db.String(200), nullable=False)
-    state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=False)
-    country_id = db.Column(db.Integer, db.ForeignKey(
-        'country.id'), nullable=False)
-    auto_set_shipment = db.Column(db.Boolean, default=False)
-    shipment_name = db.Column(db.String(200), nullable=True)
-    shipment_phone = db.Column(db.String(200), nullable=True)
-    shipment_address = db.Column(db.String(300), nullable=True)
-    shipment_city = db.Column(db.String(200))
-    shipment_description = db.Column(db.String(200))
-    shipment_state = db.Column(db.String(200), nullable=True)
-    shipment_country = db.Column(db.String(200), nullable=True)
-    is_gtb_cust = db.Column(db.Boolean, default=False)
-    cust_contacted = db.Column(db.Boolean, default=False)
-    owner_contacted = db.Column(db.Boolean, default=False)
-    agent_comment = db.Column(db.Text, nullable=True)
-    delivery_agent_id = db.Column(db.Integer, nullable=True)
-    extimated_delivery_date = db.Column(db.DateTime, nullable=True)
-    refund_requested = db.Column(db.Boolean, default=False)
-
-
-    @property
-    def name(self):
-        if self.cart_name:
-            return self.cart_name
-
-    @property
-    def delivery_agent(self):
-        if self.delivery_agent_id:
-            return DeliveryAgent.query.get(self.delivery_agent_id)
-        else:
-            return None
-
-    @property
-    def total(self):
-        return self.delivery_charge + self.sub_total
-
-    @property
-    def etop_order_code(self):
-        return self.date_created.strftime("%m%d%y") + str(self.id)
-
-    @property
-    def sub_total(self):
-        return sum([c.total for c in self.entries.all()])
-
-    @property
-    def total_quantity(self):
-        return sum([c.quantity for c in self.entries.all() if c and c.quantity is not None])
-
-    @property
-    def order_address(self):
-        return "%s%s %s, %s %s" % (self.address_line1, " " + self.address_line2 or "", self.city, self.state.name, self.country.name)
-
-
-class PaymentOption(AppMixin, db.Model):
-
-    __searchable__ = True
-
-    __include_in_index__ = ["name", "handle",
-                            "description", "order", "is_enabled"]
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200))
-    handle = db.Column(db.String(200), unique=True, nullable=False)
-    description = db.Column(db.String(200), nullable=True)
-    session_carts = db.relationship(
-        'SessionCart', backref="payment_option", lazy='dynamic', cascade="all,delete-orphan")
-    orders = db.relationship('Order', backref="payment_option", lazy='dynamic')
-    is_enabled = db.Column(db.Boolean, default=True)
-
-    def __unicode__(self):
-        return self.name
-
-    def __repr__(self):
-        return '<PaymentOption %r>' % self.name
-
-
-
-class DeliveryOption(AppMixin, db.Model):
-
-    __searchable__ = True
-
-    __include_in_index__ = ["name", "handle",
-                            "description", "order", "session_cart"]
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200))
-    handle = db.Column(db.String(200), unique=True, nullable=False)
-    description = db.Column(db.String(200), nullable=True)
-    session_carts = db.relationship(
-        'SessionCart', backref="delivery_option", lazy='dynamic', cascade="all,delete-orphan")
-    orders = db.relationship(
-        'Order', backref="delivery_option", lazy='dynamic')
-
-    def __unicode__(self):
-        return self.name
-
-    def __repr__(self):
-        return '<DeliveryOption %r>' % self.name
-
-
-
-class OrderStatus(AppMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False, unique=True)
-    code = db.Column(db.String(200), nullable=False, unique=True)
-    orders = db.relationship(
-        "Order", cascade="all,delete-orphan", backref="order_status", lazy="dynamic")
-    # order_entries = db.relationship(
-    #     "OrderEntry", cascade="all,delete-orphan", backref="order_status", lazy="dynamic")
-
-
-class PaymentStatus(AppMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False, unique=True)
-    code = db.Column(db.String(200), nullable=False, unique=True)
-    orders = db.relationship(
-        "Order", cascade="all,delete-orphan", backref="payment_status", lazy="dynamic")
-    # order_entries = db.relationship("Order", cascade="all,delete-orphan", backref="payment_status", lazy="dynamic")
-
-
-class DeliveryStatus(AppMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False, unique=True)
-    code = db.Column(db.String(200), nullable=False, unique=True)
-    orders = db.relationship(
-        "Order", cascade="all,delete-orphan", backref="delivery_status", lazy="dynamic")
-    # order_entries = db.relationship("Order", cascade="all,delete-orphan", backref="delivery_status", lazy="dynamic")
-
 
 
 

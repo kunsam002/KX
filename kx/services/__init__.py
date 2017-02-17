@@ -1,3 +1,4 @@
+__author__ = 'kunsam002'
 """
 services.py
 
@@ -8,7 +9,8 @@ services.py
 
 import re
 import json
-from kx.services import *
+from kx.core.utils import *
+from kx.core.exceptions import ObjectNotFoundException
 from unicodedata import normalize
 from datetime import datetime, date, timedelta
 from email.utils import formatdate
@@ -23,17 +25,8 @@ import random
 import phonenumbers
 import hashlib
 import math
-from kx.core.utils import *
+from kx import logger
 
-
-class ObjectNotFoundException(Exception):
-    """ This exception is thrown when an object is queried by ID and not retrieved """
-
-    def __init__(self, klass, obj_id):
-        message = "%s: Object not found with id: %s" % (klass.__name__, obj_id)
-        self.data = {"name": "ObjectNotFoundException", "message": message}
-        self.status = 501
-        super(ObjectNotFoundException, self).__init__(message)
 
 
 class ServiceFactory(object):

@@ -1,3 +1,4 @@
+__author__ = 'kunsam002'
 """
 restful.py
 
@@ -11,19 +12,23 @@ extended to implement specific functionality.
 Requires flask-restful and sqlalchemny
 
 """
+from functools import wraps
 from datetime import datetime
 import urlparse
 import time
 import urllib
+from kx.models import *
+from kx import models
 import json
-
+from sqlalchemy import asc, desc, or_, and_, orm
 import dateutil.parser
 from flask_restful import fields
-from flask import request, g, make_response, url_for, current_app as app
+from flask import request, g, make_response, url_for, current_app as app, Response
 from flask_restful import Resource, marshal, reqparse, abort
-from sqlalchemy import asc, desc
+from kx.core.exceptions import *
 from kx.core.utils import DateJSONEncoder, copy_dict
 from werkzeug.exceptions import HTTPException
+from kx.services.authentication import require_basic_auth, check_basic_auth, check_admin_auth
 # flask restful api object. Should be instantiated in the flask app
 api = app.api
 logger = app.logger
@@ -37,122 +42,6 @@ VALIDATION_FAILED = 409
 ACTION_REQUIRED = 209
 
 
-class ValidationFailed(HTTPException):
-    """
-    *34* `Validation Failed`
-    Custom exception thrown when form validation fails.
-    This is only useful when making REST api calls
-    """
-
-    name = "Validation Failed"
-    code = VALIDATION_FAILED
-    description = (
-        '<p>Validation Failed</p>'
-    )
-
-    def __init__(self, data, description=None):
-        """
-        :param: data: A dictionary containing the field errors that occured
-        :param: description: Optional description to send through
-        """
-        HTTPException.__init__(self)
-        self.description = description
-        self.data = data
-
-    def get_response(self, environment):
-        resp = super(ValidationFailed, self).get_response(environment)
-        resp.status = "%s %s"(self.code, self.name.upper())
-        return resp
-
-
-class FurtherActionException(HTTPException):
-    """
-    *34* `Further Action Exception`
-    Custom exception thrown when further action is required by the user.
-    This is only useful when making REST api calls
-    """
-
-    name = "Further Action Required"
-    code = ACTION_REQUIRED
-    description = (
-        '<p>Further Action Required</p>'
-    )
-
-    def __init__(self, data, description=None):
-        """
-        :param: data: A dictionary containing the field errors that occured
-        :param: description: Optional description to send through
-        """
-        HTTPException.__init__(self)
-        self.description = description
-        self.data = data
-
-    def get_response(self, environment):
-        resp = super(FurtherActionException, self).get_response(environment)
-        resp.status = "%s %s"(self.code, self.name.upper())
-        return resp
-
-
-# other exceptions to implement
-# not found exception, also raised by the service layer
-# authentication failed. This would be raised whenever authentication fails
-# permission denied. The would occur when a user attempts to access unauthorized content
-
-
-class IntegrityException(HTTPException):
-    """
-    *32* `Integrity Exception`
-    Custom exception thrown when an attempt to save a resource fails.
-    This is only useful when making REST api calls
-    """
-
-    name = "Integrity Exception"
-    code = INTEGRITY_ERROR
-    description = (
-        '<p>Integrity Exception</p>'
-    )
-
-    def __init__(self, e):
-        """
-        param: e: parent exception to wrap and manipulate
-        """
-        print e
-        HTTPException.__init__(self)
-        self.data = e.data if hasattr(e, "data") else {}
-        self.code = e.code if hasattr(e, "code") else INTEGRITY_ERROR
-        bits = e.message.split("\n")
-        if len(bits) > 1:
-            self.data["error"] = bits[0]
-            self.data["message"] = " ".join(bits[1:]).strip()
-        else:
-            self.data["message"] = " ".join(bits).strip()
-
-    def get_response(self, environment):
-        resp = super(IntegrityException, self).get_response(environment)
-        resp.status = "%s %s"(self.code, self.name.upper())
-        return resp
-
-
-class ObjectNotFoundException(Exception):
-    """ This exception is thrown when an object is queried by ID and not retrieved """
-
-    def __init__(self, klass, obj_id):
-        message = "%s: Object not found with id: %s" % (klass.__name__, obj_id)
-        self.data = {"name": "ObjectNotFoundException", "message": message}
-        self.status = 501
-        super(ObjectNotFoundException, self).__init__(message)
-
-
-class ActionDeniedException(Exception):
-    """ This exception is thrown when an object is queried by ID and not retrieved """
-
-    def __init__(self, klass, obj_id):
-        message = "%s: Action denied on object id: %s" % (klass.__name__, obj_id)
-        self.data = {"name": "ActionDeniedException", "message": message}
-        self.status = 40
-        super(ActionDeniedException, self).__init__(message)
-
-
 class Timestamp(fields.Raw):
     def format(self, value):
         return value.isoformat()
@@ -161,15 +50,16 @@ class Timestamp(fields.Raw):
 class ModelField(fields.Raw):
     """ Custom field class to support embedding a model object within a resource reponse """
 
-    def __init__(self, fields=None, exclude=[], extras=[], endpoint=None, **kwargs):
+    def __init__(self, fields=None, exclude=[], extras=[], endpoint=None, relations=None, **kwargs):
         super(ModelField, self).__init__(**kwargs)
         self.fields = fields
         self.endpoint = endpoint
         self.exclude = exclude
         self.extras = extras
+        self.relations = relations
 
     def format(self, value):
-        """ Extract data as a dict from value object """
+        """ Extract data as a dict from value object. value must be contain """
         return self.prepare(value)
 
     def prepare(self, value):
@@ -179,6 +69,11 @@ class ModelField(fields.Raw):
             data = value
         else:
             data = value.as_dict(include_only=self.fields, exclude=self.exclude, extras=self.extras)
+            relations = self.relations
+            if relations:
+                for relation in relations:
+                    r = getattr(value, relation)
+                    data.update(r.as_dict(exclude=self.exclude))
 
         if self.endpoint:
             data["obj_id"] = data.get("id")  # add obj_id as key field
@@ -194,7 +89,7 @@ class ModelField(fields.Raw):
 class ModelListField(ModelField):
     """ Extension class to support embedding iteratable properties within models """
 
-    def __init__(self, _fields=None, exclude=[], extras=[], endpoint=None, **kwargs):
+    def __init__(self, _fields=None, exclude=[], extras=[], endpoint=None, relations=None, **kwargs):
         """
         Field class to support sqlalchemy model list values in json serialization
         :param _fields: Fields to serialize
@@ -204,11 +99,23 @@ class ModelListField(ModelField):
         :param kwargs: Extra arguments
         :return:
         """
-        super(ModelListField, self).__init__(_fields, exclude, extras, endpoint, **kwargs)
+        super(ModelListField, self).__init__(_fields, exclude, extras, endpoint, relations, **kwargs)
 
     def format(self, values):
         """ Values should be an iteratable property """
         results = [self.prepare(value) for value in values]
+        return results
+
+
+class ListField(ModelField):
+    """ Extension class to support embedding iteratable properties within models """
+
+    def __init__(self, _fields=None, exclude=[], extras=[], endpoint=None, **kwargs):
+        super(ListField, self).__init__(_fields, exclude, extras, endpoint, **kwargs)
+
+    def format(self, values):
+        """ Values should be an iteratable property """
+        results = [value for value in values]
         return results
 
 
@@ -341,15 +248,116 @@ def further_action_exception_handler(e):
     return api.make_response(e.data, e.status)
 
 
+def require_login(func):
+    """ Authentication decorator that handles user login """
+
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth:
+            return require_basic_auth()
+
+        # login the user
+        user = check_basic_auth(auth.username, auth.password)
+        if user is None:
+            _data_ = {"status":"Invalid Credentials","message":"The provided user credentials are invalid."}
+            _data_ = json.dumps(_data_)
+            resp = make_response(_data_, 403)
+            resp.headers['Content-Type'] = "application/json"
+            return resp
+
+        g.user = user
+        g.user_id = user.id  # store the user in the special g object
+        if user.is_staff==True and user.is_mtn==False and user.university_id!=None:
+            g.university_id = user.university_id
+
+        if user.is_staff and user.is_mtn==True and user.university_id==None:
+            g.is_mtn = True
+
+        if not user:
+            _data_ = {"status":"Access Denied","message":"Your don't have access to keep using the service, please renew signup or contact Administrator"}
+            _data_ = json.dumps(_data_)
+            resp = make_response(_data_, 408)
+            resp.headers['Content-Type'] = "application/json"
+            return resp
+
+        return func(*args, **kwargs)
+
+    return decorated
+
+
+def require_admin_login(func):
+    """ Authentication decorator that handles user login """
+
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth:
+            return require_basic_auth()
+
+        # login the user
+        user = check_admin_auth(auth.username, auth.password)
+        if user is None:
+            _data_ = {"status":"Invalid Credentials","message":"The provided user credentials are invalid."}
+            _data_ = json.dumps(_data_)
+            resp = make_response(_data_, 403)
+            resp.headers['Content-Type'] = "application/json"
+            return resp
+
+        g.admin = user
+        g.admin_id = user.id  # store the user in the special g object
+
+        return func(*args, **kwargs)
+
+    return decorated
+
+
+@require_login
+def require_university_login(func):
+    """ Authentication decorator that handles user login """
+
+    @wraps(func)
+    def decorated(*args, **kwargs):
+
+        auth = request.authorization
+        if not auth:
+            return require_basic_auth()
+
+        if not g.university_id:
+            _data_ = {"status":"Invalid Credentials","message":"The provided user credentials are invalid."}
+            _data_ = json.dumps(_data_)
+            resp = make_response(_data_, 403)
+            resp.headers['Content-Type'] = "application/json"
+            return resp
+
+        # login the user
+        user = check_university_auth(auth.username, auth.password, g.university_id)
+        if user is None:
+            _data_ = {"status":"Invalid Credentials","message":"The provided user credentials are invalid."}
+            _data_ = json.dumps(_data_)
+            resp = make_response(_data_, 403)
+            resp.headers['Content-Type'] = "application/json"
+            return resp
+
+        g.university = user.university
+        g.university_id = user.university_id  # store the user in the special g object
+        g.university_staff = user
+        g.university_staff_id = user.id
+
+        return func(*args, **kwargs)
+
+    return decorated
+
+
 class BaseResource(Resource):
     """
     Base resource class to control all REST API calls.
     """
 
     # Generic method decorators. Override where necessary
-    method_decorators = []
+    method_decorators = [require_login]
     first_result_only = False  # return individual object rather than Array
-    default_page_size = 20
+    default_page_size = 10
     default_order_param = 'date_created'
     default_order_direction = 'desc'
     sub_resource = None
@@ -385,8 +393,8 @@ class BaseResource(Resource):
         """ Property function to always generate a clean base value for output fields """
         return {
             'id': fields.Integer,
-            'date_created': Timestamp,
-            'last_updated': Timestamp,
+            # 'date_created': Timestamp,
+            # 'last_updated': Timestamp,
         }
 
     def paging_parser(self):
@@ -488,12 +496,17 @@ class BaseResource(Resource):
 
     @staticmethod
     def filter_parser():
-
-        return empty_filter_parser()
+        parser = reqparse.RequestParser()
+        parser.add_argument("filter_by", type=str, location='args')
+        args = parser.parse_args()
+        if args['filter_by'] != None:
+            return json.loads(args['filter_by'])
+        else:
+            return empty_filter_parser()
 
     def is_permitted(self, obj=None, **kwargs):
 
-        return obj
+        return True
 
     def updated_form_data(self, attrs):
 
@@ -520,7 +533,12 @@ class BaseResource(Resource):
     def validate(self, form_class, obj=None, adjust_func=None):
 
         if form_class is None:
-            abort(405, status="Not Allowed", message="The data transmitted cannot be validated.")
+            _data_ = {"status":"Not Allowed","message":"The data transmitted cannot be validated."}
+            _data_ = json.dumps(_data_)
+            resp = make_response(_data_, 405)
+            resp.headers['Content-Type'] = "application/json"
+            return resp
+
         # converted to a patched version of wtforms
         form = form_class(obj=obj, csrf_enabled=False)
 
@@ -543,7 +561,7 @@ class BaseResource(Resource):
         op = operator_args.get("op")
 
         # TODO implement permission check here
-        self.is_permitted()
+        # self.is_permitted()
 
         # execute limit query:
         query = self.limit_query(query)
@@ -560,13 +578,23 @@ class BaseResource(Resource):
             res = query.first()
 
             if not res:
-                abort(404, status='Result not Found', message='')
+                _data_ = {"status":"Result not Found","message":"Requested Information does not exist"}
+                _data_ = json.dumps(_data_)
+                resp = make_response(_data_, 404)
+                resp.headers['Content-Type'] = "application/json"
+                return resp
 
             output_fields = self.output_fields
 
             output_fields.update(self.resource_fields)
 
             return marshal(res, output_fields), 200
+
+        # apply searching based on searchable fields
+        if search_q and self.searchable_fields:
+            like_queries = [(getattr(service_class.model_class, name).ilike("%%%s%%" % search_q)) for name in self.searchable_fields]
+
+            query = query.filter(or_(*like_queries))
 
         # execute the query and include paging
         paging = query.paginate(page, per_page, error_out)
@@ -609,14 +637,108 @@ class BaseResource(Resource):
 
         return resp, 200
 
+    def execute_return(self, resource_name, query, service_class, filter_args={}, search_args={},
+                      resource_fields=[], operator_args={}, from_cache=True, **kwargs):
+        resp = {"endpoint": resource_name}
+        search_q = search_args.get("query")
+        search_id = search_args.get("id")
+        op = operator_args.get("op")
+
+        # TODO implement permission check here
+        # self.is_permitted()
+
+        # execute limit query:
+        query = self.limit_query(query)
+
+        # apply the query filters
+        for name, value in filter_args.items():
+            query = operator_func(query, service_class, op, name, value)
+
+        if self.first_result_only:
+            res = query.first()
+
+            if not res:
+                _data_ = {"status":"Result not Found","message":"Requested Information does not exist"}
+                _data_ = json.dumps(_data_)
+                resp = make_response(_data_, 404)
+                resp.headers['Content-Type'] = "application/json"
+                return resp
+
+            output_fields = self.output_fields
+
+            output_fields.update(self.resource_fields)
+
+            return marshal(res, output_fields), 200
+
+        # apply searching based on searchable fields
+        if search_q and self.searchable_fields:
+            like_queries = [(getattr(service_class.model_class, name).ilike("%%%s%%" % search_q)) for name in
+                            self.searchable_fields]
+
+            query = query.filter(or_(*like_queries))
+
+        # execute the query and include paging
+        resp["op"] = op
+        resp["pagers"] = self.pagers
+        resp["filters"] = self.filters
+        resp["sorters"] = self.sorters
+
+        # extract the request args and modify them for paging
+        request_args = copy_dict(request.args, {})
+
+        # if paging.has_next:
+        #     # build next page query parameters
+        #     request_args["page"] = paging.next_num
+        #     resp["next"] = paging.next_num
+        #     resp["next_page"] = "%s%s" % ("?", urllib.urlencode(request_args))
+        #
+        # if paging.has_prev:
+        #     # build previous page query parameters
+        #     request_args["page"] = paging.prev_num
+        #     resp["prev"] = paging.prev_num
+        #     resp["prev_page"] = "%s%s" % ("?", urllib.urlencode(request_args))
+
+        _models = []
+
+        resp['results'] = {}
+        # for c in resource_fields:
+        #     resp['results'].update({c+"s":{}})
+        # for c in resource_fields:
+        #     model_class = getattr(models, c.capitalize(), None)
+        #     o = getattr(self, "%s_%ss_resource_fields"%(resource_name.lower(),c), None)
+        #     o.update(self.output_fields)
+        #     for obj in query:
+        #         if isinstance(obj, model_class):
+        #             getattr(self, "%s_%ss"%(resource_name.lower(), c), None).append(obj)
+        #             print getattr(self, "%s_%ss"%(resource_name.lower(), c), None), "im collated"
+        #         else: pass
+        #         resp["results"][c+"s"] = marshal(getattr(self, "%s_%ss"%(resource_name.lower(), c), None), o)
+        #         # from operator import itemgetter
+        #         # newlist = sorted(resp["results"][c+"s"], key=itemgetter('id'), reverse=True)
+        #         # resp["results"][c+"s"] = newlist
+        #     _models.append(model_class)
+        for key, value in query.items():
+            out = getattr(self, "%s_%s_resource_fields"%(resource_name.lower(),key), None)
+            try:
+                out.update(self.output_fields)
+            except:
+                pass
+            resp["results"][key] = marshal(value, out)
+
+        # TODO: Figure out how to handle exceptions so that it works out well
+        return resp, 200
+
     def execute_get(self, obj_id, **kwargs):
         """ Execute a get query to retrieve an exact object by id."""
 
         output_fields = self.output_fields
+        inject = kwargs.get('inject', None)
+        if inject:
+            output_fields.update(inject)
         output_fields.update(self.resource_fields or {})
         obj = self.service_class.get(obj_id)
 
-        obj = self.is_permitted(obj)  # check if you're permitted
+        # obj = self.is_permitted(obj)  # check if you're permitted
 
         return marshal(obj, output_fields), 200
 
@@ -638,7 +760,11 @@ class BaseResource(Resource):
                 adjust_func = getattr(self, "%s_adjust_form_fields" % action_name, None)
 
                 if not validation_form:
-                    abort(405, status="Not Authorized", message="The requested resource is not yet authorized for access")
+                    _data_ = {"status":"Not Authorized","message":"The requested resource is not yet authorized for access"}
+                    _data_ = json.dumps(_data_)
+                    resp = make_response(_data_, 405)
+                    resp.headers['Content-Type'] = "application/json"
+                    return resp
 
                 data, files = self.validate(validation_form, adjust_func=adjust_func)
                 data = self.adjust_form_data(data)
@@ -668,12 +794,12 @@ class BaseResource(Resource):
 
     def save(self, attrs, files=None):
 
-        print "_____"
-        print attrs
+        # print "_____"
+        # print attrs
 
         obj = self.service_class.create(**attrs)
 
-        print obj
+        # print obj
 
         return obj
 
@@ -722,7 +848,11 @@ class BaseResource(Resource):
         _user = getattr(g, "user", None)
 
         if not _user:
-            abort(401, status="Invalid credentials", message="the user credentials provided is invalid for this resource")
+            _data_ = {"status":"Invalid credentials","message":"The user credentials provided is invalid for this resource"}
+            _data_ = json.dumps(_data_)
+            resp = make_response(_data_, 401)
+            resp.headers['Content-Type'] = "application/json"
+            return resp
 
         return _user.id
 
@@ -738,38 +868,77 @@ class BaseResource(Resource):
         operator_args = self.operator_parser()
         resource_fields = self.resource_fields
 
+
         # Determine which query to execute based on parameters passed.
 
         if obj_id is None:
             # This is the bulk query method. If no obj_id is passed, then execute the collection request [execute_query]
             query = self.query()
-            # execute the query and build the response.
-            resp, status = self.execute_query(self.resource_name, query, self.service_class, filter_args, sort_args, search_args,
+            # # execute the query and build the response.
+            # resp, status = self.execute_query(self.resource_name, query, self.service_class, filter_args, sort_args, search_args,
+            #                                   paging_args, resource_fields, operator_args)
+            if not isinstance(query, orm.query.Query):
+                resp, status = self.execute_return(self.resource_name, query, self.service_class, filter_args, search_args,
+                                                   resource_fields, operator_args)
+            else:
+                resp, status = self.execute_query(self.resource_name, query, self.service_class, filter_args, sort_args, search_args,
                                               paging_args, resource_fields, operator_args)
+            return resp, status
 
         elif obj_id is not None and resource_name is None:
             # This is an object get request. Based on obj_id, execute the get request [execute_get]
-            resp, status = self.execute_get(obj_id)
+            permitted = self.is_permitted(obj_id)
+            kwargs = {}
+            inject = getattr(self, "inject_fields", None)  # inject specified fields on resource name prescence
+            if inject:
+                kwargs = {'inject':inject}
+
+            if not permitted:
+                _data_ = {"status": "restricted", "message": "This resource dosen't belong to you."}
+                _data_ = json.dumps(_data_)
+                resp = make_response(_data_, 403)
+                resp.headers['Content-Type'] = "application/json"
+                return resp
+            resp, status = self.execute_get(obj_id, **kwargs)
+
+            return resp, status
 
         elif obj_id is not None and resource_name is not None:
             # This is a get sub-request based on the parent object by obj_id. execute the collection sub request [execute_query]
 
+            permitted = self.is_permitted(obj_id)
+            if not permitted:
+                _data_ = {"status": "restricted", "message": "This resource dosen't belong to you."}
+                _data_ = json.dumps(_data_)
+                resp = make_response(_data_, 403)
+                resp.headers['Content-Type'] = "application/json"
+                return resp
             sub_query_method = getattr(self, "%s_query" % resource_name.lower(), None)  # find the appropriate query
             sub_filter_parser = getattr(self, "%s_filter_parser" % resource_name.lower(), empty_filter_parser)  # find the filter parser
             sub_resource_fields = getattr(self, "%s_resource_fields" % resource_name.lower(), {})  # find the resource fields
             sub_service_class = getattr(self, "%s_service_class" % resource_name.lower(), None)  # find the resource fields
+            sub_multi_fields = getattr(self, "%s_multi_fields" % resource_name.lower(), None)  # find the resource fields
+
 
             if not sub_query_method or not sub_service_class:
-                abort(404)
+                _data_ = {"status":"Not Found","message":"Requested Information does not exist"}
+                _data_ = json.dumps(_data_)
+                resp = make_response(_data_, 404)
+                resp.headers['Content-Type'] = "application/json"
+                print dir(resp), type(resp)
+                return resp
                 # extract the sub_query, filter_args, parser_args, sort_args and execte the collection.
 
             sub_filter_args = sub_filter_parser()
             query = sub_query_method(obj_id)
-
-            resp, status = self.execute_query(resource_name, query, sub_service_class, sub_filter_args, sort_args, search_args,
+            if not isinstance(query, orm.query.Query):
+                resp, status = self.execute_return(resource_name, query, sub_service_class, sub_filter_args, search_args,
+                                              sub_multi_fields, operator_args)
+            else:
+                resp, status = self.execute_query(resource_name, query, sub_service_class, sub_filter_args, sort_args, search_args,
                                               paging_args, sub_resource_fields, operator_args)
 
-        return resp, status
+            return resp, status
 
     def post(self, obj_id=None, resource_name=None):
         """ Execute a post request based on criteria given by the above parameters.
@@ -787,7 +956,7 @@ class BaseResource(Resource):
             self.is_permitted()  # check if you're permitted first
             attrs, files = self.validate(self.validation_form, adjust_func=self.adjust_form_fields)
 
-            # update the form data using this interceptor. i.e inject a domain group id (merchant_id, courier_id etc.)
+            # update the form data using this interceptor.
             attrs = self.adjust_form_data(attrs)
 
             try:
@@ -801,8 +970,14 @@ class BaseResource(Resource):
 
         elif obj_id is not None and resource_name is None:
             # when an obj_id is passed but resource_name doesn't exist, this implies an update method call
-            obj = self.service_class.get(obj_id)
-            obj = self.is_permitted(obj)  # check if you're permitted first
+            obj = self.service_class.get(obj_id) # check if you're permitted first
+            permitted = self.is_permitted(obj_id)
+            if not permitted:
+                _data_ = {"status": "restricted", "message": "This resource dosen't belong to you."}
+                _data_ = json.dumps(_data_)
+                resp = make_response(_data_, 403)
+                resp.headers['Content-Type'] = "application/json"
+                return resp
             attrs, files = self.validate(self.validation_form, obj=obj, adjust_func=self.adjust_form_fields)
             attrs = self.adjust_form_data(attrs)
             try:
@@ -817,15 +992,29 @@ class BaseResource(Resource):
 
         elif obj_id is not None and resource_name is not None:
             # when obj_id is passed along with a resource_name. this implies a do_method call.
-            obj = self.service_class.get(obj_id)
-            self.is_permitted(obj)  # check if you're permitted first
+            obj = self.service_class.get(obj_id)  # check if you're permitted first
+            permitted = self.is_permitted(obj_id)
+            if not permitted:
+                _data_ = {"status": "restricted", "message": "This resource dosen't belong to you."}
+                _data_ = json.dumps(_data_)
+                resp = make_response(_data_, 403)
+                resp.headers['Content-Type'] = "application/json"
+                return resp
 
+            sub_resource_fields = getattr(self, "%s_resource_fields" % resource_name.lower(), {})  # find the resource fields
             adjust_func = getattr(self, "%s_adjust_form_fields" % resource_name, None)
             do_method = getattr(self, "do_%s" % resource_name, None)
             validation_form = getattr(self, "%s_validation_form" % resource_name, None)
 
+            if sub_resource_fields != {}:
+                self.resource_fields = sub_resource_fields
+
             if do_method is None:
-                abort(405, status="Not Authorized", message="The requested resource is not yet authorized for access")
+                _data_ = {"status":"Not Authorized","message":"The requested resource is not yet authorized for access"}
+                _data_ = json.dumps(_data_)
+                resp = make_response(_data_, 405)
+                resp.headers['Content-Type'] = "application/json"
+                return resp
 
             try:
                 attrs = request.data or {}
@@ -837,6 +1026,10 @@ class BaseResource(Resource):
                     attrs = self.adjust_form_data(attrs)
 
                 res = do_method(obj_id, attrs, files)  # Functionality for saving data implemented here
+
+                if isinstance(res, Response):
+                    return res
+
                 output_fields = self.output_fields
                 output_fields.update(self.resource_fields or {})
 

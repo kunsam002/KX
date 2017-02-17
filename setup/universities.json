@@ -1,0 +1,1887 @@
+[
+    {
+        "name": "Abdul Gusau Polytechnic",
+        "handle": "agp",
+        "state_code": "ZFR"
+    },
+    {
+        "name": "Abia State College Of Education",
+        "handle": "ascoed",
+        "state_code": "ABI"
+    },
+    {
+        "name": "Abia State polytechnic",
+        "handle": "abiapoly",
+        "state_code": "ABI"
+    },
+    {
+        "name": "Abia State University",
+        "handle": "absu",
+        "state_code": "ABI"
+    },
+    {
+        "name": "Abraham Adesanya Polytechnic",
+        "handle": "aap",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Abubakar Tafawa Balewa University",
+        "handle": "atbu",
+        "state_code": "BCH"
+    },
+    {
+        "name": "Abubakar Tatari Ali Polytechnic",
+        "handle": "atap",
+        "state_code": "BCH"
+    },
+    {
+        "name": "Achievers University",
+        "handle": "achievers",
+        "state_code": "OND"
+    },
+    {
+        "name": "Adamawa State polytechnic",
+        "handle": "adamawapoly",
+        "state_code": "ADA"
+    },
+    {
+        "name": "Adamawa State University",
+        "handle": "adsu",
+        "state_code": "ADA"
+    },
+    {
+        "name": "Adamu Augie College Of Education",
+        "handle": "adacoed",
+        "state_code": "KEB"
+    },
+    {
+        "name": "Adekunle Ajasin University",
+        "handle": "aaua",
+        "state_code": "OND"
+    },
+    {
+        "name": "Adeleke University",
+        "handle": "adeleke",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Adeniran Ogunsanya College of Education",
+        "handle": "aocoed",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Adeyemi College Of Education, Ondo",
+        "handle": "aceondo",
+        "state_code": "OND"
+    },
+    {
+        "name": "Afe Babalola University",
+        "handle": "abuad",
+        "state_code": "EKI"
+    },
+    {
+        "name": "Aflon Digital Institute",
+        "handle": "aflon",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "African Thinkers Community Of Inquiry College Of Education",
+        "handle": "atcoicoed",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Afrihub Ict Institute",
+        "handle": "afrihub",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Ahmadu Bello University",
+        "handle": "abu",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Ahmadu Bello University Teaching Hospital",
+        "handle": "abuth",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Air Force Institute Of Technology",
+        "handle": "afit",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Ajayi Crowther University",
+        "handle": "ajayi",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Akanu Ibiam Federal polytechnic",
+        "handle": "akanupoly",
+        "state_code": "IMO"
+    },
+    {
+        "name": "Akperan Orshi College Of Agriculture",
+        "handle": "aocayandev",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Akwa Ibom State College Of Arts And Science",
+        "handle": "aiscas",
+        "state_code": "AKI"
+    },
+    {
+        "name": "Akwa Ibom State polytechnic",
+        "handle": "akwaibompoly",
+        "state_code": "AKI"
+    },
+    {
+        "name": "Akwa Ibom State University",
+        "handle": "akutech",
+        "state_code": "AKI"
+    },
+    {
+        "name": "Akwa Ibom State College Of Education",
+        "handle": "akscoed",
+        "state_code": "AKI"
+    },
+    {
+        "name": "hikmah Al Hikmah University",
+        "handle": "al hikmah",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Alhikma College Of Education",
+        "handle": "alhikma",
+        "state_code": "KGI"
+    },
+    {
+        "name": "All States College Of Education, Akure",
+        "handle": "allscoed",
+        "state_code": "OND"
+    },
+    {
+        "name": "Allover central polytechnic",
+        "handle": "alloverpoly",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Alvan Ikoku College Of Education",
+        "handle": "alvan",
+        "state_code": "IMO"
+    },
+    {
+        "name": "Ambassador College Of Management And Technology",
+        "handle": "acmgt",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Ambassador College Of Technology And Paralegal Studies",
+        "handle": "actps",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Ambrose Alli University",
+        "handle": "aau",
+        "state_code": "EDO"
+    },
+    {
+        "name": "American University of Nigeria",
+        "handle": "aun",
+        "state_code": "ADA"
+    },
+    {
+        "name": "Aminu Kano Teaching Hospital",
+        "handle": "akath",
+        "state_code": "KAN"
+    },
+    {
+        "name": "Anambra State University",
+        "handle": "ansu",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Angel Crown College Of Education",
+        "handle": "angelcrown",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Ansar ud deen College Of Education",
+        "handle": "ansaruddeen",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Apa College Of Education",
+        "handle": "apacoed",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Arabic And Islamic College Of Education",
+        "handle": "ariscoed",
+        "state_code": "YBE"
+    },
+    {
+        "name": "Arewa Paralegal Innovation Enterprise",
+        "handle": "arewa",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Assanusiyah College Of Education",
+        "handle": "asscoed",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Auchi polytechnic",
+        "handle": "auchipoly",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Audu Bako College Of Agriculture Danbatta",
+        "handle": "audubako",
+        "state_code": "KAN"
+    },
+    {
+        "name": "Awori District College Of Education",
+        "handle": "adcoed",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Babcock University",
+        "handle": "babcock",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Bauchi Institute For Arabic And Islamic Studies",
+        "handle": "bauchiiais",
+        "state_code": "BCH"
+    },
+    {
+        "name": "Bauchi State University",
+        "handle": "basu",
+        "state_code": "BCH"
+    },
+    {
+        "name": "Bayelsa State College Of Education",
+        "handle": "bycoed",
+        "state_code": "BAY"
+    },
+    {
+        "name": "Bayero University Kano",
+        "handle": "buk",
+        "state_code": "KAN"
+    },
+    {
+        "name": "Bayotijani College Of Education",
+        "handle": "bayotijani",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Baze University",
+        "handle": "baze",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Bells University of Technology",
+        "handle": "bells",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Benson Idahosa University",
+        "handle": "biu",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Benue State Poly",
+        "handle": "benpoly",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Benue State University",
+        "handle": "bsu",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Best Legacy College Of Education",
+        "handle": "blcoed",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Bingham University",
+        "handle": "Bingham",
+        "state_code": "NAS"
+    },
+    {
+        "name": "Bowen University Iwo",
+        "handle": "bu",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Buckingham Academy Of Management And Technology",
+        "handle": "buckiepoly",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Bukar Abba Ibrahim University",
+        "handle": "bukar",
+        "state_code": "YBE"
+    },
+    {
+        "name": "Caleb University",
+        "handle": "caleb",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Calvin Foundation College Of Education",
+        "handle": "cfcoed",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Caritas University",
+        "handle": "caritas",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Catholic University of Nigeria",
+        "handle": "catholic",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Centre For Creative Arts Education",
+        "handle": "ccae",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Cetep University",
+        "handle": "cetep",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Cifman Institute Of Techn. And Management",
+        "handle": "cifman",
+        "state_code": "LAG"
+    },
+    {
+        "name": "City College Of Education",
+        "handle": "citycoed",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "City Gate Institute Of Innovation And Technology",
+        "handle": "citygate",
+        "state_code": "OYO"
+    },
+    {
+        "name": "College Of Administrative And Business Studies",
+        "handle": "coabs",
+        "state_code": "YBE"
+    },
+    {
+        "name": "College Of Agriculture And Animal Science",
+        "handle": "coaas",
+        "state_code": "KDA"
+    },
+    {
+        "name": "College Of Agriculture, Hadijia",
+        "handle": "coaha",
+        "state_code": "JIG"
+    },
+    {
+        "name": "College Of Agriculture, Jalingo",
+        "handle": "coaja",
+        "state_code": "TAR"
+    },
+    {
+        "name": "College Of Agriculture, Kabba",
+        "handle": "coaka",
+        "state_code": "KDA"
+    },
+    {
+        "name": "College Of Agriculture, Lafia",
+        "handle": "coala",
+        "state_code": "NAS"
+    },
+    {
+        "name": "College Of Agriculture, Zuru",
+        "handle": "coazu",
+        "state_code": "KEB"
+    },
+    {
+        "name": "College Of Education, Agbor",
+        "handle": "coeaghor",
+        "state_code": "DEL"
+    },
+    {
+        "name": "College Of Education, Akwanga",
+        "handle": "coeakwanga",
+        "state_code": "NAS"
+    },
+    {
+        "name": "College Of Education, Ankpa",
+        "handle": "coeankpa",
+        "state_code": "KGI"
+    },
+    {
+        "name": "College Of Education, Azare",
+        "handle": "coeazare",
+        "state_code": "BCH"
+    },
+    {
+        "name": "College Of Education, Ekiadolor",
+        "handle": "coeeki",
+        "state_code": "EDO"
+    },
+    {
+        "name": "College Of Education, Foreign Links Campus Moro",
+        "handle": "foreignlinks",
+        "state_code": "OSU"
+    },
+    {
+        "name": "College Of Education, Gidan waya, Kafanchan",
+        "handle": "coekc",
+        "state_code": "KDA"
+    },
+    {
+        "name": "College Of Education, Gindiri",
+        "handle": "coegindiri",
+        "state_code": "PLT"
+    },
+    {
+        "name": "College Of Education, Hong",
+        "handle": "coehong",
+        "state_code": "ADA"
+    },
+    {
+        "name": "College Of Education, Igueben",
+        "handle": "coeigueben",
+        "state_code": "EDO"
+    },
+    {
+        "name": "College Of Education, Ikere",
+        "handle": "coeikere",
+        "state_code": "EKI"
+    },
+    {
+        "name": "College Of Education, Ilemona",
+        "handle": "coeilemona",
+        "state_code": "KWA"
+    },
+    {
+        "name": "College Of Education, Ilesha",
+        "handle": "coeilesa",
+        "state_code": "OSU"
+    },
+    {
+        "name": "College Of Education, Ilorin",
+        "handle": "coeilorin",
+        "state_code": "KWA"
+    },
+    {
+        "name": "College Of Education, Jalingo",
+        "handle": "coejalingo",
+        "state_code": "TAR"
+    },
+    {
+        "name": "College Of Education, Katsina ala",
+        "handle": "coekatsina",
+        "state_code": "BNE"
+    },
+    {
+        "name": "College Of Education, Lafiagi",
+        "handle": "coedlfg",
+        "state_code": "KWA"
+    },
+    {
+        "name": "College Of Education, Maru",
+        "handle": "coemaru",
+        "state_code": "ZFR"
+    },
+    {
+        "name": "College Of Education, Minna",
+        "handle": "coeminna",
+        "state_code": "NIG"
+    },
+    {
+        "name": "College Of Education, Moro ife",
+        "handle": "coemoro",
+        "state_code": "OSU"
+    },
+    {
+        "name": "College Of Education, Oju",
+        "handle": "coeoju",
+        "state_code": "BNE"
+    },
+    {
+        "name": "College Of Education, Oro",
+        "handle": "coeoro",
+        "state_code": "KWA"
+    },
+    {
+        "name": "College Of Education, Port Harcourt",
+        "handle": "coeport",
+        "state_code": "RVS"
+    },
+    {
+        "name": "College Of Education, Waka biu",
+        "handle": "coewaka",
+        "state_code": "BOR"
+    },
+    {
+        "name": "College Of Education, Warri",
+        "handle": "coewarri",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Cornerstone College Of Education, Lagos",
+        "handle": "cornerstone",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Covenant Polytechnic, Aba",
+        "handle": "copoly",
+        "state_code": "ABI"
+    },
+    {
+        "name": "Covenant University",
+        "handle": "cu",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Crawford University",
+        "handle": "crawford",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Crescent University",
+        "handle": "crescent",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Cross River State College Of Education",
+        "handle": "crscoed",
+        "state_code": "CRI"
+    },
+    {
+        "name": "Cross River State University of Technology",
+        "handle": "crutech",
+        "state_code": "CRI"
+    },
+    {
+        "name": "Crown Polytechnic",
+        "handle": "crownpoly",
+        "state_code": "EKI"
+    },
+    {
+        "name": "Dalewares Institute Of Technology",
+        "handle": "dalewares",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Delar College Of Education",
+        "handle": "delarcoed",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Delta State College Of Agriculture",
+        "handle": "delscoa",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Delta State College Of Physical Education",
+        "handle": "dscope",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Delta state polytechnic",
+        "handle": "deltapoly",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Delta State University",
+        "handle": "delsu",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Diabo Paralegal Training Institute",
+        "handle": "diabo",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Dorben polytechnic",
+        "handle": "dorbenpoly",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Dreamville Ltd. Ladela School Abuja",
+        "handle": "dreamville",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Ebenezer College Of Education",
+        "handle": "ebecoed",
+        "state_code": "EBN"
+    },
+    {
+        "name": "Ebonyi State College Of Education",
+        "handle": "ebscoed",
+        "state_code": "EBN"
+    },
+    {
+        "name": "Ebonyi State University",
+        "handle": "ebsu",
+        "state_code": "EBN"
+    },
+    {
+        "name": "Edo State College Of Agriculture",
+        "handle": "edsca",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Edo State Institute Of Technology And Management",
+        "handle": "esitm",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Ekiti State University",
+        "handle": "eksu",
+        "state_code": "EKI"
+    },
+    {
+        "name": "Elder Oyama Memorial College Of Education",
+        "handle": "elderoyama",
+        "state_code": "CRI"
+    },
+    {
+        "name": "Emmanuel Alyande College Of Education",
+        "handle": "eacoedoyo",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Enugu State College Of Education, Technical",
+        "handle": "escet",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Enugu State University Of Science And Technology",
+        "handle": "esut",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Farmark Institute Of Employment And Creativity Kaduna",
+        "handle": "farmark",
+        "state_code": "KDA"
+    },
+    {
+        "name": "FCT College Of Education, Zuba",
+        "handle": "fctcoezuba",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Federal College Of Agriculture, Akure",
+        "handle": "fcaa",
+        "state_code": "OND"
+    },
+    {
+        "name": "Federal College Of Agriculture, Ishiagu",
+        "handle": "fcai",
+        "state_code": "EBN"
+    },
+    {
+        "name": "Federal College Of Agriculture, Moor Plantation",
+        "handle": "fcamp",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Federal College Of Animal Health And Production Tech, Ibadan",
+        "handle": "fcahptib",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Federal College Of Animal Health And Production Tech, Vom",
+        "handle": "fcahptvom",
+        "state_code": "PLT"
+    },
+    {
+        "name": "Federal College Of Education Oyo",
+        "handle": "fceoyo",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Federal College Of Education (Techinical)- Bichi",
+        "handle": "fcetbichi",
+        "state_code": "KAN"
+    },
+    {
+        "name": "Federal College Of Education (Technical)- Akoka",
+        "handle": "fcetakoka",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Federal College Of Education (Technical)- Gusau",
+        "handle": "fcegusau",
+        "state_code": "ZFR"
+    },
+    {
+        "name": "Federal College Of Education (Technical)- Omoku",
+        "handle": "fcetomoku",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Federal College Of Education Abeokuta",
+        "handle": "fceabeokuta",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Federal College Of Education Asaba",
+        "handle": "fceasaba",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Federal College Of Education Katsina",
+        "handle": "fcekatsina",
+        "state_code": "KAT"
+    },
+    {
+        "name": "Federal College Of Education Kontagora",
+        "handle": "fcekg",
+        "state_code": "NIG"
+    },
+    {
+        "name": "Federal College Of Education Obudu",
+        "handle": "fceobudu",
+        "state_code": "CRI"
+    },
+    {
+        "name": "Federal College Of Education Okene",
+        "handle": "fceokene",
+        "state_code": "KGI"
+    },
+    {
+        "name": "Federal College Of Education Umunze",
+        "handle": "fceumunze",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Federal College Of Education Yola",
+        "handle": "fceyola",
+        "state_code": "ADA"
+    },
+    {
+        "name": "Federal College Of Education Zaria",
+        "handle": "fcezaria",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Federal College Of Education, Eha amufu",
+        "handle": "fceahaamufu",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Federal College Of Education, Gombe",
+        "handle": "fcegombe",
+        "state_code": "GMB"
+    },
+    {
+        "name": "Federal College Of Education, Kano",
+        "handle": "fcekano",
+        "state_code": "KAN"
+    },
+    {
+        "name": "Federal College of Education, Pankshin",
+        "handle": "fcepankshin",
+        "state_code": "PLT"
+    },
+    {
+        "name": "Federal College Of Education, Potiskum",
+        "handle": "fcepotiskum",
+        "state_code": "YBE"
+    },
+    {
+        "name": "Federal College Of Fisheries And Marine Tech. V.I.",
+        "handle": "marinecollege",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Federal College Of Forestry Technology, Ibadan",
+        "handle": "fcftib",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Federal College Of Forestry, Jos",
+        "handle": "fcfjos",
+        "state_code": "PLT"
+    },
+    {
+        "name": "Federal College Of Forestry, Mechanisation, Afaka",
+        "handle": "fcfmaf",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Federal College Of Freshwater Fisheries Tech, Baga",
+        "handle": "fcfftbo",
+        "state_code": "BOR"
+    },
+    {
+        "name": "Federal College Of Freshwater Fisheries Tech, New Bussa",
+        "handle": "fcfftnewbussa",
+        "state_code": "NIG"
+    },
+    {
+        "name": "Federal College Of Horticulture, Dadin Kowa",
+        "handle": "fchkowa",
+        "state_code": "GMB"
+    },
+    {
+        "name": "Federal College Of Land Resources Technology, Kuru",
+        "handle": "fclrtkuru",
+        "state_code": "PLT"
+    },
+    {
+        "name": "Federal College Of Land Resources Technology, Owerri",
+        "handle": "fclrto",
+        "state_code": "IMO"
+    },
+    {
+        "name": "Federal College Of Orthopedic Technology, Igbobi",
+        "handle": "fcotigbobi",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Federal College Of Wildlife Management, New Bussa",
+        "handle": "fcwm",
+        "state_code": "NIG"
+    },
+    {
+        "name": "Federal Cooperative College, Ibadan",
+        "handle": "fccibadan",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Federal Cooperative College, Kaduna",
+        "handle": "fcckaduna",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Federal Cooperative College, Oji River",
+        "handle": "fccojiriver",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Federal polytechnic, Ado Ekiti",
+        "handle": "ekitipoly",
+        "state_code": "EKI"
+    },
+    {
+        "name": "Federal Polytechnic, Bali",
+        "handle": "balipoly",
+        "state_code": "TAR"
+    },
+    {
+        "name": "Federal polytechnic, Bauchi",
+        "handle": "bauchipoly",
+        "state_code": "BCH"
+    },
+    {
+        "name": "Federal polytechnic, Bida",
+        "handle": "bidapoly",
+        "state_code": "NIG"
+    },
+    {
+        "name": "kebbipoly Federal polytechnic, Birnin Kebbi",
+        "handle": "birnin kebbipoly",
+        "state_code": "KEB"
+    },
+    {
+        "name": "Federal polytechnic, Damaturu",
+        "handle": "damaturupoly",
+        "state_code": "YBE"
+    },
+    {
+        "name": "Federal polytechnic, Ede",
+        "handle": "edepoly",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Federal polytechnic, Idah",
+        "handle": "idahpoly",
+        "state_code": "KGI"
+    },
+    {
+        "name": "Federal polytechnic, Ilaro",
+        "handle": "ilaropoly",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Federal Polytechnic, Kaura Namoda",
+        "handle": "fedponam",
+        "state_code": "ZFR"
+    },
+    {
+        "name": "Federal polytechnic, Mubi",
+        "handle": "mubipoly",
+        "state_code": "ADA"
+    },
+    {
+        "name": "Federal polytechnic, Nasarawa",
+        "handle": "nasarawapoly",
+        "state_code": "NAS"
+    },
+    {
+        "name": "Federal polytechnic, Nekede",
+        "handle": "nekedepoly",
+        "state_code": "IMO"
+    },
+    {
+        "name": "Federal Polytechnic, Offa",
+        "handle": "offapoly",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Federal polytechnic, Oko",
+        "handle": "okopoly",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Federal School Of Dental Technology And Therapy, Enugu",
+        "handle": "fedsdtten",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Federal School Of Surveying, Oyo",
+        "handle": "fssoyo",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Federal University Of Agriculture, Makurdi",
+        "handle": "fuam",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Federal University of Petroleum Resource",
+        "handle": "fupre",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Federal University of Technology Akure",
+        "handle": "futa",
+        "state_code": "OND"
+    },
+    {
+        "name": "Federal University of Technology Minna",
+        "handle": "futminna",
+        "state_code": "NIG"
+    },
+    {
+        "name": "Federal University of Technology Yola",
+        "handle": "futyola",
+        "state_code": "ADA"
+    },
+    {
+        "name": "Federal University of Technology, Owerri",
+        "handle": "futo",
+        "state_code": "IMO"
+    },
+    {
+        "name": "Federal University, Dutse",
+        "handle": "fud",
+        "state_code": "JIG"
+    },
+    {
+        "name": "Federal University, Dutsin ma",
+        "handle": "fudma",
+        "state_code": "KAT"
+    },
+    {
+        "name": "Federal University, Kashere",
+        "handle": "fuk",
+        "state_code": "GMB"
+    },
+    {
+        "name": "Federal University, Lafia",
+        "handle": "ful",
+        "state_code": "NAS"
+    },
+    {
+        "name": "Federal University, Lokoja",
+        "handle": "fulokoja",
+        "state_code": "KGI"
+    },
+    {
+        "name": "Federal University, Ndufu alike",
+        "handle": "funai",
+        "state_code": "EBN"
+    },
+    {
+        "name": "Federal University, Otuoke",
+        "handle": "fuotuoke",
+        "state_code": "BAY"
+    },
+    {
+        "name": "Federal University, Oye ekiti",
+        "handle": "fuoye",
+        "state_code": "EKI"
+    },
+    {
+        "name": "Federal University, Wukari",
+        "handle": "fuwukari",
+        "state_code": "TAR"
+    },
+    {
+        "name": "Fidei Polytechnic, Gboko",
+        "handle": "fideipoly",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Flyingdove Institute Of Information Technology, Abuja",
+        "handle": "flyingdove",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Fountain University",
+        "handle": "fountain",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Gateway polytechnic Saapade",
+        "handle": "gatewaypoly",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Godfrey Okoye University",
+        "handle": "go",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Gombe State university",
+        "handle": "gomsu",
+        "state_code": "GMB"
+    },
+    {
+        "name": "Grace Polytechnic, Lagos",
+        "handle": "gracepoly",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Hassan Usman Katsina Poly",
+        "handle": "hukpoly",
+        "state_code": "KAT"
+    },
+    {
+        "name": "Havard Wilson College Of Education, Aba",
+        "handle": "hwcoed",
+        "state_code": "ABI"
+    },
+    {
+        "name": "Heritage Polytechnic",
+        "handle": "heritage",
+        "state_code": "AKI"
+    },
+    {
+        "name": "Highland College Of Tech. And Further Education",
+        "handle": "highland",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Hill College Of Education",
+        "handle": "hillcoed",
+        "state_code": "NAS"
+    },
+    {
+        "name": "Hussaini Adamu Federal polytechnic",
+        "handle": "hussainipoly",
+        "state_code": "JIG"
+    },
+    {
+        "name": "Ibrahim Badamasi Babangida University",
+        "handle": "ibbu",
+        "state_code": "NIG"
+    },
+    {
+        "name": "Ifo College Of Management And Technology",
+        "handle": "ifotech",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Igbajo Polytechnic",
+        "handle": "igbajopoly",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Igbinedion University",
+        "handle": "iuo",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Imfi, Ict Academy, Uyo",
+        "handle": "imfi",
+        "state_code": "AKI"
+    },
+    {
+        "name": "Imo State Polytechnic",
+        "handle": "imopoly",
+        "state_code": "IMO"
+    },
+    {
+        "name": "Imo State University",
+        "handle": "imsu",
+        "state_code": "IMO"
+    },
+    {
+        "name": "Innovation Institute Of Technology, Kaduna",
+        "handle": "iitkad",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Institute Of Arabic And Islamic Studies, Olodo",
+        "handle": "iaisolodo",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Institute of Management Technology, Enugu",
+        "handle": "imte",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Institute Of Public Health (OAU)- Ile ife",
+        "handle": "iphoau",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Interlink Polytechnic",
+        "handle": "interlink",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Isa Kaita College Of Education",
+        "handle": "ikcoed",
+        "state_code": "KAT"
+    },
+    {
+        "name": "Jama'atu Nasir Islam College Of Education, Kaduna",
+        "handle": "jnicoed",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Jibwis College Of Arabic And Islamic Education, Gombe",
+        "handle": "jcaie",
+        "state_code": "GMB"
+    },
+    {
+        "name": "Jigawa State College Of Education, Gumel",
+        "handle": "jigcoed",
+        "state_code": "JIG"
+    },
+    {
+        "name": "Jigawa State Institute Of Information Technology",
+        "handle": "jsiit",
+        "state_code": "JIG"
+    },
+    {
+        "name": "Jigawa State Polytechnic",
+        "handle": "jigpoly",
+        "state_code": "JIG"
+    },
+    {
+        "name": "Joseph Ayo Babalola University",
+        "handle": "jabu",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Kaduna Business School",
+        "handle": "kbs",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Kaduna Polytechnic",
+        "handle": "kadpoly",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Kaduna State university",
+        "handle": "kasu",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Kano State College Of Education, Kambotso",
+        "handle": "kanocoek",
+        "state_code": "KAN"
+    },
+    {
+        "name": "Kano State polytechnic",
+        "handle": "kanopoly",
+        "state_code": "KAN"
+    },
+    {
+        "name": "Kano University Of Science And Technology",
+        "handle": "kust",
+        "state_code": "KAN"
+    },
+    {
+        "name": "Karrox ugrl Computer Education And Training Centre",
+        "handle": "karrox",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Kashim ibrahim College Of Education, Maiduguri",
+        "handle": "kicoem",
+        "state_code": "BOR"
+    },
+    {
+        "name": "Katsina University",
+        "handle": "katsu",
+        "state_code": "KAT"
+    },
+    {
+        "name": "Kebbi State College Of Education, Argungu",
+        "handle": "kscoed",
+        "state_code": "KEB"
+    },
+    {
+        "name": "Kebbi State University Of Science And Technology",
+        "handle": "ksusta",
+        "state_code": "KEB"
+    },
+    {
+        "name": "Kings Polytechnic",
+        "handle": "kingspoly",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Kinsey College Of Education, Ilorin",
+        "handle": "kinseycoed",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Kogi State Polytechnic",
+        "handle": "ksp",
+        "state_code": "KGI"
+    },
+    {
+        "name": "kogi State University",
+        "handle": "ksu",
+        "state_code": "KGI"
+    },
+    {
+        "name": "Kwara State polytechnic",
+        "handle": "kwarapoly",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Kwara State University",
+        "handle": "kwasu",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Kwararafa College Of Education, Otukpo",
+        "handle": "kcoeo",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Kwararafa University",
+        "handle": "kwararafa",
+        "state_code": "TAR"
+    },
+    {
+        "name": "Ladoke Akintola University of Technology",
+        "handle": "lautech",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Lagos City Computer College, Lagos",
+        "handle": "lcccl",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Lagos City polytechnic",
+        "handle": "lagoscitypoly",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Lagos State polytechnic",
+        "handle": "laspotech",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Lagos State University",
+        "handle": "lasu",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Landmark University",
+        "handle": "Landmark",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Lani Stephens Music Institute",
+        "handle": "lanistephens",
+        "state_code": "PLT"
+    },
+    {
+        "name": "Laser Petroleum Geosciences Centre",
+        "handle": "laserpgc",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Lead City University",
+        "handle": "lcu",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Light House Polytechnic",
+        "handle": "lighthousepoly",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Linet Paul Innovative Institute",
+        "handle": "linetpaul",
+        "state_code": "BAY"
+    },
+    {
+        "name": "Literacy College Of Management And Technology",
+        "handle": "lcmt",
+        "state_code": "ABI"
+    },
+    {
+        "name": "Lufodo Academy Of Performing Arts",
+        "handle": "lufodo",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Madonna University (Okija)",
+        "handle": "madonna-okija",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Madonna University (Elele)",
+        "handle": "madonna-elele",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Madonna University (Akpugo)",
+        "handle": "madonna-akpugo",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Mahammed Lawan College Of Agriculture, Maiduguri",
+        "handle": "mlcamai",
+        "state_code": "BOR"
+    },
+    {
+        "name": "Mallam Yahaya Hamza Institute Of Advance Studies",
+        "handle": "myhias",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Maritime Academy of Nigeria",
+        "handle": "maritimeacademy",
+        "state_code": "AKI"
+    },
+    {
+        "name": "Metropolitan Institute Of Technology",
+        "handle": "metit",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Michael Okpara University of Agriculture",
+        "handle": "moua",
+        "state_code": "ABI"
+    },
+    {
+        "name": "Michael Otedola College Of Primary Education, Moforiji",
+        "handle": "mocped",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Mohammed Goni College Of Legal And Islamic Studies",
+        "handle": "mogcolis",
+        "state_code": "BOR"
+    },
+    {
+        "name": "Moshood Abiola polytechnic",
+        "handle": "mapoly",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Muftau' Lanihun College Of Education",
+        "handle": "mulcoed",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Muhyldeen College Of Education, Ilorin",
+        "handle": "mcoed",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Murtadha Col. Of Edu. Inst. Of Arabic And Islamic Legal Studies",
+        "handle": "mcoeiails",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Nana Aishat Memorial College Of Education",
+        "handle": "namcoed",
+        "state_code": "KWA"
+    },
+    {
+        "name": "Nasarawa State Polytechnic",
+        "handle": "naspoly",
+        "state_code": "NAS"
+    },
+    {
+        "name": "Nasarawa State University",
+        "handle": "Nsuk",
+        "state_code": "NAS"
+    },
+    {
+        "name": "National Open University of Nigeria",
+        "handle": "noun",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Niger Delta University",
+        "handle": "ndu",
+        "state_code": "BAY"
+    },
+    {
+        "name": "Niger State College Of Agriculture, Mokwa",
+        "handle": "coamokwa",
+        "state_code": "NIG"
+    },
+    {
+        "name": "Niger State polytechnic",
+        "handle": "nigerpoly",
+        "state_code": "NIG"
+    },
+    {
+        "name": "Nigeria Army School Of Military Engineering, Makurdi",
+        "handle": "nasme",
+        "state_code": "BNE"
+    },
+    {
+        "name": "Nigeria Turkish Nile University",
+        "handle": "ntnu",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Nigerian College of Aviation Technology",
+        "handle": "ncat",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Nnamdi Azikiwe University",
+        "handle": "unizik",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Novena University",
+        "handle": "novena",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Nuhu Bamalli polytechnic",
+        "handle": "nubapoly",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Nwafor Orizu College Of Education, Nsugbe",
+        "handle": "nocoed",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Obafemi Awolowo University",
+        "handle": "oau",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Obong University",
+        "handle": "ou",
+        "state_code": "AKI"
+    },
+    {
+        "name": "Oduduwa University",
+        "handle": "oduduwa",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Olabisi Onabanjo University",
+        "handle": "oou",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Ondo State University of Science and Technology",
+        "handle": "osustech",
+        "state_code": "OND"
+    },
+    {
+        "name": "Onit College Of Education Abagana",
+        "handle": "ocoeda",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Osun State College Of Education, Ila orangun",
+        "handle": "ossceila",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Osun State College of Technology",
+        "handle": "osuntechcollege",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Osun State polytechnic",
+        "handle": "ospoly",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Osun State University",
+        "handle": "uniosun",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Our Saviour Institute of Science, Agric. And Tech.",
+        "handle": "osisatech",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Oyo State College Of Agriculture",
+        "handle": "oyscai",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Oyo State College Of Education",
+        "handle": "oyocoed",
+        "state_code": "OYO"
+    },
+    {
+        "name": "Paul University",
+        "handle": "paul",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Petroleum Training Institute",
+        "handle": "pti",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Plateau State College Of Agriculture, Garkawa",
+        "handle": "plascag",
+        "state_code": "PLT"
+    },
+    {
+        "name": "Plateau State Polytechnic",
+        "handle": "plaspoly",
+        "state_code": "PLT"
+    },
+    {
+        "name": "Plateau State University",
+        "handle": "plasu",
+        "state_code": "PLT"
+    },
+    {
+        "name": "Polytechnic Of Sokoto",
+        "handle": "polysok",
+        "state_code": "SOK"
+    },
+    {
+        "name": "Ramat polytechnic",
+        "handle": "ramatpoly",
+        "state_code": "BOR"
+    },
+    {
+        "name": "Redeemer's University",
+        "handle": "run",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Renaissance University",
+        "handle": "rnu",
+        "state_code": "ENU"
+    },
+    {
+        "name": "Rhema University",
+        "handle": "rhema",
+        "state_code": "ABI"
+    },
+    {
+        "name": "Rivers State College Of Arts And Science",
+        "handle": "rivcas",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Rivers State College Of Health Science And Technology",
+        "handle": "rschst",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Rivers State polytechnic",
+        "handle": "rivpoly",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Rivers State University of Science and Technology",
+        "handle": "rsust",
+        "state_code": "RVS"
+    },
+    {
+        "name": "Ronik Polytechnic",
+        "handle": "ronik",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Royal City College Of Education",
+        "handle": "royalcoed",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Rufus Giwa polytechnic",
+        "handle": "rugipo",
+        "state_code": "OND"
+    },
+    {
+        "name": "Salem University",
+        "handle": "salem",
+        "state_code": "KGI"
+    },
+    {
+        "name": "Samaru College Of Agriculture",
+        "handle": "samca",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Samuel Adegboyega University",
+        "handle": "sau",
+        "state_code": "EDO"
+    },
+    {
+        "name": "School Of Agriculture, Bauchi",
+        "handle": "soab",
+        "state_code": "BCH"
+    },
+    {
+        "name": "School Of Agriculture, Ikorodu",
+        "handle": "soai",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Shehu Idris College Of Health Sci And Tech, Makarfi",
+        "handle": "sichstmakarfi",
+        "state_code": "KDA"
+    },
+    {
+        "name": "Shehu Shagari College Of Education, Sokoto",
+        "handle": "sscoesok",
+        "state_code": "SOK"
+    },
+    {
+        "name": "South Eastern College of Computer Engineering and Info. Tech.",
+        "handle": "secceit",
+        "state_code": "IMO"
+    },
+    {
+        "name": "Southern nigeria Institute Of Innovative Technology",
+        "handle": "sniit",
+        "state_code": "OSU"
+    },
+    {
+        "name": "St. Augustine College Of Education",
+        "handle": "sacoed",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Tai Solarin University of Education",
+        "handle": "tasued",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Tansain University",
+        "handle": "tansain",
+        "state_code": "ABR"
+    },
+    {
+        "name": "Taraba State University",
+        "handle": "tasu",
+        "state_code": "TAR"
+    },
+    {
+        "name": "Temple gate Polytechnic",
+        "handle": "templegatepoly",
+        "state_code": "ABI"
+    },
+    {
+        "name": "The African Church College Of Education",
+        "handle": "taccoed",
+        "state_code": "LAG"
+    },
+    {
+        "name": "The College Of Education, Nsukka",
+        "handle": "coensukka",
+        "state_code":"ENU"
+    },
+    {
+        "name": "The polytechnic, Ibadan",
+        "handle": "ibadanpoly",
+        "state_code": "OYO"
+    },
+    {
+        "name": "The Polytechnic, Ile Ife",
+        "handle": "polyife",
+        "state_code": "OSU"
+    },
+    {
+        "name": "The School Of Information And Media Technology",
+        "handle": "simtech",
+        "state_code": "EBN"
+    },
+    {
+        "name": "The University Of Education, Ikere Ekiti",
+        "handle": "tunedik",
+        "state_code": "EKI"
+    },
+    {
+        "name": "Topmost College Of Education",
+        "handle": "topcoed",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Umar Suleiman College Of Education, Gashua",
+        "handle": "uscoega",
+        "state_code": "YBE"
+    },
+    {
+        "name": "Umar ibn Ei kanemi College Of Education, Dutsinma",
+        "handle": "uecoeddut",
+        "state_code": "KAT"
+    },
+    {
+        "name": "Umaru Musa Yar'adua University",
+        "handle": "umyu",
+        "state_code": "KAT"
+    },
+    {
+        "name": "Unity College Of Education, Aukpa adoka",
+        "handle": "unitycoed",
+        "state_code": "BNE"
+    },
+    {
+        "name": "University of Abuja",
+        "handle": "uniabuja",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "University of Agriculture, Abeokuta",
+        "handle": "unaab",
+        "state_code": "OGN"
+    },
+    {
+        "name": "University of Agriculture, Makurdi",
+        "handle": "uam",
+        "state_code": "BNE"
+    },
+    {
+        "name": "University of Benin",
+        "handle": "uniben",
+        "state_code": "EDO"
+    },
+    {
+        "name": "University of Calabar",
+        "handle": "unical",
+        "state_code": "CRI"
+    },
+    {
+        "name": "University of Ibadan",
+        "handle": "ui",
+        "state_code": "OYO"
+    },
+    {
+        "name": "University of Ilorin",
+        "handle": "unilorin",
+        "state_code": "KWA"
+    },
+    {
+        "name": "University of Jos",
+        "handle": "unijos",
+        "state_code": "PLT"
+    },
+    {
+        "name": "University of Lagos",
+        "handle": "unilag",
+        "state_code": "LAG"
+    },
+    {
+        "name": "University of Maiduguri",
+        "handle": "unimaid",
+        "state_code": "BOR"
+    },
+    {
+        "name": "University Of Mkar",
+        "handle": "unimkar",
+        "state_code": "BNE"
+    },
+    {
+        "name": "University of Nigeria",
+        "handle": "unn",
+        "state_code": "ENU"
+    },
+    {
+        "name": "University of Port Harcourt",
+        "handle": "uniport",
+        "state_code": "RVS"
+    },
+    {
+        "name": "University Of Science And Technology, Ifaki ekiti",
+        "handle": "usti",
+        "state_code": "EKI"
+    },
+    {
+        "name": "University of Uyo",
+        "handle": "uniuyo",
+        "state_code": "AKI"
+    },
+    {
+        "name": "Usman Dan Fodio University",
+        "handle": "udusok",
+        "state_code": "SOK"
+    },
+    {
+        "name": "Veritas University, Abuja",
+        "handle": "veritas",
+        "state_code": "ABJ"
+    },
+    {
+        "name": "Waziri Umaru Fed. Polytechnic Birnin Kebbi",
+        "handle": "wufpbk",
+        "state_code": "KEB"
+    },
+    {
+        "name": "Wellspring University",
+        "handle": "wellspring",
+        "state_code": "EDO"
+    },
+    {
+        "name": "Wesley University Of Science And Technology",
+        "handle": "wusto",
+        "state_code": "OND"
+    },
+    {
+        "name": "Western Delta University",
+        "handle": "wdu",
+        "state_code": "DEL"
+    },
+    {
+        "name": "Wolex Polytechnic",
+        "handle": "wolex",
+        "state_code": "OSU"
+    },
+    {
+        "name": "Yaba College of Technology",
+        "handle": "yabatech",
+        "state_code": "LAG"
+    },
+    {
+        "name": "Yewa Central College Of Education",
+        "handle": "yewacoed",
+        "state_code": "OGN"
+    },
+    {
+        "name": "Yusuf Bala Usman College Of Legal And General Studies",
+        "handle": "ybuscolgs",
+        "state_code": "KAT"
+    }
+]

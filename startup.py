@@ -212,6 +212,27 @@ def load_timezones():
 		raise
 
 
+def load_universities():
+	""" loads all universities into the database """
+	src = os.path.join(SETUP_DIR, "universities.json")
+	f = open(src)
+	data = json.loads(f.read().encode("UTF-8"))
+	try:
+		for d in data:
+			s = State.query.filter(State.code==d.pop("state_code")).first()
+			if not s:
+				logger.info(d)
+			else:
+				d["state_id"] = s.id
+				obj = University(**d)
+				db.session.add(obj)
+		db.session.commit()
+		logger.info("Loaded All Universities.")
+	except:
+		db.session.rollback()
+		raise
+
+
 def load_state(c_name, s_file):
 	""" Loads a state file into the specified country """
 
@@ -314,3 +335,4 @@ def start():
 	load_countries()
 	load_states()
 	create_cities()
+	load_universities()
