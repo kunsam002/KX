@@ -79,11 +79,11 @@ def install_assets():
     start()
 
 
-@manager.command
-def load_sections():
-    """ Installs all required assets to begin with """
-    from startup import load_sections
-    load_sections()
+# @manager.command
+# def load_sections():
+#     """ Installs all required assets to begin with """
+#     from startup import load_sections
+#     load_sections()
 
 
 @manager.command
