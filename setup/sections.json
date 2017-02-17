@@ -1,0 +1,274 @@
+[
+    {
+        "name": "Electronics & Computers",
+        "description": "",
+        "position": null,
+        "categories": [
+          {
+            "name": "Mobile Phones",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Hard Drives",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Laptops",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Fan",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Flash Drives",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Pressing Iron",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Laptop Accessories",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Tv",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Radio",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Decoders",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Phone Accessories",
+            "description": "",
+            "position": null
+          }
+        ]
+    },
+    {
+        "name": "Kitchen & Dining",
+        "description": "",
+        "position": null,
+        "categories": [
+          {
+            "name": "Cooking Stove",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Pots",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Gas Cookers",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Gas Cylinders",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Cutleries",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Dishes and Cups",
+            "description": "",
+            "position": null
+          }
+        ]
+    },
+    {
+        "name": "Household",
+        "description": "",
+        "position": null,
+        "categories": [
+          {
+            "name": "Rug",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Carpet",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Curtain & Window Blinds",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Paint",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Tables & Chairs",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Wardrobes",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Bedding & Bathroom",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Hangers & Racks",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Hangers & Racks",
+            "description": "",
+            "position": null
+          }
+        ]
+    },
+    {
+        "name": "Books & Audibles",
+        "description": "",
+        "position": null,
+        "categories": [
+          {
+            "name": "Text Books",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Note Books",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Handouts",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Audio & Video Tutorials",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Projects",
+            "description": "",
+            "position": null
+          }
+        ]
+    },
+    {
+        "name": "Fashion",
+        "description": "",
+        "position": null,
+        "categories": [
+          {
+            "name": "Shoes",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Bags",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Clothes",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Dresses & Gowns",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Trousers",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Fabrics",
+            "description": "",
+            "position": null
+          }
+        ]
+    },
+    {
+        "name": "Beauty & Cosmetics",
+        "description": "",
+        "position": null,
+        "categories": [
+          {
+            "name": "Beauty Accessories",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Weaves",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Fragrances",
+            "description": "",
+            "position": null
+          }
+        ]
+    },
+    {
+        "name": "Services",
+        "description": "",
+        "position": null,
+        "categories": [
+          {
+            "name": "Photography",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Catering",
+            "description": "",
+            "position": null
+          },
+          {
+            "name": "Beauty & Cosmetics",
+            "description": "",
+            "position": null
+          }
+        ]
+    },
+    {
+        "name": "Other",
+        "description": "",
+        "position": null,
+        "categories": [
+
+        ]
+    }
+]

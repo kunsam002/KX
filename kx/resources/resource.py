@@ -7,8 +7,6 @@ from kx import logger
 
 
 class UserResource(BaseResource):
-
-    logger.info("yes o")
     resource_name = 'users'
     service_class = UserService
     validation_form = SignupForm
@@ -16,7 +14,6 @@ class UserResource(BaseResource):
         "username": fields.String,
         "full_name": fields.String
     }
-
 
 
 

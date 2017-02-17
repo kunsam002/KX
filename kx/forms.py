@@ -73,12 +73,13 @@ class LoginForm(Form):
 
 
 class SignupForm(Form):
-    username = StringField('Username', validators=[DataRequired()])
+    # username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
-    full_name = StringField('Full Name', validators=[Optional()])
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
+    full_name = StringField('Full Name', validators=[DataRequired()])
+    # first_name = StringField('First Name', validators=[DataRequired()])
+    # last_name = StringField('Last Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    verify_password = PasswordField('Verify Password', validators = [DataRequired(), EqualTo('password')], description="Verify your password")
     terms = BooleanField('Terms and conditions', validators=[DataRequired()])
 
 

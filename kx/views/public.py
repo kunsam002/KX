@@ -8,7 +8,7 @@ The public views required to sign up and get started
 
 from flask import Blueprint, render_template, abort, redirect, \
     flash, url_for, request, session, g, make_response, current_app
-from flask.ext.login import logout_user, login_required, login_user, current_user
+from flask_login import logout_user, login_required, login_user, current_user
 from kx import db, logger, app
 from kx.forms import *
 from kx.services import *
@@ -106,6 +106,7 @@ def login():
                 identity_changed.send(app, identity=Identity(user.id))
 
                 resp = redirect(next_url_)
+                user.update_last_login()
 
                 # Transfer auth token to the frontend for use with api requests
                 __xcred = base64.b64encode("%s:%s" % (user.username, user.get_auth_token()))
@@ -123,10 +124,26 @@ def login():
 @www.route('/signup/', methods=["GET", "POST"])
 def signup():
     page_title = "Signup"
+    next_url_ = request.args.get("next_url") or url_for(".index")
+
     form = SignupForm()
     if form.validate_on_submit():
         data = form.data
-        users.UserService.create(**data)
+        user = users.UserService.create(**data)
+
+        login_user(user, remember=True, force=True)  # This is necessary to remember the user
+
+        identity_changed.send(app, identity=Identity(user.id))
+
+        resp = redirect(next_url_)
+
+        # Transfer auth token to the frontend for use with api requests
+        __xcred = base64.b64encode("%s:%s" % (user.username, user.get_auth_token()))
+
+        resp.set_cookie("__xcred", __xcred)
+
+        return resp
+
     return render_template("public/signup.html", **locals())
 
 
@@ -143,19 +160,30 @@ def index(path=None):
     form.section_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in Section.query.all()]
     form.category_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in Category.query.all()]
 
+    sections = Section.query.order_by(Section.name).all()
+
     return render_template("public/index.html", **locals())
 
 
-@www.route('/categories/', methods=["GET", "POST"])
-def categories():
-    page_title = "Categories"
+# @www.route('/categories/', methods=["GET", "POST"])
+# def categories():
+#     page_title = "Categories"
+#
+#     states = site_services.fetch_states()
+#     universities = site_services.fetch_universities()
+#
+#     form = SearchForm()
+#     form.state_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in states]
+#     form.university_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in universities]
+#     form.section_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in Section.query.all()]
+#     form.category_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in Category.query.all()]
+#     return render_template("public/listing.html", **locals())
 
-    states = site_services.fetch_states()
-    universities = site_services.fetch_universities()
-    
-    form = SearchForm()
-    form.state_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in states]
-    form.university_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in universities]
-    form.section_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in Section.query.all()]
-    form.category_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in Category.query.all()]
+
+@www.route('/products/<string:section_slug>/<category_slug>/', methods=["GET", "POST"])
+@www.route('/products/<string:section_slug>/', methods=["GET", "POST"])
+@www.route('/products/', methods=["GET", "POST"])
+def categories(section_slug=None, category_slug=None):
+    page_title = "Products"
+
     return render_template("public/listing.html", **locals())

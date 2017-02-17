@@ -242,6 +242,33 @@ def load_universities():
 		raise
 
 
+def load_sections():
+	""" loads all product sections and categories into the database """
+	src = os.path.join(SETUP_DIR, "sections.json")
+	f = open(src)
+	data = json.loads(f.read().encode("UTF-8"))
+	try:
+		for d in data:
+			categories = d.pop("categories", [])
+			s= Section.query.filter(Section.name==d.get("name")).first()
+			if not s:
+				s = Section(**d)
+				db.session.add(s)
+				db.session.commit()
+			for i in categories:
+				c=Category.query.filter(Category.section_id==s.id,Category.name==i.get("name")).first()
+				if not c:
+					i["section_id"] = s.id
+					obj = Category(**i)
+					db.session.add(obj)
+					db.session.commit()
+
+		logger.info("Loaded All Product Sections and Categories.")
+	except:
+		db.session.rollback()
+		raise
+
+
 def load_state(c_name, s_file):
 	""" Loads a state file into the specified country """
 
@@ -349,3 +376,4 @@ def start():
 	load_states()
 	create_cities()
 	load_universities()
+	load_sections()

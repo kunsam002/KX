@@ -91,6 +91,11 @@
 									<!-- header top dropdowns start -->
 									<!-- ================ -->
 									<div class="header-top-dropdown text-right">
+                    {% if current_user.is_authenticated %}
+                    <div class="btn-group">
+											<a href="" class="btn btn-default btn-sm"><i class="fa fa-user pr-10"></i> Profile</a>
+										</div>
+                    {% else %}
 										<div class="btn-group">
 											<a href="{{url_for('.signup')}}" class="btn btn-default btn-sm"><i class="fa fa-user pr-10"></i> Sign Up</a>
 										</div>
@@ -102,7 +107,7 @@
                             {{login_form.csrf_token}}
 														<div class="form-group has-feedback">
 															<label class="control-label">Username</label>
-															<input name="username" id="username" type="text" class="form-control" placeholder="">
+															<input name="username" id="username" type="text" class="form-control" placeholder="Username / Email">
 															<i class="fa fa-user form-control-feedback"></i>
 														</div>
 														<div class="form-group has-feedback">
@@ -126,6 +131,7 @@
 												</li>
 											</ul>
 										</div>
+                    {% endif %}
 									</div>
 									<!--  header top dropdowns end -->
 								</div>

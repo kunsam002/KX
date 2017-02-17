@@ -19,6 +19,7 @@ class Config(object):
     ADMIN_EMAILS = ["kunsam002@gmail.com"]
 
     EMAIL_DEV_ONLY = True
+    DEV_MODE = True
 
     # File uploads
     UPLOADS_DEFAULT_DEST = os.path.join(os.path.dirname(os.path.abspath(__name__)), "uploads")
@@ -51,6 +52,7 @@ class SiteDevConfig(Config):
     """ Configuration class for site development environment """
 
     DEBUG = True
+    DEV_MODE = True
 
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://kx:kx@localhost/kx'
 
@@ -63,6 +65,8 @@ class SiteDevConfig(Config):
 
 
 class TestProdConfig(SiteDevConfig):
+    DEV_MODE = False
+    
     PROTOCOL = "http://"
     DOMAIN = "k-x.herokuapp.com"
 

@@ -28,7 +28,7 @@
             <label>Institution</label>
             {{form.university_id(class="form-control")}}
           </div>
-          <div class="form-group" style="width:25%">
+          <div class="form-group" style="width:20%">
             <label>Price $ (min/max)</label>
             <div class="row grid-space-10">
               <div class="col-sm-6">
@@ -39,16 +39,9 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="width:12%">
             <label>Category</label>
-            <select class="form-control">
-              <option selected="selected">Smartphones</option>
-              <option>Tablets</option>
-              <option>Smart Watches</option>
-              <option>Desktops</option>
-              <option>Software</option>
-              <option>Accessories</option>
-            </select>
+            {{form.section_id(class="form-control")}}
           </div>
           <div class="form-group">
             <a href="#" class="btn btn-default">Submit</a>
@@ -65,93 +58,72 @@
 
 	<div class="container">
 		<div class="row">
+
 			<div class="col-md-3">
 				<div class="footer-content">
-          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> Productivity</h4>
+          {% for sec in sections %}
+          {% if loop.index % 4 == 1 %}
+          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{sec.name}}</h4>
 					<nav class="mb-20">
 						<ul class="nav nav-pills nav-stacked list-style-icons">
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Lorem ipsum dolor sit</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i>  Consectetur adipisicing elit</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Rerum iure temporibus</a></li>
+              {% for cat in sec.categories %}
+							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{cat.name}}</a></li>
+              {% endfor %}
 						</ul>
 					</nav>
-					<h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> Electronics</h4>
-					<nav class="mb-20">
-						<ul class="nav nav-pills nav-stacked list-style-icons">
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Repudiandae porro doloribus</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Amet culpa</a></li>
-							<li><a  href="#"><i class="fa fa-chevron-circle-right"></i> Atque vero laudantium</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Loat dolot aspree</a></li>
-						</ul>
-					</nav>
+          {% endif %}
+          {% endfor %}
 				</div>
 			</div>
-			<div class="col-md-3">
+      <div class="col-md-3">
 				<div class="footer-content">
-					<h4 class="title text-default"><i class="fa fa-search pr-10"></i> Fashion</h4>
+          {% for sec in sections %}
+          {% if loop.index % 4 == 2 %}
+          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{sec.name}}</h4>
 					<nav class="mb-20">
 						<ul class="nav nav-pills nav-stacked list-style-icons">
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Vel consequatur</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Provident obcaecati</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Illo perspiciatis</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> acilis maiores</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Enim modi</a></li>
+              {% for cat in sec.categories %}
+							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{cat.name}}</a></li>
+              {% endfor %}
 						</ul>
 					</nav>
-					<h4 class="title text-default"><i class="fa fa-users pr-10"></i> Kitchen & Dining</h4>
-					<nav class="mb-20">
-						<ul class="nav nav-pills nav-stacked list-style-icons">
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> acilis maiores</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Enim modi</a></li>
-							<li><a  href="#"><i class="fa fa-chevron-circle-right"></i> Support</a></li>
-						</ul>
-					</nav>
+          {% endif %}
+          {% endfor %}
 				</div>
 			</div>
-			<div class="col-md-3">
+      <div class="col-md-3">
 				<div class="footer-content">
-					<h4 class="title text-default"><i class="fa fa-file-text-o pr-10"></i> Books & Audible</h4>
+          {% for sec in sections %}
+          {% if loop.index % 4 == 3 %}
+          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{sec.name}}</h4>
 					<nav class="mb-20">
 						<ul class="nav nav-pills nav-stacked list-style-icons">
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Facilis maiores</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Provident obcaecati</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Vel consequatur</a></li>
-							<li><a  href="#"><i class="fa fa-chevron-circle-right"></i> Support</a></li>
+              {% for cat in sec.categories %}
+							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{cat.name}}</a></li>
+              {% endfor %}
 						</ul>
 					</nav>
-					<h4 class="title text-default"><i class="fa fa-child pr-10"></i> Services</h4>
-					<nav class="mb-20">
-						<ul class="nav nav-pills nav-stacked list-style-icons">
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Illo perspiciatis</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Enim modi</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Privacy</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Vel consequatur</a></li>
-						</ul>
-					</nav>
+          {% endif %}
+          {% endfor %}
 				</div>
 			</div>
-			<div class="col-md-3">
+      <div class="col-md-3">
 				<div class="footer-content">
-					<h4 class="title text-default"><i class="fa fa-institution pr-10"></i> Household</h4>
+          {% for sec in sections %}
+          {% if loop.index % 4 == 0 %}
+          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{sec.name}}</h4>
 					<nav class="mb-20">
 						<ul class="nav nav-pills nav-stacked list-style-icons">
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Consectetur adipisicing elit</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Lorem ipsum dolor sit</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Amet culpa</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Repudiandae porro doloribus</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Rerum iure temporibus</a></li>
-							<li><a  href="#"><i class="fa fa-chevron-circle-right"></i> Atque vero laudantium</a></li>
+              {% for cat in sec.categories %}
+							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{cat.name}}</a></li>
+              {% endfor %}
 						</ul>
 					</nav>
-					<h4 class="title text-default"><i class="fa fa-info-circle pr-10"></i> Others</h4>
-					<nav class="mb-20">
-						<ul class="nav nav-pills nav-stacked list-style-icons">
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Consectetur adipisicing elit</a></li>
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> Lorem ipsum dolor sit</a></li>
-						</ul>
-					</nav>
+          {% endif %}
+          {% endfor %}
 				</div>
 			</div>
+
 		</div>
 
 	</div>
