@@ -80,6 +80,13 @@ def install_assets():
 
 
 @manager.command
+def load_sections():
+    """ Installs all required assets to begin with """
+    from startup import load_sections
+    load_sections()
+
+
+@manager.command
 def setup_app():
     syncdb()
     install_assets()

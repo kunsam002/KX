@@ -1,1 +1,1 @@
-web: python manage.py start_apps
+web: python manage.py load_sections
