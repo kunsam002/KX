@@ -154,8 +154,10 @@ def load_countries():
 	data = json.loads(f.read().encode("UTF-8"))
 	try:
 		for d in data:
-			obj = Country(**d)
-			db.session.add(obj)
+			c = Country.query.filter(Country.code==d.get("code")).first()
+			if not c:
+				obj = Country(**d)
+				db.session.add(obj)
 		db.session.commit()
 		logger.info("Loaded All Countries.")
 	except:
@@ -170,8 +172,10 @@ def load_currencies():
 	data = json.loads(f.read().encode("UTF-8"))
 	try:
 		for d in data:
-			obj = Currency(**d)
-			db.session.add(obj)
+			c = Currency.query.filter(Currency.code==d.get("code")).first()
+			if not c:
+				obj = Currency(**d)
+				db.session.add(obj)
 		db.session.commit()
 		logger.info("Loaded All Currencies.")
 	except:
@@ -203,8 +207,10 @@ def load_timezones():
 	data = json.loads(f.read().encode("UTF-8"))
 	try:
 		for d in data:
-			obj = Timezone(**d)
-			db.session.add(obj)
+			t = Timezone.query.filter(Timezone.code==d.get("code")).first()
+			if not t:
+				obj = Timezone(**d)
+				db.session.add(obj)
 		db.session.commit()
 		logger.info("Loaded All Timezones.")
 	except:
@@ -223,9 +229,12 @@ def load_universities():
 			if not s:
 				logger.info(d)
 			else:
-				d["state_id"] = s.id
-				obj = University(**d)
-				db.session.add(obj)
+				u=University.query.filter(University.state_id==s.id,University.handle==d.get("handle")).first()
+				if not u:
+					d["state_id"] = s.id
+					d["country_id"] = s.country_id
+					obj = University(**d)
+					db.session.add(obj)
 		db.session.commit()
 		logger.info("Loaded All Universities.")
 	except:
@@ -245,8 +254,10 @@ def load_state(c_name, s_file):
 
 	try:
 		for code, name in data.items():
-			state = State(name=name, code=code, country=country)
-			db.session.add(state)
+			s= State.query.filter(State.name==name,State.code==code, State.country_id==country.id).first()
+			if not s:
+				state = State(name=name, code=code, country=country)
+				db.session.add(state)
 		db.session.commit()
 
 		logger.info("Loaded states for %s" % country.name)
@@ -318,9 +329,11 @@ def create_cities():
 
 	for s in State.query.all():
 		for i in lga[state_code[s.name]]:
-			obj = City(name= i,state_id= s.id, country_id=s.country_id)
-			db.session.add(obj)
-			db.session.commit()
+			c= City.query.filter(City.name==i,City.state_id==s.id,City.country_id==s.country_id).first()
+			if not c:
+				obj = City(name= i,state_id= s.id, country_id=s.country_id)
+				db.session.add(obj)
+				db.session.commit()
 
 
 def start():
@@ -331,7 +344,7 @@ def start():
 	# build_restricted_domains()
 	# generate_super_admin()
 	load_timezones()
-	# load_currencies()
+	load_currencies()
 	load_countries()
 	load_states()
 	create_cities()
