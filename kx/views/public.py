@@ -61,6 +61,12 @@ def object_length(data):
     return len(data)
 
 
+def _split_flash(msg):
+    logger.info(msg)
+    logger.info(msg.split("|"))
+    return msg.split("|")
+
+
 @www.context_processor
 def main_context():
     """ Include some basic assets in the startup page """
@@ -74,6 +80,7 @@ def main_context():
     paging_url_build = build_page_url
     clean_ascii = utils.clean_ascii
     login_form = LoginForm()
+    split_flash_message = _split_flash
 
     return locals()
 
@@ -193,6 +200,22 @@ def categories(section_slug=None, category_slug=None):
 def profile():
     page_title = "User Profile"
     return render_template("public/profile/index.html", **locals())
+
+
+@www.route('/profile/settings/', methods=['GET','POST'])
+def profile_settings():
+    page_title = "Profile Settings"
+    update_profile_form = ProfileUpdateForm()
+    update_profile_form.university_id.choices = [(0,"--- Select One ---")]+[(i.id,i.name) for i in University.query.filter(University.is_enabled==True)]
+    password_reset_form = PasswordResetForm()
+    flash("info|message")
+
+    if update_profile_form.validate_on_submit():
+        data=update_profile_form.data
+        user = UserService.update(current_user.id, **data)
+        flash("Profile Update Successful")
+
+    return render_template("public/profile/settings.html", **locals())
 
 
 @www.route('/blog/')

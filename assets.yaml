@@ -41,6 +41,7 @@ main-global-js:
     - plugins/jquery.validate.js
     - plugins/owl-carousel/owl.carousel.js
     - plugins/jquery.browser.js
+    - plugins/bootstrap-notify/bootstrap-notify.js
     - plugins/SmoothScroll.js
     - js/template.js
     - js/custom.js

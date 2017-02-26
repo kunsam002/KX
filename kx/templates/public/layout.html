@@ -278,7 +278,6 @@
 			<!-- header-container end -->
       {% endblock header %}
 
-
       {% block body %}
       {% endblock body%}
 
@@ -328,6 +327,26 @@
     {% assets "main-global-js" %}
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function(){
+              {% for message in get_flashed_messages() %}
+                    $.notify({
+                          message: '{{split_flash_message(message)[1]}}'
+                        },{
+                          type: '{{split_flash_message(message)[0]}}',
+                          delay: 4000,
+                          offset : {
+                              y: 100,
+                              x: 20
+                          }
+                        });
+
+              {% endfor %}
+
+            });
+        });
+    </script>
 
 	</body>
 </html>

@@ -83,6 +83,16 @@ class SignupForm(Form):
     terms = BooleanField('Terms and conditions', validators=[DataRequired()])
 
 
+class ProfileUpdateForm(Form):
+    full_name = StringField('Full Name', validators=[DataRequired()])
+    university_id = SelectField('University', coerce=int, validators=[DataRequired()])
+
+
+class PasswordResetForm(Form):
+    password = PasswordField('Password', validators=[DataRequired()])
+    verify_password = PasswordField('Verify Password', validators = [DataRequired(), EqualTo('password')], description="Verify your password")
+
+
 class NewsletterSubscriberForm(Form):
     email = EmailField('Email Address', validators=[DataRequired(), Email()])
 

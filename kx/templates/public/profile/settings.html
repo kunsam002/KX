@@ -1,0 +1,30 @@
+{% extends 'public/profile/layout.html' %}
+{% block profile_body %}
+<!-- pills start -->
+<!-- ================ -->
+<div class="process">
+	<!-- Nav tabs -->
+	<ul class="nav nav-pills" role="tablist">
+		<li class="active"><a href="#profile-mangmnt" role="tab" data-toggle="tab" title="Update Profile"><i class="fa icon-cog pr-5"></i> Update Profile</a></li>
+		<li><a href="#security-mangmnt" role="tab" data-toggle="tab" title="Reset Password"><i class="fa fa-lock pr-5"></i> Reset Password</a></li>
+		<li><a href="#deactivate" role="tab" data-toggle="tab" title="Deactivate Account"><i class="fa fa-warning pr-5"></i> Deactivate Account</a></li>
+	</ul>
+	<!-- Tab panes -->
+	<div class="tab-content clear-style">
+		<div class="tab-pane active" id="profile-mangmnt">
+			<div class="row">
+        Update
+			</div>
+		</div>
+		<div class="tab-pane" id="security-mangmnt">
+			<div class="row">
+        Reset Password
+			</div>
+		</div>
+		<div class="tab-pane" id="deactivate">
+      Deactivate Account
+		</div>
+	</div>
+</div>
+<!-- pills end -->
+{% endblock profile_body %}

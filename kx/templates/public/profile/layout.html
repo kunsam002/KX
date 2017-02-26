@@ -6,32 +6,26 @@
 
 	<div class="container">
 		<div class="row">
-
-			<!-- main start -->
-			<!-- ================ -->
-			<div class="main col-md-8 col-lg-offset-1 col-md-push-4 col-lg-push-3">
-
-				{% block profile_body %}
-				{% endblock profile_body %}
+			<div class="col-md-3">
+				<h2 class="title">My Account</h2>
+				<div class="separator-2"></div>
+			</div>
+			<div class="clearfix">
 
 			</div>
-			<!-- main end -->
-
 			<!-- sidebar start -->
 			<!-- ================ -->
-			<aside class="col-md-4 col-lg-3 col-md-pull-8 col-lg-pull-9">
+			<aside class="col-md-3">
 				<div class="sidebar">
 					<div class="block clearfix">
 						<div class="footer-content">
-							<h2 class="title">My Account</h2>
-							<div class="separator-2"></div>
 							<nav class="mb-20">
 								<ul class="nav nav-pills nav-stacked list-style-icons">
-									<li><a href="components-social-icons.html"><i class="icon-tools"></i> Products</a></li>
-									<li><a href="components-social-icons.html"><i class="icon-tools"></i> Messages</a></li>
-									<li><a href="components-forms.html"><i class="icon-heart"></i> Wish List</a></li>
-									<li><a href="components-tabs-and-pills.html"><i class="icon-chat"></i> Notifications</a></li>
-									<li><a href="components-social-icons.html"><i class="icon-tools"></i> Settings</a></li>
+									<li><a href=""><i class="icon-tools btn-alert"></i> Products</a></li>
+									<li><a href=""><i class="icon-tools"></i> Messages</a></li>
+									<li><a href=""><i class="icon-heart"></i> Wish List</a></li>
+									<li><a href=""><i class="icon-chat"></i> Notifications</a></li>
+									<li><a href="{{url_for('.profile_settings')}}"><i class="icon-tools"></i> Settings</a></li>
 								</ul>
 							</nav>
 						</div>
@@ -39,7 +33,15 @@
 				</div>
 			</aside>
 			<!-- sidebar end -->
+			<!-- main start -->
+			<!-- ================ -->
+			<div class="main col-md-9 ">
 
+				{% block profile_body %}
+				{% endblock profile_body %}
+
+			</div>
+			<!-- main end -->
 		</div>
 	</div>
 </section>
