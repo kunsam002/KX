@@ -93,7 +93,7 @@
 									<div class="header-top-dropdown text-right">
                     {% if current_user.is_authenticated %}
                     <div class="btn-group">
-											<a href="" class="btn btn-default btn-sm"><i class="fa fa-user pr-10"></i> Profile</a>
+											<a href="{{url_for('.profile')}}" class="btn btn-default btn-sm"><i class="fa fa-user pr-10"></i> Profile</a>
 										</div>
                     {% else %}
 										<div class="btn-group">
@@ -149,7 +149,7 @@
 				<!-- "full-width": mandatory class for the full-width menu layout -->
 				<!-- "centered": mandatory class for the centered logo layout -->
 				<!-- ================ -->
-				<header class="header  fixed    clearfix">
+				<header class="header  fixed  dark  clearfix">
 
 					<div class="container">
 						<div class="row">
@@ -227,72 +227,8 @@
                           <li class="mega-menu">
 														<a href="{{url_for('.index')}}">Home</a>
 													</li>
-													<!-- mega-menu start -->
-													<!-- <li class="dropdown  mega-menu">
-														<a href="{{url_for('.categories')}}" class="dropdown-toggle" data-toggle="dropdown">Categories</a>
-														<ul class="dropdown-menu">
-															<li>
-																<div class="row">
-																	<div class="col-md-12">
-																		<h4 class="title"><i class="fa fa-laptop pr-10"></i> Demos</h4>
-																		<div class="row">
-																			<div class="col-sm-6 col-md-3">
-																				<div class="divider"></div>
-																				<ul class="menu">
-																					<li ><a href="index.html"><i class="icon-home pr-10"></i>Home Default</a></li>
-																					<li ><a href="index-corporate-1.html"><i class="icon-suitcase pr-10"></i>Corporate 1</a></li>
-																					<li ><a href="index-corporate-2.html"><i class="icon-suitcase pr-10"></i>Corporate 2</a></li>
-																					<li ><a href="index-corporate-3.html"><i class="icon-suitcase pr-10"></i>Corporate 3</a></li>
-																					<li ><a href="index-corporate-4.html"><i class="icon-home pr-10"></i>Corporate 4 <span class="badge">NEW</span></a></li>
-																					<li ><a href="index-shop.html"><i class="icon-basket-1 pr-10"></i>Commerce 1</a></li>
-																				</ul>
-																			</div>
-																			<div class="col-sm-6 col-md-3">
-																				<div class="divider"></div>
-																				<ul class="menu">
-																					<li ><a href="index-shop-2.html"><i class="icon-basket-1 pr-10"></i>Commerce 2</a></li>
-																					<li ><a href="index-portfolio.html"><i class="icon-briefcase pr-10"></i>Portfolio/Agency</a></li>
-																					<li ><a href="index-medical.html"><i class="fa fa-ambulance pr-10"></i>Medical</a></li>
-																					<li ><a href="index-restaurant.html"><i class="fa fa-cutlery pr-10"></i>Restaurant</a></li>
-																					<li ><a href="index-wedding.html"><i class="icon-heart pr-10"></i>Wedding</a></li>
-																					<li ><a href="index-landing.html"><i class="fa fa-star pr-10"></i>Landing Page</a></li>
-																				</ul>
-																			</div>
-																			<div class="col-sm-6 col-md-3">
-																				<div class="divider"></div>
-																				<ul class="menu">
-																					<li ><a href="page-coming-soon.html"><i class="fa fa-clock-o pr-10"></i>Coming Soon</a></li>
-																					<li ><a href="index-one-page.html"><i class="icon-home pr-10"></i>One Page Version</a></li>
-																					<li ><a href="index-construction.html"><i class="fa fa-building pr-10"></i>Construction <span class="badge">v1.1</span></a></li>
-																					<li ><a href="index-education.html"><i class="fa fa-graduation-cap pr-10"></i>Education <span class="badge">v1.1</span></a></li>
-																					<li ><a href="index-hotel.html"><i class="fa fa-bed pr-10"></i>Hotel <span class="badge">v1.1</span></a></li>
-																					<li ><a href="index-blog.html"><i class="fa fa-pencil pr-10"></i>Blog <span class="badge">v1.1</span></a></li>
-																				</ul>
-																			</div>
-																			<div class="col-sm-6 col-md-3">
-																				<div class="divider"></div>
-																				<ul class="menu">
-																					<li ><a href="index-beauty.html"><i class="fa fa-magic pr-10"></i>Beauty Center <span class="badge">v1.1</span></a></li>
-																					<li ><a href="index-gym.html"><i class="fa fa-heartbeat pr-10"></i>Gym <span class="badge">NEW</span></a></li>
-																					<li ><a href="index-resume.html"><i class="fa fa-user pr-10"></i>Resume <span class="badge">NEW</span></a></li>
-																					<li ><a href="index-agency.html"><i class="fa fa-users pr-10"></i>Agency <span class="badge">NEW</span></a></li>
-																					<li ><a href="index-logistics.html"><i class="fa fa-truck pr-10"></i>Logistics <span class="badge">NEW</span></a></li>
-																				</ul>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</li>
-														</ul>
-													</li> -->
-													<!-- mega-menu end -->
-													<!-- mega-menu start -->
-													<!-- <li class="mega-menu">
-														<a href="#">Pages</a>
-													</li> -->
-													<!-- mega-menu end -->
 													<li class="mega-menu">
-														<a href="#">Blog</a>
+														<a href="{{url_for('.blog')}}">Blog</a>
 													</li>
 													<li class="mega-menu">
 														<a href="#">About</a>

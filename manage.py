@@ -9,8 +9,8 @@ from model_migrations import *
 from xlrd import open_workbook
 from multiprocessing import Process
 
-app = create_app('kx', 'config.TestProdConfig')
-# app = create_app('kx', 'config.SiteDevConfig')
+# app = create_app('kx', 'config.TestProdConfig')
+app = create_app('kx', 'config.SiteDevConfig')
 
 logger = app.logger
 
@@ -88,7 +88,7 @@ def install_assets():
 
 @manager.command
 def setup_app():
-    syncdb()
+    syncdb(refresh=True)
     install_assets()
 
 def runInParallel(*fns):

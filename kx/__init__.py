@@ -46,7 +46,8 @@ archives = app.archives
 # redis = app.redis
 
 cache = app.cache
-
+cloudinary = app.cloudinary
+cloudinary_upload = app.cloudinary_upload
 
 # Connection pool disconnect handler. Brought about as a result of MYSQL!!!
 
@@ -70,5 +71,3 @@ def register_api(cls, *urls, **kwargs):
 	""" A simple pass through class to add entities to the api registry """
 	kwargs["endpoint"] = getattr(cls, 'resource_name', kwargs.get("endpoint", None))
 	app.api_registry.append((cls, urls, kwargs))
-
-

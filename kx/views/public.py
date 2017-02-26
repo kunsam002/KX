@@ -187,3 +187,15 @@ def categories(section_slug=None, category_slug=None):
     page_title = "Products"
 
     return render_template("public/listing.html", **locals())
+
+
+@www.route('/profile/')
+def profile():
+    page_title = "User Profile"
+    return render_template("public/profile/index.html", **locals())
+
+
+@www.route('/blog/')
+def blog():
+    page_title = "Blog"
+    return render_template("public/blog/index.html", **locals())

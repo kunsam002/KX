@@ -34,8 +34,22 @@ class Config(object):
 
     ADMIN_USERNAME = "kx"
     ADMIN_PASSWORD = "kx"
-    ADMIN_EMAIL = "admin@kx.com"
-    ADMIN_FULL_NAME = "kx"
+    ADMIN_EMAIL = "kampus.xchange@gmail.com"
+    ADMIN_FULL_NAME = "Kampus Xchange"
+
+    # Flask Mail
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = "kampus.xchange@gmail.com"
+    MAIL_PASSWORD = "kunlesandra"
+
+    CLOUDINARY_CONFIG = {
+        'cloud_name': 'kampusxchange',
+        'api_key': '791467912822196',
+        'api_secret': 'R0fI6eyqVWoRlQEs2pSzXeVVeCQ',
+    }
 
     # Facebook, Twitter and Google Plus handles
     SOCIAL_LINKS = {"facebook": "", "twitter": "", "google": "",
@@ -66,7 +80,7 @@ class SiteDevConfig(Config):
 
 class TestProdConfig(SiteDevConfig):
     DEV_MODE = False
-    
+
     PROTOCOL = "http://"
     DOMAIN = "k-x.herokuapp.com"
 

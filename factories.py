@@ -20,6 +20,13 @@ from flask.ext.uploads import UploadSet, IMAGES, ARCHIVES, configure_uploads, \
 import wtforms_json
 from flask.ext.migrate import Migrate
 from flask.ext.cache import Cache
+import cloudinary
+from cloudinary.uploader import upload as cloudinary_upload
+cloudinary.config(
+	cloud_name = 'kampusxchange',
+	api_key = '791467912822196',
+	api_secret = 'R0fI6eyqVWoRlQEs2pSzXeVVeCQ'
+)
 
 # # new redis session management
 # from flaskext.kvsession import KVSessionExtension
@@ -103,6 +110,8 @@ def create_app(app_name, config_obj, with_api=True):
 
 	migrate = Migrate(app,db)
 
+	app.cloudinary = cloudinary
+	app.cloudinary_upload = cloudinary_upload
 
 	photos = UploadSet('photos', IMAGES)
 	archives = UploadSet('archives', ARCHIVES)

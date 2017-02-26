@@ -111,11 +111,11 @@ def generate_super_admin():
 	email = app.config.get("ADMIN_EMAIL") # mandatory
 	full_name = app.config.get("ADMIN_FULL_NAME") # mandatory
 
-	user = User(username=username, password=password, email=email, full_name=full_name, is_active=True, is_super_admin=True, is_verified=True, is_staff=True, is_admin=True)
+	user = User(username=username, password=password, email=email, full_name=full_name, is_active=True, is_super_admin=True, is_confirmed=True, is_staff=True)
 	db.session.add(user)
 	db.session.commit()
 
-	add_user_to_access_group(user.id, "super_admin")
+	# add_user_to_access_group(user.id, "super_admin")
 
 	logger.info("Created Super Admin User")
 
@@ -369,7 +369,7 @@ def start():
 	# load_access_groups()
 	# build_default_access_groups()
 	# build_restricted_domains()
-	# generate_super_admin()
+	generate_super_admin()
 	load_timezones()
 	load_currencies()
 	load_countries()

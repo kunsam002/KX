@@ -136,7 +136,7 @@ class UserMixin(AppMixin, UserMixin):
 
     @declared_attr
     def user_id(cls):
-        return db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+        return db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True, index=True)
 
     @property
     def user(self):
@@ -149,34 +149,34 @@ class UserMixin(AppMixin, UserMixin):
 class City(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
-    code = db.Column(db.String(200))
-    state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=False)
-    country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False)
+    code = db.Column(db.String(200), index=True)
+    state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=False, index=True)
+    country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False, index=True)
 
 
 class State(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
-    slug = db.Column(db.String(200), unique=True, default=slugify_from_name, onupdate=slugify_from_name)
-    code = db.Column(db.String(200))
-    country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False)
+    slug = db.Column(db.String(200), unique=True, default=slugify_from_name, onupdate=slugify_from_name, index=True)
+    code = db.Column(db.String(200), index=True)
+    country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False, index=True)
     cities = db.relationship('City', backref='state', lazy='dynamic')
 
 
 class Country(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
-    slug = db.Column(db.String(200), unique=True, default=slugify_from_name)
-    code = db.Column(db.String(200))
-    enabled = db.Column(db.Boolean, default=False)
+    slug = db.Column(db.String(200), unique=True, default=slugify_from_name, index=True)
+    code = db.Column(db.String(200), index=True)
+    enabled = db.Column(db.Boolean, default=False, index=True)
     states = db.relationship('State', backref='country', lazy='dynamic')
     cities = db.relationship('City', backref='country', lazy='dynamic')
 
 
 class Timezone(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200))
-    code = db.Column(db.String(200))
+    name = db.Column(db.String(200), index=True)
+    code = db.Column(db.String(200), index=True)
     offset = db.Column(db.String(200))  # UTC time
 
 
@@ -188,11 +188,11 @@ class Currency(AppMixin, db.Model):
                             "enabled", "symbol", "payment_code"]
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200))
-    code = db.Column(db.String(200))
-    enabled = db.Column(db.Boolean, default=False)
-    symbol = db.Column(db.String(200))
-    payment_code = db.Column(db.String(200))
+    name = db.Column(db.String(200), index=True)
+    code = db.Column(db.String(200), index=True)
+    enabled = db.Column(db.Boolean, default=False, index=True)
+    symbol = db.Column(db.String(200), index=True)
+    payment_code = db.Column(db.String(200), index=True)
 
     def __unicode__(self):
         return "%s (%s)" % (self.name.title(), self.code)
@@ -206,15 +206,15 @@ class Image(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False)
     alt_text = db.Column(db.String(200), unique=False)
-    url = db.Column(db.String(200), unique=False)
+    url = db.Column(db.String(200), unique=False, index=True)
     width = db.Column(db.Float)
     height = db.Column(db.Float)
     product_id = db.Column(
-        db.Integer, db.ForeignKey('product.id'), nullable=True)
+        db.Integer, db.ForeignKey('product.id'), nullable=True, index=True)
     section_id = db.Column(
-        db.Integer, db.ForeignKey('section.id'), nullable=True)
+        db.Integer, db.ForeignKey('section.id'), nullable=True, index=True)
     banner_id = db.Column(
-        db.Integer, db.ForeignKey('banner.id'), nullable=True)
+        db.Integer, db.ForeignKey('banner.id'), nullable=True, index=True)
     type = db.Column(db.String(200), nullable=True)
 
     def delete_file(self):
@@ -238,16 +238,16 @@ class Message(AppMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
-    email = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False, index=True)
     phone = db.Column(db.String(200), nullable=False)
     subject = db.Column(db.Text)
     url = db.Column(db.Text, nullable=True)
-    is_read = db.Column(db.Boolean, default=False)
+    is_read = db.Column(db.Boolean, default=False, index=True)
     has_parent = db.Column(db.Boolean, default=False)
-    user_read = db.Column(db.Boolean, default=False)
-    is_replied = db.Column(db.Boolean, default=False)
+    user_read = db.Column(db.Boolean, default=False, index=True)
+    is_replied = db.Column(db.Boolean, default=False, index=True)
     date_replied = db.Column(db.DateTime, nullable=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False, index=True)
     body = db.Column(db.Text)  # for plain text messages
     responses = db.relationship(
         'MessageResponse', backref='message', lazy='dynamic', cascade="all,delete-orphan")
@@ -256,8 +256,8 @@ class Message(AppMixin, db.Model):
 class MessageResponse(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message_id = db.Column(
-        db.Integer, db.ForeignKey('message.id'), nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+        db.Integer, db.ForeignKey('message.id'), nullable=True, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
     body = db.Column(db.Text)  # for plain text messages
 
 
@@ -270,14 +270,14 @@ class AdminMessage(AppMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
-    email = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False, index=True)
     phone = db.Column(db.String(200), nullable=False)
     subject = db.Column(db.Text)
-    is_read = db.Column(db.Boolean, default=False)
-    user_read = db.Column(db.Boolean, default=False)
+    is_read = db.Column(db.Boolean, default=False, index=True)
+    user_read = db.Column(db.Boolean, default=False, index=True)
     has_parent = db.Column(db.Boolean, default=False)
-    is_replied = db.Column(db.Boolean, default=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    is_replied = db.Column(db.Boolean, default=False, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True, index=True)
     date_replied = db.Column(db.DateTime, nullable=True)
     body = db.Column(db.Text)  # for plain text messages
     responses = db.relationship(
@@ -287,25 +287,25 @@ class AdminMessage(AppMixin, db.Model):
 class AdminMessageResponse(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     admin_message_id = db.Column(db.Integer, db.ForeignKey(
-        'admin_message.id'), nullable=False)
+        'admin_message.id'), nullable=False, index=True)
     body = db.Column(db.Text)  # for plain text messages
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
 
 
 
 class User(db.Model, UserMixin, AppMixin):
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(200), unique=True)
-    email = db.Column(db.String(200), unique=True)
+    username = db.Column(db.String(200), unique=True, index=True)
+    email = db.Column(db.String(200), unique=True, index=True)
     first_name = db.Column(db.String(200), unique=False)
     last_name = db.Column(db.String(200), unique=False)
     full_name = db.Column(db.String(200), unique=False)
     password = db.Column(db.Text, unique=False)
     active = db.Column(db.Boolean, default=False)
-    is_confirmed = db.Column(db.Boolean, default=False)
-    is_staff = db.Column(db.Boolean, default=False)
-    is_global = db.Column(db.Boolean, default=False)
+    is_confirmed = db.Column(db.Boolean, default=False, index=True)
+    is_staff = db.Column(db.Boolean, default=False, index=True)
+    is_global = db.Column(db.Boolean, default=False, index=True)
     is_super_admin = db.Column(db.Boolean, default=False)
     deactivate = db.Column(db.Boolean, default=False)
     gender = db.Column(db.String(200))
@@ -316,7 +316,7 @@ class User(db.Model, UserMixin, AppMixin):
     current_login_at = db.Column(db.DateTime)
     last_login_ip = db.Column(db.String(200))
     current_login_ip = db.Column(db.String(200))
-    university_id = db.Column(db.Integer, db.ForeignKey('university.id'), nullable=True)
+    university_id = db.Column(db.Integer, db.ForeignKey('university.id'), nullable=True, index=True)
 
     def update_last_login(self):
         if self.current_login_at is None and self.last_login_at is None:
@@ -468,16 +468,16 @@ class University(AppMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False, nullable=False)
-    handle = db.Column(db.String(200), unique=True, nullable=False)
+    handle = db.Column(db.String(200), unique=True, nullable=False, index=True)
     description = db.Column(db.Text)
     about_information = db.Column(db.Text)  # information for your about page
     thumbnail = db.Column(db.Text)  # storefront thumbnail url
     logo = db.Column(db.Text)  # storefront thumbnail url
-    city_id = db.Column(db.Integer, db.ForeignKey('city.id'), nullable=True)
+    city_id = db.Column(db.Integer, db.ForeignKey('city.id'), nullable=True, index=True)
     is_enabled = db.Column(db.Boolean, default=False)
-    state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=True)
+    state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=True, index=True)
     country_id = db.Column(
-        db.Integer, db.ForeignKey('country.id'), nullable=True)
+        db.Integer, db.ForeignKey('country.id'), nullable=True, index=True)
     users = db.relationship('User', backref='university', lazy='dynamic')
 
 
@@ -504,11 +504,11 @@ class Section(AppMixin, db.Model):
                             "position", "categories", "images", "cover_image", "cover_image_url"]
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200))
-    cover_image_id = db.Column(db.Integer)
-    slug = db.Column(db.String(200), unique=True)
+    name = db.Column(db.String(200), index=True)
+    cover_image_id = db.Column(db.Integer, index=True)
+    slug = db.Column(db.String(200), unique=True, index=True)
     description = db.Column(db.String(200))
-    position = db.Column(db.Integer, default=0)
+    position = db.Column(db.Integer, default=0, index=True)
     categories = db.relationship('Category', backref='dir_section',
                                  cascade="all,delete-orphan", lazy='dynamic', order_by='Category.position')
     images = db.relationship(
@@ -557,9 +557,9 @@ class Category(AppMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
-    slug = db.Column(db.String(200))
-    position = db.Column(db.Integer, default=0)
-    section_id = db.Column(db.Integer, db.ForeignKey('section.id'))
+    slug = db.Column(db.String(200), index=True)
+    position = db.Column(db.Integer, default=0, index=True)
+    section_id = db.Column(db.Integer, db.ForeignKey('section.id'), index=True)
     description = db.Column(db.String(200))
     products = db.relationship(
         'Product', backref='category', lazy='dynamic')
@@ -578,13 +578,13 @@ class CategoryTag(AppMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False, nullable=False)
-    url = db.Column(db.String(200), unique=False, nullable=False)
+    url = db.Column(db.String(200), unique=False, nullable=False, index=True)
     slug = db.Column(db.String(200), nullable=False,
-                     default=slugify_from_name)
+                     default=slugify_from_name, index=True)
     description = db.Column(db.String(200))
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    search_category_id = db.Column(db.Integer)
-    section_id = db.Column(db.Integer, db.ForeignKey('section.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), index=True)
+    search_category_id = db.Column(db.Integer, index=True)
+    section_id = db.Column(db.Integer, db.ForeignKey('section.id'), index=True)
     search_query = db.Column(db.String(200), nullable=True)
     tag_key = db.Column(db.String(200), nullable=True)
     highlight = db.Column(db.String(200))
@@ -609,7 +609,7 @@ class Tag(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False)
     slug = db.Column(db.String(200), nullable=False,
-                     default=slugify_from_name, onupdate=slugify_from_name)
+                     default=slugify_from_name, onupdate=slugify_from_name, index=True)
     classification = db.Column(db.String(200))
 
     def __repr__(self):
@@ -623,7 +623,7 @@ class ProductType(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False)
     slug = db.Column(db.String(200), nullable=False,
-                     default=slugify_from_name, onupdate=slugify_from_name)
+                     default=slugify_from_name, onupdate=slugify_from_name, index=True)
     products = db.relationship('Product', backref='product_type', lazy='dynamic')
 
     def __repr__(self):
@@ -657,7 +657,7 @@ class Product(AppMixin, db.Model):
     # __ngram_fields__ = ["name", "title", "caption", "description"]
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), unique=False)
+    name = db.Column(db.String(200), unique=False, index=True)
     description = db.Column(db.Text, unique=False)
     title = db.Column(db.String(200), unique=False)
     caption = db.Column(db.Text, unique=False, default=0)
@@ -668,11 +668,11 @@ class Product(AppMixin, db.Model):
     sku = db.Column(db.String(200), unique=False)
     weight = db.Column(db.Float)
     require_shipping = db.Column(db.Boolean, default=False)
-    is_featured = db.Column(db.Boolean, default=True)
-    visibility = db.Column(db.Boolean, default=False)
+    is_featured = db.Column(db.Boolean, default=True, index=True)
+    visibility = db.Column(db.Boolean, default=False, index=True)
     images = db.relationship('Image', backref='product',
                              lazy='dynamic', cascade="all,delete-orphan")
-    type_id = db.Column(db.Integer, db.ForeignKey('product_type.id'))
+    type_id = db.Column(db.Integer, db.ForeignKey('product_type.id'), index=True)
     cover_image_id = db.Column(db.Integer)  # over image among all images
     is_flexible = db.Column(db.Boolean, default=False)
     variants = db.relationship(
@@ -682,13 +682,13 @@ class Product(AppMixin, db.Model):
     tags = db.relationship('Tag', secondary="product_tags",
                            backref=db.backref('products', lazy='dynamic'))
     section_id = db.Column(db.Integer, db.ForeignKey(
-        'section.id', ondelete='SET NULL'), nullable=True)
+        'section.id', ondelete='SET NULL'), nullable=True, index=True)
     category_id = db.Column(db.Integer, db.ForeignKey(
-        'category.id', ondelete='SET NULL'), nullable=True)
+        'category.id', ondelete='SET NULL'), nullable=True, index=True)
     show_price = db.Column(db.Boolean, default=True)
     is_donation = db.Column(db.Boolean, default=False)
-    is_private = db.Column(db.Boolean, default=False)
-    is_quick_product = db.Column(db.Boolean, default=False)
+    is_private = db.Column(db.Boolean, default=False, index=True)
+    is_quick_product = db.Column(db.Boolean, default=False, index=True)
     on_deal = db.Column(db.Boolean, default=False)
     deal_start = db.Column(db.DateTime)
     deal_end = db.Column(db.DateTime)
@@ -863,16 +863,16 @@ class Variant(AppMixin, db.Model):
     __simple_dimensions__ = [{'details': ['name']}]
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False)
-    visibility = db.Column(db.Boolean, default=False)
+    visibility = db.Column(db.Boolean, default=False, index=True)
     quantity = db.Column(db.Integer)
-    sku = db.Column(db.String(200))
+    sku = db.Column(db.String(200), index=True)
     untracked = db.Column(db.Boolean, default=False)
     price = db.Column(db.Float, default=0)
     compare_at = db.Column(db.Float, default=0)
     options = db.Column(db.String(200))
     track_stock_level = db.Column(db.Boolean, default=True)
     product_id = db.Column(db.Integer, db.ForeignKey(
-        'product.id'), nullable=False)
+        'product.id'), nullable=False, index=True)
     is_flexible = db.Column(db.Boolean, default=False)
 
     @property
@@ -895,7 +895,7 @@ class Option(AppMixin, db.Model):
     name = db.Column(db.String(200), unique=False)
     values = db.Column(db.String(200), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey(
-        'product.id'), nullable=False)
+        'product.id'), nullable=False, index=True)
 
 
 
@@ -906,9 +906,9 @@ class Filter(AppMixin, db.Model):
     __include_in_index__ = ["name", "options", "category"]
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False, index=True)
     options = db.relationship('FilterOption', backref='filter')
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), index=True)
 
 
 class FilterOption(AppMixin, db.Model):
@@ -920,7 +920,7 @@ class FilterOption(AppMixin, db.Model):
     __listeners_for_index__ = ["filter"]
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
-    slug = db.Column(db.String(200))
+    name = db.Column(db.String(200), nullable=False, index=True)
+    slug = db.Column(db.String(200), index=True)
     values = db.Column(db.String(200), nullable=True)
-    filter_id = db.Column(db.Integer, db.ForeignKey('filter.id'))
+    filter_id = db.Column(db.Integer, db.ForeignKey('filter.id'), index=True)
