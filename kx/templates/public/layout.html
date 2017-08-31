@@ -26,6 +26,8 @@
     {% assets "main-global-css" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}">
     {% endassets %}
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
 </head>
 
 <!-- body classes:  -->
@@ -124,7 +126,7 @@
                                             <ul class="dropdown-menu dropdown-menu-right dropdown-animation">
                                                 <li>
                                                     <form name="login_form" class="login-form margin-clear"
-                                                          method="post" action="{{ url_for('.login') }}">
+                                                          method="post" action="{{ url_for('.login', next_url=request.path) }}">
                                                         {{ login_form.csrf_token }}
                                                         <div class="form-group has-feedback">
                                                             <label class="control-label">Username</label>

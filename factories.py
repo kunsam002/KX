@@ -19,6 +19,7 @@ from flask_mail import Mail
 from flask_uploads import UploadSet, IMAGES, ARCHIVES, SCRIPTS, EXECUTABLES, AllExcept, ALL, configure_uploads, \
 	patch_request_class
 import wtforms_json
+from flask_moment import Moment
 from flask_migrate import Migrate
 from flask_cache import Cache
 import cloudinary
@@ -126,6 +127,9 @@ def create_app(app_name, config_obj, with_api=True):
 
     app.photos = photos
     app.archives = archives
+
+    moment = Moment(app)
+    app.moment = moment
 
     # Redis store for session management
     # The process running Flask needs write access to this directory:

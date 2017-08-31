@@ -1,0 +1,101 @@
+{% extends 'public/profile/layout.html' %}
+{% block profile_title %}
+{% endblock profile_title %}
+{% block profile_body %}
+    <section>
+
+        <!-- tabs start -->
+        <!-- ================ -->
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs style-1" role="tablist">
+            <li {% if request.path==url_for('.profile_messages') %}class="active"{% endif %}><a
+                    href="{{ url_for('.profile_messages') }}"><i
+                    class="fa fa-home pr-10"></i>KampusXchange</a></li>
+            <li {% if request.path==url_for('.profile_cust_messages') %}class="active"{% endif %}><a
+                    href="{{ url_for('.profile_cust_messages') }}"><i class="fa fa-users pr-10"></i>Customers</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane fade in active">
+                <!-- comments start -->
+                <div class="comments margin-clear space-top">
+                    <!-- comment start -->
+                    <div class="comment clearfix">
+                        <div class="comment-avatar">
+                            <img class="img-circle" src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="avatar">
+                        </div>
+                        <header>
+                            <h3>Amazing!</h3>
+                            <div class="comment-meta"><i class="fa fa-star text-default"></i> <i
+                                    class="fa fa-star text-default"></i> <i class="fa fa-star text-default"></i> <i
+                                    class="fa fa-star text-default"></i> <i class="fa fa-star"></i> | Today, 12:31
+                            </div>
+                        </header>
+                        <div class="comment-content">
+                            <div class="comment-body clearfix">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo </p>
+                                <a href="" class="btn-sm-link link-dark pull-right"><i
+                                        class="fa fa-reply"></i> Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- comment end -->
+
+                    <!-- comment start -->
+                    <div class="comment clearfix">
+                        <div class="comment-avatar">
+                            <img class="img-circle" src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="avatar">
+                        </div>
+                        <header>
+                            <h3>Really Nice!</h3>
+                            <div class="comment-meta"><i class="fa fa-star text-default"></i> <i
+                                    class="fa fa-star text-default"></i> <i class="fa fa-star text-default"></i> <i
+                                    class="fa fa-star text-default"></i> <i class="fa fa-star"></i> | Today, 10:31
+                            </div>
+                        </header>
+                        <div class="comment-content">
+                            <div class="comment-body clearfix">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo </p>
+                                <a href="" class="btn-sm-link link-dark pull-right"><i
+                                        class="fa fa-reply"></i> Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- comment end -->
+
+                    <!-- comment start -->
+                    <div class="comment clearfix">
+                        <div class="comment-avatar">
+                            <img class="img-circle" src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="avatar">
+                        </div>
+                        <header>
+                            <h3>Worth to Buy!</h3>
+                            <div class="comment-meta"><i class="fa fa-star text-default"></i> <i
+                                    class="fa fa-star text-default"></i> <i class="fa fa-star text-default"></i> <i
+                                    class="fa fa-star text-default"></i> <i class="fa fa-star"></i> | Today, 09:31
+                            </div>
+                        </header>
+                        <div class="comment-content">
+                            <div class="comment-body clearfix">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo </p>
+                                <a href="" class="btn-sm-link link-dark pull-right"><i
+                                        class="fa fa-reply"></i> Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- comment end -->
+                    {% include 'public/snippets/pagination.html' %}
+                </div>
+                <!-- comments end -->
+
+            </div>
+        </div>
+        <!-- tabs end -->
+    </section>
+{% endblock profile_body %}

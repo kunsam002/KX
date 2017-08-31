@@ -38,6 +38,8 @@ assets = app.assets
 photos = app.photos
 archives = app.archives
 
+moment = app.moment
+
 # Celery
 # celery = app.celery
 

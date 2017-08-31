@@ -1756,7 +1756,7 @@ h5 + .separator {
 }
 .comment-content {
   border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 40px;
+  margin-bottom: 15px;
   clear: both;
 }
 .comment-meta {

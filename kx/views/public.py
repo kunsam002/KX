@@ -481,6 +481,42 @@ def update_product(sku):
     return render_template("public/profile/create_product.html", **locals())
 
 
+@www.route('/profile/messages/')
+@login_required
+def profile_messages():
+    welcome_note = "Kampus Xchange"
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+
+    request_args = utils.copy_dict(request.args, {})
+
+    query = AdminMessage.query.filter(AdminMessage.user_id == current_user.id).order_by(desc(AdminMessage.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+
+    return render_template("public/profile/messages.html", **locals())
+
+@www.route('/profile/customer_messages/')
+@login_required
+def profile_cust_messages():
+    welcome_note = "Customers"
+    return render_template("public/profile/cust_messages.html", **locals())
+
+
+
 @www.route('/profile/settings/', methods=['GET', 'POST'])
 @login_required
 def profile_settings():
@@ -558,12 +594,13 @@ def contact_sending():
         elif request.form:
             _data = json.dumps(request.form)
             _data = json.loads(_data)
-
         logger.info(_data)
         contact_form = ContactForm(obj=_data)
-        logger.info(contact_form.validate_on_submit())
         if contact_form.validate_on_submit():
             data = contact_form.data
+            u=User.query.filter(User.email==data.get("email")).first()
+            if u:
+                data["user_id"] = u.id
             msg = operations.AdminMessageService.create(**data)
 
             _data = {"status": "success", "message": "Message Sent successfully"}
