@@ -1349,16 +1349,19 @@
 					$('.submit-button').button("loading");
 					$.ajax({
 						type: "POST",
-						url: "php/email-sender.php",
+						url: "/contact/sending/",
 						data: {
+							"csrf_token": $("#contact-form #csrf_token").val(),
 							"name": $("#contact-form #name").val(),
 							"email": $("#contact-form #email").val(),
+							"phone": $("#contact-form #phone").val(),
+							"user_id": $("#contact-form #user_id").val(),
 							"subject": $("#contact-form #subject").val(),
-							"message": $("#contact-form #message").val()
+							"body": $("#contact-form #body").val()
 						},
 						dataType: "json",
 						success: function (data) {
-							if (data.sent == "yes") {
+							if (data.status == "success") {
 								$("#MessageSent").removeClass("hidden");
 								$("#MessageNotSent").addClass("hidden");
 								$(".submit-button").removeClass("btn-default").addClass("btn-success").prop('value', 'Message Sent');

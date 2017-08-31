@@ -7,7 +7,7 @@ The public views required to sign up and get started
 """
 
 from flask import Blueprint, render_template, abort, redirect, \
-    flash, url_for, request, session, g, make_response, current_app
+    flash, url_for, request, session, g, make_response, current_app, jsonify
 from flask_login import logout_user, login_required, login_user, current_user
 from kx import db, logger, app, handle_uploaded_photos
 from kx.forms import *
@@ -360,7 +360,7 @@ def profile_products():
     return render_template("public/profile/products.html", **locals())
 
 
-@www.route('/profile/my_products/create/', methods=['GET','POST'])
+@www.route('/profile/my_products/create/', methods=['GET', 'POST'])
 @login_required
 def create_product():
     page_title = "Create Product"
@@ -376,7 +376,8 @@ def create_product():
 
     create_product_form = ProductForm()
     create_product_form.section_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
-    create_product_form.category_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
+    create_product_form.category_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in
+                                                                             Category.query.all()]
 
     if create_product_form.validate_on_submit() and empty_files is False:
 
@@ -394,7 +395,7 @@ def create_product():
             for upload_ in uploaded_files:
                 images = operations.ImageService.create(product_id=product.id, **upload_)
 
-                _d_ ={"cover_image_id":images.id}
+                _d_ = {"cover_image_id": images.id}
                 product = operations.ProductService.set_cover_image(product.id, **_d_)
 
             flash("Product successfully created. Please wait 24hours for Product display Approval")
@@ -403,41 +404,42 @@ def create_product():
         else:
             img_errors = "At least one image is required per product"
 
-        # From SME
-        # uploaded_files, errors = handle_uploaded_photos(files, (160, 160))
-        #
-        # if uploaded_files:
-        #     data = create_product_form.data
-        #     data["user_id"] = current_user.id
-        #     data["_price"] = data["price"]
-        #     data["product_type"] = "Product"
-        #     data["_compare_at"] = data["compare_at"]
-        #     obj = operations.ProductService.create(**data)
-        #
-        #     if obj:
-        #         for _d in uploaded_files:
-        #             _d["alt_text"] = obj.name
-        #             try:
-        #                 img = operations.ImageService.create(product_id=product.id, **_d)
-        #             except:
-        #                 operations.ProductService.delete(obj.id)
-        #                 create_product_form.errors["images"] = errors
-        #                 raise
-        #
-        #         flash("Product successfully created. Please wait 24hours for Product display Approval")
-        #         _next = url_for(".products", shop_id=obj.shop.id)
-        #         return redirect(_next)
-        # else:
-        #     img_errors = "At least one image is required per product"
+            # From SME
+            # uploaded_files, errors = handle_uploaded_photos(files, (160, 160))
+            #
+            # if uploaded_files:
+            #     data = create_product_form.data
+            #     data["user_id"] = current_user.id
+            #     data["_price"] = data["price"]
+            #     data["product_type"] = "Product"
+            #     data["_compare_at"] = data["compare_at"]
+            #     obj = operations.ProductService.create(**data)
+            #
+            #     if obj:
+            #         for _d in uploaded_files:
+            #             _d["alt_text"] = obj.name
+            #             try:
+            #                 img = operations.ImageService.create(product_id=product.id, **_d)
+            #             except:
+            #                 operations.ProductService.delete(obj.id)
+            #                 create_product_form.errors["images"] = errors
+            #                 raise
+            #
+            #         flash("Product successfully created. Please wait 24hours for Product display Approval")
+            #         _next = url_for(".products", shop_id=obj.shop.id)
+            #         return redirect(_next)
+            # else:
+            #     img_errors = "At least one image is required per product"
 
     return render_template("public/profile/create_product.html", **locals())
 
-@www.route('/profile/my_products/<string:sku>/update/', methods=['GET','POST'])
+
+@www.route('/profile/my_products/<string:sku>/update/', methods=['GET', 'POST'])
 @login_required
 def update_product(sku):
     page_title = "Create Product"
 
-    obj = Product.query.filter(Product.sku==sku, Product.user_id==current_user.id).first()
+    obj = Product.query.filter(Product.sku == sku, Product.user_id == current_user.id).first()
 
     files = request.files.getlist("images")
     next_url = request.args.get("next_url") or url_for(".profile_products")
@@ -453,7 +455,8 @@ def update_product(sku):
 
     create_product_form = UpdateProductForm(obj=obj, data={"cover_image_id": obj.cover_image_id})
     create_product_form.section_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
-    create_product_form.category_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
+    create_product_form.category_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in
+                                                                             Category.query.all()]
     create_product_form.removables.choices = [(0, "---- Select One ----")] + [(l.id, l.name) for l in existing_images]
     if create_product_form.validate_on_submit():
         data = create_product_form.data
@@ -524,6 +527,65 @@ def profile_password_reset():
 
 
 # <<<<<<<<< Profile View functions end
+
+@www.route('/contact/', methods=['GET','POST'])
+def contact():
+    page_title = "Contact Us"
+    user_id = None
+    if current_user.is_authenticated:
+        user_id = current_user.id
+        contact_form = ContactForm(obj=current_user, user_id=user_id, name=current_user.full_name)
+    else:
+        contact_form = ContactForm()
+
+    if contact_form.validate_on_submit():
+        data = contact_form.data
+        data["user_id"] = user_id
+        msg = operations.AdminMessageService.create(**data)
+        flash("Message Successful")
+
+    return render_template("public/contact.html", **locals())
+
+
+@www.route('/contact/sending/', methods=['GET', 'POST'])
+def contact_sending():
+    page_title = "Contact Us"
+    if request.method == "POST":
+        _data = {}
+        if request.data:
+            _data = request.data
+            _data = json.loads(_data)
+        elif request.form:
+            _data = json.dumps(request.form)
+            _data = json.loads(_data)
+
+        logger.info(_data)
+        contact_form = ContactForm(obj=_data)
+        logger.info(contact_form.validate_on_submit())
+        if contact_form.validate_on_submit():
+            data = contact_form.data
+            msg = operations.AdminMessageService.create(**data)
+
+            _data = {"status": "success", "message": "Message Sent successfully"}
+            data = jsonify(_data)
+            response = make_response(data)
+            response.headers['Content-Type'] = "application/json"
+            return response
+        else:
+            logger.info(contact_form.errors)
+            _data = {"status": "failure", "message": "Form Validation failed"}
+            data = jsonify(_data)
+            response = make_response(data)
+            response.headers['Content-Type'] = "application/json"
+            return response
+
+    else:
+        data = {"Status": "failure", "message": "Request Method not Allowed"}
+        data = jsonify(data)
+        response = make_response(data)
+        response.headers['Content-Type'] = "application/json"
+        return response
+
 
 @www.route('/blog/')
 def blog():

@@ -33,7 +33,8 @@ ProductService = ServiceFactory.create_service(Product, db)
 BaseImageService = ServiceFactory.create_service(Image, db)
 BaseProductService = ServiceFactory.create_service(Product, db)
 BaseVariantService = ServiceFactory.create_service(Variant, db)
-
+MessageService = ServiceFactory.create_service(Message, db)
+AdminMessageService = ServiceFactory.create_service(AdminMessage, db)
 
 class ProductService(BaseProductService):
     """ Service class to handle product creation """

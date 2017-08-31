@@ -309,8 +309,10 @@ class ContactForm(Form):
     email = EmailField('Email Address', validators=[DataRequired(), Email()])
     phone = StringField('Phone Number', validators=[DataRequired()])
     body = StringField('Message', validators=[DataRequired()], widget=widgets.TextArea())
-    captcha = RecaptchaField(public_key=app.config.get("RECAPTCHA_PUB_KEY"),
-                             private_key=app.config.get("RECAPTCHA_PRIV_KEY"), secure=True)
+    user_id = IntegerField('User', validators=[Optional()])
+
+    # captcha = RecaptchaField(public_key=app.config.get("RECAPTCHA_PUB_KEY"),
+    #                          private_key=app.config.get("RECAPTCHA_PRIV_KEY"), secure=True)
 
 
 class ComplaintForm(Form):
