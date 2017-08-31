@@ -26,6 +26,7 @@ import phonenumbers
 import hashlib
 import math
 from kx import logger
+from pprint import pprint
 
 
 
@@ -57,7 +58,7 @@ class ServiceFactory(object):
             def create(cls, ignored_args=None, **kwargs):
                 """ Create the new model object and persist it. Execute possible pre/post method calls for audit and others """
                 if not ignored_args:
-                    ignored_args = ["id", "date_created", "last_updated"]
+                    ignored_args = ['id', 'date_created', 'last_updated', 'csrf_token']  # these attributes will be ignored
 
                 obj = BaseService.model_class()
                 data = clean_kwargs(ignored_args, kwargs)

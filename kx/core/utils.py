@@ -19,6 +19,9 @@ import requests
 import os
 import string
 import random
+import time
+import hashlib
+from pprint import pprint
 
 _slugify_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -142,9 +145,15 @@ def populate_obj(obj, data):
     :rtype: obj.__class__
 
     """
-    for name, value in data.items():
-        if(hasattr(obj, name)):
-            setattr(obj, name, value)
+    for item in data.items():
+        try:
+            name, value = item[0], item[1]
+            if(hasattr(obj, name)):
+                setattr(obj, name, value)
+        except:
+            print "error in pop item obj-------"
+            pprint(item)
+            raise
 
     return obj
 
@@ -251,6 +260,12 @@ def id_generator(size=10, chars=string.ascii_letters+string.digits):
     utility function to generate random identification numbers
     """
     return ''.join(random.choice(chars) for x in range(size)).upper()
+
+def generate_numeric_code(obj_id, length=10):
+	""" generate a tracking for a package """
+
+	return str(int(hashlib.md5(str(obj_id) + str(time.time()*100)).hexdigest()[:6], 16)).zfill(length)
+
 
 def token_generator(size=8, chars=string.digits):
     """

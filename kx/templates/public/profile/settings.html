@@ -12,14 +12,44 @@
 	<!-- Tab panes -->
 	<div class="tab-content clear-style">
 		<div class="tab-pane active" id="profile-mangmnt">
-			<div class="row">
-        Update
+			<section>
+                <div class="col-md-8">
+                    <form name="update_profile_form" method="post" action="{{ url_for('.profile_update') }}">
+                        {{ update_profile_form.csrf_token }}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Full Name</label>
+                            {{ update_profile_form.full_name(class='form-control') }}
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Phone</label>
+                            {{ update_profile_form.phone(class='form-control') }}
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputFile">Institution</label>
+                            {{ update_profile_form.university_id(class='form-control') }}
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
 			</div>
+            </section>
 		</div>
 		<div class="tab-pane" id="security-mangmnt">
-			<div class="row">
-        Reset Password
+			<section>
+                <div class="col-md-8">
+                    <form name="password_reset_form" method="post" action="{{ url_for('.profile_password_reset') }}">
+                        {{ password_reset_form.csrf_token }}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Password</label>
+                            {{ password_reset_form.password(class='form-control') }}
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Verify Password</label>
+                            {{ password_reset_form.verify_password(class='form-control') }}
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
 			</div>
+            </section>
 		</div>
 		<div class="tab-pane" id="deactivate">
       Deactivate Account

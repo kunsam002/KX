@@ -1,0 +1,160 @@
+{% extends 'public/profile/layout.html' %}
+{% block profile_btns %}
+    <div class="btn-group pull-right">
+        <a href="{{ url_for('.profile_products') }}" class="btn btn-hvr"><i class="icon-left btn-alert"></i> Back</a>
+    </div>
+{% endblock profile_btns %}
+{% block profile_body %}
+    <section class="clearfix">
+        <form name="create_product_form" method="post" action="{{ request.path }}" enctype="multipart/form-data">
+            {{ create_product_form.csrf_token }}
+                        <div class="col-md-4 col-sm-12 pull-right">
+                            <div class="row">
+                                <div class="col-md-12">
+                                  <div class="form-group {% if img_errors %} has-error {% endif %}">
+                                  <span class="caption"><strong>NOTE: </strong>Maximum size per upload is <strong>15MB</strong></span><br>
+                                  <span class="btn btn-file">
+                                    <span>Add Images</span>
+                                    <input type="file" class="img-upload" id="images" name="images" multiple="multiple" target="#img-preview">
+                                  </span>
+                                  <p><span>We recommend all your images should be the same dimensions (a square). Suggested dimensions should be at least <strong>200x200</strong>px.</span></p>
+                                  {% if img_errors %}
+                                  <span class="help-block">{{img_errors}}</span>
+                                  {% endif %}
+                                  </div>
+                                </div>
+                                <div class="col-md-12 hidden-xs hidden-sm">
+                                  {% if existing_images %}
+                                  <div id="existing-preview" class="img-preview">
+                                    <div class="thumb">
+                                      {{create_product_form.cover_image_id}}
+                                      <img id="coverImage" src="{{obj.cover_image.url}}" alt="">
+                                    </div>
+                                    {% for img in existing_images %}
+                                      <div class="thumb has-removable">
+                                        <img class="clickable" data-display="#coverImage" data-src="{{img.url}}" data-value="{{img.id}}" data-target="#{{create_product_form.cover_image_id.id}}"  src="{{img.url}}" alt="">
+                                        <input type="checkbox" value="{{img.id}}" name="removables" class="removable" title="remove"/>
+                                    </div>
+                                    {% endfor %}
+                                    <div>
+                                      <strong>Click</strong> on an image to make it the cover image. To remove an image, <strong>select the checkbox</strong> above it. The <strong>cover image will not be removed.</strong>
+                                    </div>
+                                  </div>
+                                  {% endif %}
+                                  <div id="img-preview" class="img-preview">
+
+                                  </div>
+                              </div>
+
+                            </div>
+                        </div>
+{#            <div class="col-md-4">#}
+{#                <div class="row">#}
+{#                    <div class="col-md-12">#}
+{#                        <div class="form-group {% if img_errors %} has-error {% endif %}">#}
+{#                            <span class="caption"><strong>NOTE: </strong>Maximum size per upload is <strong>15MB</strong></span><br>#}
+                            {#                                            <span class="btn btn-file">#}
+{#                            <label for="images" class="custom-file-upload">#}
+{#                                <i class="fa fa-camera-retro fa-5x"></i> Custom Upload#}
+{#                            </label>#}
+{#                            <input type="file" class="img-upload" id="images" name="images" multiple="multiple"#}
+{#                                   target="#img-preview">#}
+                            {#                                  </span>#}
+{#                            {% if img_errors %}#}
+{#                                <span class="help-block">{{ img_errors }}</span>#}
+{#                            {% endif %}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div id="img-preview" class="img-preview" style="display: flex">#}
+{##}
+{#                    </div>#}
+                    {#                                    </div>#}
+{##}
+{#                </div>#}
+{#            </div>#}
+            <div class="col-md-8 col-sm-12">
+                <div class="form-group">
+                    <label for="{{ create_product_form.name.name }}">{{ create_product_form.name.label.text }}</label>
+                    {{ create_product_form.name(class='form-control') }}
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="{{ create_product_form.section_id.name }}">{{ create_product_form.section_id.label.text }}</label>
+                            {{ create_product_form.section_id(class='form-control') }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="{{ create_product_form.category_id.name }}">{{ create_product_form.category_id.label.text }}</label>
+                            {{ create_product_form.category_id(class='form-control') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ create_product_form.description.name }}">{{ create_product_form.description.label.text }}</label>
+                    {{ create_product_form.description(class='form-control rich-text') }}
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group has-feedback">
+                            <label class="control-label"
+                                   for="{{ create_product_form.quantity.name }}">{{ create_product_form.quantity.label.text }}</label>
+                            {{ create_product_form.quantity(class="form-control") }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group has-feedback">
+                            <label class="control-label"
+                                   for="{{ create_product_form.regular_price.name }}">{{ create_product_form.regular_price.label.text }}</label>
+                            {{ create_product_form.regular_price(class="form-control") }}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group has-feedback">
+                            <label class="control-label"
+                                   for="{{ create_product_form.sale_price.name }}">{{ create_product_form.sale_price.label.text }}</label>
+                            {{ create_product_form.sale_price(class="form-control") }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </section>
+
+{% endblock profile_body %}
+{% block page_js %}
+    <script>
+        // Allow clickable elements set hidden field values
+
+        $('#section_id').change(function () {
+            var dataString = $(this).val()
+            variants_arr = new Array();
+            $.ajax({
+                type: "POST",
+                contentType: 'application/json',
+                url: "/fetch/section_categories/",
+                data: dataString,
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        var data = [data]
+                        $("#category_id").get(0).options.length = 0;
+                        $("#category_id").get(0).options[0] = new Option("--- Select One ---", 0);
+                        $.each(data[0], function (index, _i) {
+                            $("#category_id").get(0).options[index + 1] = new Option(_i.name, _i.id);
+                        });
+                    } else {
+                        console.log("no data")
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+            });
+            return false;
+        });
+    </script>
+{% endblock page_js %}

@@ -2,351 +2,451 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="en">
-	<!--<![endif]-->
+<!--<![endif]-->
 
-  <head>
-		<meta charset="utf-8">
-		<title>Kampus Xchange {% if page_title %}| {{page_title}}{% endif %}</title>
-		<meta name="description" content="Kampus Xchange">
-		<meta name="author" content="">
+<head>
+    <meta charset="utf-8">
+    <title>Kampus Xchange {% if page_title %}| {{ page_title }}{% endif %}</title>
+    <meta name="description" content="Kampus Xchange">
+    <meta name="author" content="">
 
-		<!-- Mobile Meta -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Mobile Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<!-- Favicon -->
-		<link rel="shortcut icon" href="images/favicon.ico">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/images/kx-fav.png">
 
-		<!-- Web Fonts -->
-		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Raleway:700,400,300' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
+    <!-- Web Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic'
+          rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:700,400,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
 
-		{% assets "main-global-css" %}
+    {% assets "main-global-css" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}">
     {% endassets %}
-	</head>
+</head>
 
-	<!-- body classes:  -->
-	<!-- "boxed": boxed layout mode e.g. <body class="boxed"> -->
-	<!-- "pattern-1 ... pattern-9": background patterns for boxed layout mode e.g. <body class="boxed pattern-1"> -->
-	<!-- "transparent-header": makes the header transparent and pulls the banner to top -->
-	<!-- "gradient-background-header": applies gradient background to header -->
-	<!-- "page-loader-1 ... page-loader-6": add a page loader to the page (more info @components-page-loaders.html) -->
-	<body class="no-trans    ">
+<!-- body classes:  -->
+<!-- "boxed": boxed layout mode e.g. <body class="boxed"> -->
+<!-- "pattern-1 ... pattern-9": background patterns for boxed layout mode e.g. <body class="boxed pattern-1"> -->
+<!-- "transparent-header": makes the header transparent and pulls the banner to top -->
+<!-- "gradient-background-header": applies gradient background to header -->
+<!-- "page-loader-1 ... page-loader-6": add a page loader to the page (more info @components-page-loaders.html) -->
+<body class="no-trans    ">
 
-		<!-- scrollToTop -->
-		<!-- ================ -->
-		<div class="scrollToTop circle"><i class="icon-up-open-big"></i></div>
+<!-- scrollToTop -->
+<!-- ================ -->
+<div class="scrollToTop circle"><i class="icon-up-open-big"></i></div>
 
-		<!-- page wrapper start -->
-		<!-- ================ -->
-		<div class="page-wrapper">
-      {% block header%}
-			<!-- header-container start -->
-			<div class="header-container">
+<!-- page wrapper start -->
+<!-- ================ -->
+<div class="page-wrapper">
+    {% block header %}
+        <!-- header-container start -->
+        <div class="header-container">
 
-				<!-- header-top start -->
-				<!-- classes:  -->
-				<!-- "dark": dark version of header top e.g. class="header-top dark" -->
-				<!-- "colored": colored version of header top e.g. class="header-top colored" -->
-				<!-- ================ -->
-				<div class="header-top dark ">
-					<div class="container">
-						<div class="row">
-							<div class="col-xs-3 col-sm-6 col-md-9">
-								<!-- header-top-first start -->
-								<!-- ================ -->
-								<div class="header-top-first clearfix">
-									<ul class="social-links circle small clearfix hidden-xs">
-										<li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
-										<li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
-										<li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
-										<li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
-									</ul>
-									<div class="social-links hidden-lg hidden-md hidden-sm circle small">
-										<div class="btn-group dropdown">
-											<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share-alt"></i></button>
-											<ul class="dropdown-menu dropdown-animation">
-												<li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
-												<li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
-												<li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
-												<li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
-											</ul>
-										</div>
-									</div>
-									<ul class="list-inline hidden-sm hidden-xs">
-										<li><i class="fa fa-phone pr-5 pl-10"></i>+234 813 010 7796</li>
-										<li><i class="fa fa-envelope-o pr-5 pl-10"></i> info@kampusxchange.com</li>
-									</ul>
-								</div>
-								<!-- header-top-first end -->
-							</div>
-							<div class="col-xs-9 col-sm-6 col-md-3">
+            <!-- header-top start -->
+            <!-- classes:  -->
+            <!-- "dark": dark version of header top e.g. class="header-top dark" -->
+            <!-- "colored": colored version of header top e.g. class="header-top colored" -->
+            <!-- ================ -->
+            <div class="header-top dark ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-6 col-md-9">
+                            <!-- header-top-first start -->
+                            <!-- ================ -->
+                            <div class="header-top-first clearfix">
+                                <ul class="social-links circle small clearfix hidden-xs">
+                                    <li class="twitter"><a target="_blank" href="http://www.twitter.com"><i
+                                            class="fa fa-twitter"></i></a></li>
+                                    <li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i
+                                            class="fa fa-linkedin"></i></a></li>
+                                    <li class="googleplus"><a target="_blank" href="http://plus.google.com"><i
+                                            class="fa fa-google-plus"></i></a></li>
+                                    <li class="facebook"><a target="_blank" href="http://www.facebook.com"><i
+                                            class="fa fa-facebook"></i></a></li>
+                                </ul>
+                                <div class="social-links hidden-lg hidden-md hidden-sm circle small">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i
+                                                class="fa fa-share-alt"></i></button>
+                                        <ul class="dropdown-menu dropdown-animation">
+                                            <li class="twitter"><a target="_blank" href="http://www.twitter.com"><i
+                                                    class="fa fa-twitter"></i></a></li>
+                                            <li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i
+                                                    class="fa fa-linkedin"></i></a></li>
+                                            <li class="googleplus"><a target="_blank" href="http://plus.google.com"><i
+                                                    class="fa fa-google-plus"></i></a></li>
+                                            <li class="facebook"><a target="_blank" href="http://www.facebook.com"><i
+                                                    class="fa fa-facebook"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <ul class="list-inline hidden-sm hidden-xs">
+                                    <li><i class="fa fa-phone pr-5 pl-10"></i>+234 813 010 7796</li>
+                                    <li><i class="fa fa-envelope-o pr-5 pl-10"></i> info@kampusxchange.com</li>
+                                </ul>
+                            </div>
+                            <!-- header-top-first end -->
+                        </div>
+                        <div class="col-xs-9 col-sm-6 col-md-3">
 
-								<!-- header-top-second start -->
-								<!-- ================ -->
-								<div id="header-top-second"  class="clearfix">
+                            <!-- header-top-second start -->
+                            <!-- ================ -->
+                            <div id="header-top-second" class="clearfix">
 
-									<!-- header top dropdowns start -->
-									<!-- ================ -->
-									<div class="header-top-dropdown text-right">
-                    {% if current_user.is_authenticated %}
-                    <div class="btn-group">
-											<a href="{{url_for('.profile')}}" class="btn btn-default btn-sm"><i class="fa fa-user pr-10"></i> Profile</a>
-										</div>
-                    {% else %}
-										<div class="btn-group">
-											<a href="{{url_for('.signup')}}" class="btn btn-default btn-sm"><i class="fa fa-user pr-10"></i> Sign Up</a>
-										</div>
-										<div class="btn-group dropdown">
-											<button type="button" class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown"><i class="fa fa-lock pr-10"></i> Login</button>
-											<ul class="dropdown-menu dropdown-menu-right dropdown-animation">
-												<li>
-													<form name="login_form" class="login-form margin-clear" method="post" action="{{url_for('.login')}}">
-                            {{login_form.csrf_token}}
-														<div class="form-group has-feedback">
-															<label class="control-label">Username</label>
-															<input name="username" id="username" type="text" class="form-control" placeholder="Username / Email">
-															<i class="fa fa-user form-control-feedback"></i>
-														</div>
-														<div class="form-group has-feedback">
-															<label class="control-label">Password</label>
-															<input name="password" id="password" type="password" class="form-control" placeholder="">
-															<i class="fa fa-lock form-control-feedback"></i>
-														</div>
-														<button type="submit" class="btn btn-gray btn-sm">Log In</button>
-														<span class="pl-5 pr-5">or</span>
-														<button type="submit" class="btn btn-default btn-sm">Sing Up</button>
-														<ul>
-															<li><a href="#">Forgot your password?</a></li>
-														</ul>
-														<span class="text-center">Login with</span>
-														<ul class="social-links circle small colored clearfix">
-															<li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
-															<li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
-															<li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
-														</ul>
-													</form>
-												</li>
-											</ul>
-										</div>
-                    {% endif %}
-									</div>
-									<!--  header top dropdowns end -->
-								</div>
-								<!-- header-top-second end -->
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- header-top end -->
+                                <!-- header top dropdowns start -->
+                                <!-- ================ -->
+                                <div class="header-top-dropdown text-right">
+                                    {% if current_user.is_authenticated %}
+                                        <div class="btn-group">
+                                            <a href="{{ url_for('.profile') }}" class="btn btn-default btn-sm"><i
+                                                    class="fa fa-user pr-10"></i>
+                                                {% if current_user.username %}{{ current_user.username }}{% else %}
+                                                    Profile{% endif %}</a>
+                                        </div>
+                                        <div class="btn-group">
+                                            <a href="{{ url_for('.logout') }}" class="btn btn-default btn-sm"><i
+                                                    class="fa fa-lock pr-10"></i> Logout</a>
+                                        </div>
+                                    {% else %}
+                                        <div class="btn-group">
+                                            <a href="{{ url_for('.signup') }}" class="btn btn-default btn-sm"><i
+                                                    class="fa fa-user pr-10"></i> Sign Up</a>
+                                        </div>
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn dropdown-toggle btn-default btn-sm"
+                                                    data-toggle="dropdown"><i class="fa fa-unlock pr-10"></i> Login
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right dropdown-animation">
+                                                <li>
+                                                    <form name="login_form" class="login-form margin-clear"
+                                                          method="post" action="{{ url_for('.login') }}">
+                                                        {{ login_form.csrf_token }}
+                                                        <div class="form-group has-feedback">
+                                                            <label class="control-label">Username</label>
+                                                            <input name="username" id="username" type="text"
+                                                                   class="form-control" placeholder="Username / Email">
+                                                            <i class="fa fa-user form-control-feedback"></i>
+                                                        </div>
+                                                        <div class="form-group has-feedback">
+                                                            <label class="control-label">Password</label>
+                                                            <input name="password" id="password" type="password"
+                                                                   class="form-control" placeholder="">
+                                                            <i class="fa fa-lock form-control-feedback"></i>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-gray btn-sm">Log In
+                                                        </button>
+                                                        <span class="pl-5 pr-5">or</span>
+                                                        <button type="submit" class="btn btn-default btn-sm">Sing Up
+                                                        </button>
+                                                        <ul>
+                                                            <li><a href="#">Forgot your password?</a></li>
+                                                        </ul>
+                                                        <span class="text-center">Login with</span>
+                                                        <ul class="social-links circle small colored clearfix">
+                                                            <li class="facebook"><a target="_blank"
+                                                                                    href="http://www.facebook.com"><i
+                                                                    class="fa fa-facebook"></i></a></li>
+                                                            <li class="twitter"><a target="_blank"
+                                                                                   href="http://www.twitter.com"><i
+                                                                    class="fa fa-twitter"></i></a></li>
+                                                            <li class="googleplus"><a target="_blank"
+                                                                                      href="http://plus.google.com"><i
+                                                                    class="fa fa-google-plus"></i></a></li>
+                                                        </ul>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <!--  header top dropdowns end -->
+                            </div>
+                            <!-- header-top-second end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- header-top end -->
 
-				<!-- header start -->
-				<!-- classes:  -->
-				<!-- "fixed": enables fixed navigation mode (sticky menu) e.g. class="header fixed clearfix" -->
-				<!-- "dark": dark version of header e.g. class="header dark clearfix" -->
-				<!-- "full-width": mandatory class for the full-width menu layout -->
-				<!-- "centered": mandatory class for the centered logo layout -->
-				<!-- ================ -->
-				<header class="header  fixed  dark  clearfix">
+            <!-- header start -->
+            <!-- classes:  -->
+            <!-- "fixed": enables fixed navigation mode (sticky menu) e.g. class="header fixed clearfix" -->
+            <!-- "dark": dark version of header e.g. class="header dark clearfix" -->
+            <!-- "full-width": mandatory class for the full-width menu layout -->
+            <!-- "centered": mandatory class for the centered logo layout -->
+            <!-- ================ -->
+            <header class="header  fixed  dark  clearfix">
 
-					<div class="container">
-						<div class="row">
-							<div class="col-md-3 ">
-								<!-- header-left start -->
-								<!-- ================ -->
-								<div class="header-left clearfix">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <!-- header-left start -->
+                            <!-- ================ -->
+                            <div class="header-left clearfix">
 
-									<!-- header dropdown buttons -->
-									<div class="header-dropdown-buttons visible-xs">
-										<div class="btn-group dropdown">
-											<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-search"></i></button>
-											<ul class="dropdown-menu dropdown-menu-right dropdown-animation">
-												<li>
-													<form role="search" class="search-box margin-clear">
-														<div class="form-group has-feedback">
-															<input type="text" class="form-control" placeholder="Search">
-															<i class="icon-search form-control-feedback"></i>
-														</div>
-													</form>
-												</li>
-											</ul>
-										</div>
-									</div>
-									<!-- header dropdown buttons end-->
+                                <!-- header dropdown buttons -->
+                                <div class="header-dropdown-buttons visible-xs">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i
+                                                class="icon-search"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-right dropdown-animation">
+                                            <li>
+                                                <form role="search" class="search-box margin-clear">
+                                                    <div class="form-group has-feedback">
+                                                        <input type="text" class="form-control" placeholder="Search">
+                                                        <i class="icon-search form-control-feedback"></i>
+                                                    </div>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- header dropdown buttons end-->
 
-									<!-- logo -->
-									<div id="logo" class="logo">
-										<a href="/"><img id="logo_img" src="/static/images/logo_light_blue.png" alt="The Project"></a>
-									</div>
+                                <!-- logo -->
+                                <div id="logo" class="logo">
+                                    <a href="/"><img id="logo_img" src="/static/images/kx.png" alt="The Project"></a>
+                                </div>
 
-									<!-- name-and-slogan -->
-									<div class="site-slogan">
-										Multipurpose HTML5 Template
-									</div>
+                                <!-- name-and-slogan -->
+                                <div class="site-slogan">
+                                    Multipurpose HTML5 Template
+                                </div>
 
-								</div>
-								<!-- header-left end -->
+                            </div>
+                            <!-- header-left end -->
 
-							</div>
-							<div class="col-md-9">
+                        </div>
+                        <div class="col-md-9">
 
-								<!-- header-right start -->
-								<!-- ================ -->
-								<div class="header-right clearfix">
+                            <!-- header-right start -->
+                            <!-- ================ -->
+                            <div class="header-right clearfix">
 
-								<!-- main-navigation start -->
-								<!-- classes: -->
-								<!-- "onclick": Makes the dropdowns open on click, this the default bootstrap behavior e.g. class="main-navigation onclick" -->
-								<!-- "animated": Enables animations on dropdowns opening e.g. class="main-navigation animated" -->
-								<!-- "with-dropdown-buttons": Mandatory class that adds extra space, to the main navigation, for the search and cart dropdowns -->
-								<!-- ================ -->
-								<div class="main-navigation  animated with-dropdown-buttons">
+                                <!-- main-navigation start -->
+                                <!-- classes: -->
+                                <!-- "onclick": Makes the dropdowns open on click, this the default bootstrap behavior e.g. class="main-navigation onclick" -->
+                                <!-- "animated": Enables animations on dropdowns opening e.g. class="main-navigation animated" -->
+                                <!-- "with-dropdown-buttons": Mandatory class that adds extra space, to the main navigation, for the search and cart dropdowns -->
+                                <!-- ================ -->
+                                <div class="main-navigation  animated with-dropdown-buttons">
 
-									<!-- navbar start -->
-									<!-- ================ -->
-									<nav class="navbar navbar-default" role="navigation">
-										<div class="container-fluid">
+                                    <!-- navbar start -->
+                                    <!-- ================ -->
+                                    <nav class="navbar navbar-default" role="navigation">
+                                        <div class="container-fluid">
 
-											<!-- Toggle get grouped for better mobile display -->
-											<div class="navbar-header">
-												<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-													<span class="sr-only">Toggle navigation</span>
-													<span class="icon-bar"></span>
-													<span class="icon-bar"></span>
-													<span class="icon-bar"></span>
-												</button>
+                                            <!-- Toggle get grouped for better mobile display -->
+                                            <div class="navbar-header">
+                                                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                                        data-target="#navbar-collapse-1">
+                                                    <span class="sr-only">Toggle navigation</span>
+                                                    <span class="icon-bar"></span>
+                                                    <span class="icon-bar"></span>
+                                                    <span class="icon-bar"></span>
+                                                </button>
 
-											</div>
+                                            </div>
 
-											<!-- Collect the nav links, forms, and other content for toggling -->
-											<div class="collapse navbar-collapse" id="navbar-collapse-1">
-												<!-- main-menu -->
-												<ul class="nav navbar-nav ">
-                          <li class="mega-menu">
-														<a href="{{url_for('.index')}}">Home</a>
-													</li>
-													<li class="mega-menu">
-														<a href="{{url_for('.blog')}}">Blog</a>
-													</li>
-													<li class="mega-menu">
-														<a href="#">About</a>
-													</li>
-													<li class="mega-menu">
-														<a href="#">Contact</a>
-													</li>
-												</ul>
-												<!-- main-menu end -->
+                                            <!-- Collect the nav links, forms, and other content for toggling -->
+                                            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                                                <!-- main-menu -->
+                                                <ul class="nav navbar-nav ">
+                                                    <li class="mega-menu">
+                                                        <a href="{{ url_for('.index') }}">Home</a>
+                                                    </li>
+                                                    <li class="mega-menu">
+                                                        <a href="{{ url_for('.blog') }}">Blog</a>
+                                                    </li>
+                                                    <li class="mega-menu">
+                                                        <a href="#">News</a>
+                                                    </li>
+                                                    <li class="mega-menu">
+                                                        <a href="#">About</a>
+                                                    </li>
+                                                    <li class="mega-menu">
+                                                        <a href="#">Contact</a>
+                                                    </li>
+                                                </ul>
+                                                <!-- main-menu end -->
 
-												<!-- header dropdown buttons -->
-												<div class="header-dropdown-buttons hidden-xs ">
-													<div class="btn-group dropdown">
-														<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-search"></i></button>
-														<ul class="dropdown-menu dropdown-menu-right dropdown-animation">
-															<li>
-																<form role="search" class="search-box margin-clear">
-																	<div class="form-group has-feedback">
-																		<input type="text" class="form-control" placeholder="Search">
-																		<i class="icon-search form-control-feedback"></i>
-																	</div>
-																</form>
-															</li>
-														</ul>
-													</div>
-												</div>
-												<!-- header dropdown buttons end-->
+                                                <!-- header dropdown buttons -->
+                                                <div class="header-dropdown-buttons hidden-xs ">
+                                                    <div class="btn-group dropdown">
+                                                        <button type="button" class="btn dropdown-toggle"
+                                                                data-toggle="dropdown"><i class="icon-search"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right dropdown-animation">
+                                                            <li>
+                                                                <form role="search" class="search-box margin-clear">
+                                                                    <div class="form-group has-feedback">
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Search">
+                                                                        <i class="icon-search form-control-feedback"></i>
+                                                                    </div>
+                                                                </form>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- header dropdown buttons end-->
 
-											</div>
+                                            </div>
 
-										</div>
-									</nav>
-									<!-- navbar end -->
+                                        </div>
+                                    </nav>
+                                    <!-- navbar end -->
 
-								</div>
-								<!-- main-navigation end -->
-								</div>
-								<!-- header-right end -->
+                                </div>
+                                <!-- main-navigation end -->
+                            </div>
+                            <!-- header-right end -->
 
-							</div>
-						</div>
-					</div>
+                        </div>
+                    </div>
+                </div>
 
-				</header>
-				<!-- header end -->
-			</div>
-			<!-- header-container end -->
-      {% endblock header %}
+            </header>
+            <!-- header end -->
+        </div>
+        <!-- header-container end -->
+    {% endblock header %}
 
-      {% block body %}
-      {% endblock body%}
+    {% block body %}
+    {% endblock body %}
 
-      {% block footer%}
-			<!-- footer start (Add "dark" class to #footer in order to enable dark footer) -->
-			<!-- ================ -->
-			<footer id="footer" class="clearfix dark">
+    {% block footer %}
+        <!-- footer start (Add "dark" class to #footer in order to enable dark footer) -->
+        <!-- ================ -->
+        <footer id="footer" class="clearfix dark">
 
-				<!-- .footer start -->
-				<!-- ================ -->
-				<div class="footer">
-					<div class="container">
-						<div class="footer-inner">
-							<div class="row">
-								<div class="col-md-6 col-md-offset-3">
-									<div class="footer-content text-center padding-ver-clear">
-										<div class="logo-footer"><img id="logo-footer" class="center-block" src="/static/images/logo_light_blue.png" alt=""></div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus illo vel dolorum soluta consectetur doloribus sit. Delectus non tenetur odit dicta vitae debitis suscipit doloribus. Lorem ipsum dolor sit amet, illo vel dolorum soluta consectetur.</p>
-										<ul class="list-inline mb-20">
-											<li><i class="text-default fa fa-map-marker pr-5"></i>Yaba, Lagos</li>
-											<li><a href="tel:+00 1234567890" class="link-dark"><i class="text-default fa fa-phone pl-10 pr-5"></i>+234 813 010 7796</a></li>
-											<li><a href="mailto:info@kampusxchange.com" class="link-dark"><i class="text-default fa fa-envelope-o pl-10 pr-5"></i>info@kampusxchange.com</a></li>
-										</ul>
-										<ul class="social-links circle animated-effect-1 margin-clear">
-											<li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
-											<li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
-											<li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
-											<li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
-											<li class="xing"><a target="_blank" href="http://www.xing.com"><i class="fa fa-xing"></i></a></li>
-										</ul>
-										<div class="separator"></div>
-										<p class="text-center margin-clear">Copyright © 2016 <a href="/">Kampus Xchange</a>. All Rights Reserved</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- .footer end -->
+            <!-- .footer start -->
+            <!-- ================ -->
+            <div class="footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <div class="footer-content text-center padding-ver-clear">
+                                    <div class="logo-footer"><img id="logo-footer" class="center-block"
+                                                                  src="/static/images/kx.png" alt=""></div>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus illo vel
+                                        dolorum soluta consectetur doloribus sit. Delectus non tenetur odit dicta vitae
+                                        debitis suscipit doloribus. Lorem ipsum dolor sit amet, illo vel dolorum soluta
+                                        consectetur.</p>
+                                    <ul class="list-inline mb-20">
+                                        <li><i class="text-default fa fa-map-marker pr-5"></i>Yaba, Lagos</li>
+                                        <li><a href="tel:+00 1234567890" class="link-dark"><i
+                                                class="text-default fa fa-phone pl-10 pr-5"></i>+234 813 010 7796</a>
+                                        </li>
+                                        <li><a href="mailto:info@kampusxchange.com" class="link-dark"><i
+                                                class="text-default fa fa-envelope-o pl-10 pr-5"></i>info@kampusxchange.com</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="social-links circle animated-effect-1 margin-clear">
+                                        <li class="facebook"><a target="_blank" href="http://www.facebook.com"><i
+                                                class="fa fa-facebook"></i></a></li>
+                                        <li class="twitter"><a target="_blank" href="http://www.twitter.com"><i
+                                                class="fa fa-twitter"></i></a></li>
+                                        <li class="googleplus"><a target="_blank" href="http://plus.google.com"><i
+                                                class="fa fa-google-plus"></i></a></li>
+                                        <li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i
+                                                class="fa fa-linkedin"></i></a></li>
+                                        <li class="xing"><a target="_blank" href="http://www.xing.com"><i
+                                                class="fa fa-xing"></i></a></li>
+                                    </ul>
+                                    <div class="separator"></div>
+                                    <p class="text-center margin-clear">Copyright © 2016 <a href="/">Kampus Xchange</a>.
+                                        All Rights Reserved</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- .footer end -->
 
-			</footer>
-			<!-- footer end -->
-      {% endblock footer %}
-		</div>
-		<!-- page-wrapper end -->
+        </footer>
+        <!-- footer end -->
+    {% endblock footer %}
+</div>
+<!-- page-wrapper end -->
 
-    {% assets "main-global-js" %}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-    <script type="text/javascript">
-        (function($){
-            $(document).ready(function(){
-              {% for message in get_flashed_messages() %}
-                    $.notify({
-                          message: '{{split_flash_message(message)[1]}}'
-                        },{
-                          type: '{{split_flash_message(message)[0]}}',
-                          delay: 4000,
-                          offset : {
-                              y: 100,
-                              x: 20
-                          }
-                        });
+{% assets "main-global-js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+{#        App.init();    // Overall App initialization#}
+{#        App.initUniform(); // Form initialization for uniform.js#}
 
-              {% endfor %}
+        // create rich text
+        $(".rich-text").redactor();
+        // Allow clickable elements set hidden field values
+    });
+</script>
 
-            });
+<script>
+    $(".clickable").each(function (idx, el) {
+        var elem = $(el);
+        var target = elem.data("target");
+        var value = elem.data("value");
+        var display = elem.data("display");
+        var src = elem.data("src");
+
+        elem.bind("click", function (e) {
+            $(target).val(value);
+            $(display).attr("src", src);
         });
-    </script>
+    });
 
-	</body>
+    // file preview using html5
+    $(".img-upload").each(function (idx, el) {
+        var elem = $(el);
+        var target = elem.attr("target");
+        elem.bind("change", function (e) {
+
+            $(target).empty();
+
+            $(this.files).each(function (i, f) {
+                var reader = new FileReader();
+                reader.readAsDataURL(f);
+                reader.onload = function (evt) {
+                    var thumb = $("<div/>", {"class": "thumb"}).append($("<img/>", {"src": evt.target.result}));
+                    $(target).append(thumb);
+                };
+            })
+        });
+    });
+
+</script>
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            {% for message in get_flashed_messages() %}
+                $.notify({
+                    message: '{{split_flash_message(message)[1]}}'
+                }, {
+                    type: '{{split_flash_message(message)[0]}}',
+                    delay: 4000,
+                    offset: {
+                        y: 100,
+                        x: 20
+                    }
+                });
+
+            {% endfor %}
+
+        });
+    });
+</script>
+{% block page_js %}
+{% endblock page_js %}
+
+</body>
 </html>

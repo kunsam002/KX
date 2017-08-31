@@ -1,49 +1,62 @@
 {% extends 'public/layout.html' %}
 {% block body %}
-<!-- main-container start -->
-<!-- ================ -->
-<section class="main-container">
+    <!-- main-container start -->
+    <!-- ================ -->
+    <section class="main-container">
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-3">
-				<h2 class="title">My Account</h2>
-				<div class="separator-2"></div>
-			</div>
-			<div class="clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h2 class="title">My Account</h2>
+                    <div class="separator-2"></div>
+                </div>
+                <div class="clearfix">
 
-			</div>
-			<!-- sidebar start -->
-			<!-- ================ -->
-			<aside class="col-md-3">
-				<div class="sidebar">
-					<div class="block clearfix">
-						<div class="footer-content">
-							<nav class="mb-20">
-								<ul class="nav nav-pills nav-stacked list-style-icons">
-									<li><a href=""><i class="icon-tools btn-alert"></i> Products</a></li>
-									<li><a href=""><i class="icon-tools"></i> Messages</a></li>
-									<li><a href=""><i class="icon-heart"></i> Wish List</a></li>
-									<li><a href=""><i class="icon-chat"></i> Notifications</a></li>
-									<li><a href="{{url_for('.profile_settings')}}"><i class="icon-tools"></i> Settings</a></li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</aside>
-			<!-- sidebar end -->
-			<!-- main start -->
-			<!-- ================ -->
-			<div class="main col-md-9 ">
+                </div>
+                <!-- sidebar start -->
+                <!-- ================ -->
+                <aside class="col-md-3">
+                    <div class="sidebar">
+                        <div class="block clearfix">
+                            <div class="footer-content">
+                                <nav class="mb-20">
+                                    <ul class="nav nav-pills nav-stacked list-style-icons">
+                                        <li {% if request.path==url_for('.profile') %}class="active"{% endif %}><a
+                                                href="{{ url_for('.profile') }}"><i class="icon-user btn-alert"></i> My
+                                            Account</a></li>
+                                        <li {% if request.path==url_for('.profile_products') %}class="active"{% endif %}>
+                                            <a href="{{ url_for('.profile_products') }}"><i
+                                                    class="icon-gift btn-alert"></i> Products</a></li>
+                                        <li><a href=""><i class="icon-mail"></i> Messages</a></li>
+                                        <li><a href=""><i class="icon-heart"></i> Wish List</a></li>
+                                        <li><a href=""><i class="icon-chat"></i> Notifications</a></li>
+                                        <li {% if request.path==url_for('.profile_settings') %}class="active"{% endif %}>
+                                            <a href="{{ url_for('.profile_settings') }}"><i class="icon-tools"></i>
+                                                Settings</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                <!-- sidebar end -->
+                <!-- main start -->
+                <!-- ================ -->
+                <div class="main col-md-9 ">
+                    {% block profile_btns %}
 
-				{% block profile_body %}
-				{% endblock profile_body %}
+                    {% endblock profile_btns %}
+                    {% block profile_title %}
+                        <h3>{{ page_title }}</h3>
+                    {% endblock profile_title %}
 
-			</div>
-			<!-- main end -->
-		</div>
-	</div>
-</section>
-<!-- main-container end -->
+                    {% block profile_body %}
+                    {% endblock profile_body %}
+
+                </div>
+                <!-- main end -->
+            </div>
+        </div>
+    </section>
+    <!-- main-container end -->
 {% endblock body %}

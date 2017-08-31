@@ -1,133 +1,239 @@
 {% extends 'public/layout.html' %}
 {% block body %}
-<!-- banner start -->
-<!-- ================ -->
-<div class="banner dark-translucent-bg padding-bottom-clear" style="background-image:url('/static/images/shop-banner.jpg');background-position: 50% 32%;">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 text-center col-md-offset-2 pv-20">
-        <h2 class="title object-non-visible" data-animation-effect="fadeIn" data-effect-delay="100">Welcome to <strong>Kampus Xchange</strong></h2>
-        <div class="separator object-non-visible mt-10" data-animation-effect="fadeIn" data-effect-delay="100"></div>
-        <p class="text-center object-non-visible" data-animation-effect="fadeIn" data-effect-delay="100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi perferendis magnam ea necessitatibus, officiis voluptas odit! Aperiam omnis, cupiditate laudantium velit nostrum, exercitationem accusamus, possimus soluta illo deserunt tempora qui.</p>
-      </div>
-    </div>
-  </div>
-  <!-- section start -->
-  <!-- ================ -->
-  <div class="dark-translucent-bg section">
-    <div class="container">
-      <!-- filters start -->
-      <div class="sorting-filters text-center mb-20">
-        <form name="form" class="form-inline">
-          {{form.csrf_token}}
-          <div class="form-group col-md-3" style="padding-right:5px;padding-left:5px;">
-            <label>Institution</label>
-            {{form.university_id(class="form-control")}}
-          </div>
-          <div class="form-group col-md-2" style="padding-right:5px;padding-left:5px;">
-            <label>Price $ (min/max)</label>
-            <div class="row grid-space-10">
-              <div class="col-sm-6">
-                <input type="text" class="form-control">
-              </div>
-              <div class="col-sm-6">
-                <input type="text" class="form-control">
-              </div>
+    <!-- banner start -->
+    <!-- ================ -->
+    <div class="banner dark-translucent-bg padding-bottom-clear"
+         style="background-image:url('/static/images/shop-banner.jpg');background-position: 50% 32%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 text-center col-md-offset-2 pv-20">
+                    <h2 class="title object-non-visible" data-animation-effect="fadeIn" data-effect-delay="100">Welcome
+                        to <strong>Kampus Xchange</strong></h2>
+                    <div class="separator object-non-visible mt-10" data-animation-effect="fadeIn"
+                         data-effect-delay="100"></div>
+                    <p class="text-center object-non-visible" data-animation-effect="fadeIn" data-effect-delay="100">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi perferendis magnam ea
+                        necessitatibus, officiis voluptas odit! Aperiam omnis, cupiditate laudantium velit nostrum,
+                        exercitationem accusamus, possimus soluta illo deserunt tempora qui.</p>
+                </div>
             </div>
-          </div>
-          <div class="form-group col-md-2" style="padding-right:5px;padding-left:5px;">
-            <label>Category</label>
-            {{form.section_id(class="form-control")}}
-          </div>
-          <div class="form-group col-md-4" style="padding-right:5px;padding-left:5px;">
-            <label>Search</label>
-            {{form.search_q(class="form-control")}}
-          </div>
-          <div class="form-group col-md-1" style="padding-right:5px;padding-left:5px;">
-            <a href="#" class="btn btn-default">Submit</a>
-          </div>
-        </form>
-      </div>
-      <!-- filters end -->
+        </div>
+        <!-- section start -->
+        <!-- ================ -->
+        <div class="dark-translucent-bg section">
+            <div class="container">
+                <!-- filters start -->
+                <div class="sorting-filters text-center mb-20">
+                    <form name="form" class="form-inline" method="post" action="{{ url_for('.search_results') }}">
+                        {{ form.csrf_token }}
+                        <div class="form-group col-md-3" style="padding-right:5px;padding-left:5px;">
+                            <label>Institution</label>
+                            {{ form.university_id(class="form-control") }}
+                        </div>
+                        <div class="form-group col-md-2" style="padding-right:5px;padding-left:5px;">
+                            <label>Type</label>
+                            {{ form.product_type(class='form-control') }}
+                        </div>
+                        <div class="form-group col-md-3" style="padding-right:5px;padding-left:5px;">
+                            <label>Category</label>
+                            <div class="row grid-space-10">
+                                <div class="col-sm-6">
+                                    {{ form.sec_id(class='form-control') }}
+                                </div>
+                                <div class="col-sm-6">
+                                    {{ form.cat_id(class='form-control') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-3" style="padding-right:5px;padding-left:5px;">
+                            <label>Search</label>
+                            {{ form.search_q(class="form-control") }}
+                        </div>
+                        <div class="form-group col-md-1" style="padding-right:5px;padding-left:5px;">
+                            <input class="btn btn-default" type="submit" value="Search">
+                        </div>
+                    </form>
+                </div>
+                <!-- filters end -->
+            </div>
+        </div>
+        <!-- section end -->
     </div>
-  </div>
-  <!-- section end -->
-</div>
-<!-- banner end -->
-<section class="main-container">
+    <!-- banner end -->
+    <section class="main-container">
 
-	<div class="container">
-		<div class="row">
+        <div class="container">
+            <div class="row">
 
-			<div class="col-md-3">
-				<div class="footer-content">
-          {% for sec in sections %}
-          {% if loop.index % 4 == 1 %}
-          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{sec.name}}</h4>
-					<nav class="mb-20">
-						<ul class="nav nav-pills nav-stacked list-style-icons">
-              {% for cat in sec.categories %}
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{cat.name}}</a></li>
-              {% endfor %}
-						</ul>
-					</nav>
-          {% endif %}
-          {% endfor %}
-				</div>
-			</div>
-      <div class="col-md-3">
-				<div class="footer-content">
-          {% for sec in sections %}
-          {% if loop.index % 4 == 2 %}
-          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{sec.name}}</h4>
-					<nav class="mb-20">
-						<ul class="nav nav-pills nav-stacked list-style-icons">
-              {% for cat in sec.categories %}
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{cat.name}}</a></li>
-              {% endfor %}
-						</ul>
-					</nav>
-          {% endif %}
-          {% endfor %}
-				</div>
-			</div>
-      <div class="col-md-3">
-				<div class="footer-content">
-          {% for sec in sections %}
-          {% if loop.index % 4 == 3 %}
-          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{sec.name}}</h4>
-					<nav class="mb-20">
-						<ul class="nav nav-pills nav-stacked list-style-icons">
-              {% for cat in sec.categories %}
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{cat.name}}</a></li>
-              {% endfor %}
-						</ul>
-					</nav>
-          {% endif %}
-          {% endfor %}
-				</div>
-			</div>
-      <div class="col-md-3">
-				<div class="footer-content">
-          {% for sec in sections %}
-          {% if loop.index % 4 == 0 %}
-          <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{sec.name}}</h4>
-					<nav class="mb-20">
-						<ul class="nav nav-pills nav-stacked list-style-icons">
-              {% for cat in sec.categories %}
-							<li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{cat.name}}</a></li>
-              {% endfor %}
-						</ul>
-					</nav>
-          {% endif %}
-          {% endfor %}
-				</div>
-			</div>
+                <div class="col-md-3">
+                    <div class="footer-content">
+                        {% for sec in sections %}
+                            {% if loop.index % 4 == 1 %}
+                                <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{ sec.name }}</h4>
+                                <nav class="mb-20">
+                                    <ul class="nav nav-pills nav-stacked list-style-icons">
+                                        {% for cat in sec.categories %}
+                                            <li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{ cat.name }}
+                                            </a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </nav>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer-content">
+                        {% for sec in sections %}
+                            {% if loop.index % 4 == 2 %}
+                                <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{ sec.name }}</h4>
+                                <nav class="mb-20">
+                                    <ul class="nav nav-pills nav-stacked list-style-icons">
+                                        {% for cat in sec.categories %}
+                                            <li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{ cat.name }}
+                                            </a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </nav>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer-content">
+                        {% for sec in sections %}
+                            {% if loop.index % 4 == 3 %}
+                                <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{ sec.name }}</h4>
+                                <nav class="mb-20">
+                                    <ul class="nav nav-pills nav-stacked list-style-icons">
+                                        {% for cat in sec.categories %}
+                                            <li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{ cat.name }}
+                                            </a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </nav>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer-content">
+                        {% for sec in sections %}
+                            {% if loop.index % 4 == 0 %}
+                                <h4 class="title text-default"><i class="fa fa-wechat pr-10"></i> {{ sec.name }}</h4>
+                                <nav class="mb-20">
+                                    <ul class="nav nav-pills nav-stacked list-style-icons">
+                                        {% for cat in sec.categories %}
+                                            <li><a href="#"><i class="fa fa-chevron-circle-right"></i> {{ cat.name }}
+                                            </a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </nav>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
 
-		</div>
+            </div>
 
-	</div>
-</section>
-<!-- main-container end -->
+        </div>
+    </section>
+    <!-- main-container end -->
+    <!-- section start -->
+    <!-- ================ -->
+    <section class="section clearfix light-gray-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="logo-font">Universities</h3>
+                    <div class="separator-2"></div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At distinctio quia, et natus nulla
+                        cumque consequuntur, <br> sed, quam aliquam excepturi ea necessitatibus facilis, vero illum
+                        dignissimos eligendi quasi consectetur possimus.</p>
+                    <div class="clients-container">
+                        <div class="clients">
+                            <a href=""><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="100" style="background-image: url('{{ url_for('static', filename='images/mapoly.jpg') }}');">
+
+                            </div></a>
+                            <a href="#"><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="200" style="background-image: url('{{ url_for('static', filename='images/unilag.jpg') }}');">
+
+                            </div></a>
+                            <a href="#"><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="300" style="background-image: url('{{ url_for('static', filename='images/lasu.jpg') }}');">
+
+                            </div></a>
+                            <a href=""><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="400" style="background-image: url('{{ url_for('static', filename='images/bowen.jpg') }}');">
+                            </div></a>
+                            <a href=""><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="500" style="background-image: url('{{ url_for('static', filename='images/unnab.jpg') }}');">
+                            </div></a>
+                            <a href=""><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="600" style="background-image: url('{{ url_for('static', filename='images/uniben.png') }}');">
+                            </div></a>
+                            <a href="#"><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="700" style="background-image: url('{{ url_for('static', filename='images/laspotech.jpg') }}');">
+                            </div></a>
+                            <a href="#"><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="800" style="background-image: url('{{ url_for('static', filename='images/yabatech.jpg') }}');">
+                            </div></a>
+                            <a href="#"><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="100" style="background-image: url('{{ url_for('static', filename='images/osu.png') }}');">
+                            </div></a>
+                            <a href="#"><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="200" style="background-image: url('{{ url_for('static', filename='images/uniilorin.jpg') }}');">
+                            </div></a>
+                            <a href="#"><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="300" style="background-image: url('{{ url_for('static', filename='images/oau.jpg') }}');">
+                            </div></a>
+                            <a href="#"><div class="client-image object-non-visible" data-animation-effect="fadeIn"
+                                 data-effect-delay="400" style="background-image: url('{{ url_for('static', filename='images/ibadanpoly.jpg') }}');">
+                            </div></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- section end -->
 
 {% endblock body %}
+{% block page_js %}
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+
+
+            $('#sec_id').change(function () {
+                var dataString = $(this).val()
+                variants_arr = new Array();
+                $.ajax({
+                    type: "POST",
+                    contentType: 'application/json',
+                    url: "/fetch/section_categories/",
+                    data: dataString,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            var data = [data]
+                            $("#cat_id").get(0).options.length = 0;
+                            $("#cat_id").get(0).options[0] = new Option("--- Select One ---", 0);
+                            $.each(data[0], function (index, _i) {
+                                $("#cat_id").get(0).options[index + 1] = new Option(_i.name, _i.id);
+                            });
+                        } else {
+                            console.log("no data")
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+
+                    }
+                });
+                return false;
+            });
+
+
+        });
+    </script>
+{% endblock page_js %}

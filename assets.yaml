@@ -11,6 +11,7 @@ main-global-css:
     - plugins/owl-carousel/owl.carousel.css
     - plugins/owl-carousel/owl.transitions.css
     - plugins/hover/hover-min.css
+    - css/redactor.css
     - main-global-less
 
 
@@ -43,5 +44,6 @@ main-global-js:
     - plugins/jquery.browser.js
     - plugins/bootstrap-notify/bootstrap-notify.js
     - plugins/SmoothScroll.js
+    - js/redactor.js
     - js/template.js
     - js/custom.js

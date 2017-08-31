@@ -1,15 +1,18 @@
 #! /usr/bin/env python
 import flask
-from flask.ext.script import Manager
+from flask_script import Manager
 import os
-from flask.ext.assets import ManageAssets
+from flask_assets import ManageAssets
 from factories import create_app, initialize_api, initialize_blueprints
-from flask.ext.migrate import MigrateCommand
+# from flask_migrate import MigrateCommand
 from model_migrations import *
 from xlrd import open_workbook
 from multiprocessing import Process
+from functools import partial
 
-app = create_app('kx', 'config.TestProdConfig')
+app = create_app('kx', 'config.SiteDevConfig')
+app_factory = partial(create_app, 'sme')
+
 # app = create_app('kx', 'config.SiteDevConfig')
 
 logger = app.logger
@@ -18,8 +21,6 @@ logger = app.logger
 manager = Manager(app)
 # add assets command to it
 manager.add_command("assets", ManageAssets(app.assets))
-
-manager.add_command('db', MigrateCommand)
 
 SETUP_DIR = app.config.get("SETUP_DIR")
 
@@ -36,7 +37,7 @@ def runserver():
     initialize_blueprints(app, www)
     initialize_api(app, api)
 
-    port = int(os.environ.get('PORT', 5500))
+    port = int(os.environ.get('PORT', 5550))
     app.run(host='0.0.0.0', port=port)
 
 
@@ -59,7 +60,7 @@ def syncdb(refresh=False):
     :param refresh: drop and recreate the database
     """
     # Apparently, we need to import the models file before this can work right.. smh @flask-sqlalchemy
-    from kx import db, models
+    from kx.models import db
     if refresh:
         logger.info("Dropping database tables")
         db.drop_all()
@@ -72,12 +73,15 @@ def syncdb(refresh=False):
 def refresh_db():
     syncdb(refresh=True)
 
+
 @manager.command
 def install_assets():
     """ Installs all required assets to begin with """
     from startup import start
     start()
 
+
+# manager.add_command('db', MigrateCommand)
 
 # @manager.command
 # def load_sections():
@@ -87,9 +91,37 @@ def install_assets():
 
 
 @manager.command
+def alembic(action, message=""):
+    """ alembic integration using Flask-Alembic. Should provide us with more control over migrations """
+
+    app = flask.current_app
+    with app.app_context():
+        from kx import alembic as _alembic
+        from kx.models import *
+
+        if action == "migrate":
+            app.logger.info("Generating migration")
+            _alembic.revision(message)
+            app.logger.info("Migration complete")
+
+        elif action == "upgrade":
+            app.logger.info("Executing upgrade")
+            _alembic.upgrade()
+            app.logger.info("Upgrade complete")
+
+        elif action == 'update':
+            app.logger.info("Executing upgrade")
+            _alembic.upgrade()
+            _alembic.revision("Generating migration")
+            _alembic.upgrade()
+            app.logger.info("Upgrade complete")
+
+
+@manager.command
 def setup_app():
     syncdb(refresh=True)
     install_assets()
+
 
 def runInParallel(*fns):
     proc = []

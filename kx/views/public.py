@@ -9,10 +9,10 @@ The public views required to sign up and get started
 from flask import Blueprint, render_template, abort, redirect, \
     flash, url_for, request, session, g, make_response, current_app
 from flask_login import logout_user, login_required, login_user, current_user
-from kx import db, logger, app
+from kx import db, logger, app, handle_uploaded_photos
 from kx.forms import *
 from kx.services import *
-from kx.services import users, site_services
+from kx.services import users, site_services, operations
 from kx.services.authentication import authenticate_user
 from datetime import date, datetime, timedelta
 from kx.models import *
@@ -24,7 +24,7 @@ from kx.signals import *
 import time
 import json
 import urllib
-from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed, PermissionDenied
+from flask_principal import Principal, Identity, AnonymousIdentity, identity_changed, PermissionDenied
 import base64
 import requests
 import xmltodict
@@ -65,6 +65,18 @@ def _split_flash(msg):
     logger.info(msg)
     logger.info(msg.split("|"))
     return msg.split("|")
+
+
+def prepare_search_data(form):
+    """ Cleans up search data from the request query and handles it for validation """
+    res = form.validate()
+    data = form.data
+    if not res:
+        data = form.data
+    for x in form.errors.keys():
+        data[x] = getattr(form, x).default
+
+    return data
 
 
 @www.context_processor
@@ -125,7 +137,7 @@ def login():
             else:
                 login_error = "The username or password is invalid"
 
-    return render_template("login.html", **locals())
+    return redirect(next_url_)
 
 
 @www.route('/signup/', methods=["GET", "POST"])
@@ -136,7 +148,8 @@ def signup():
     form = SignupForm()
     if form.validate_on_submit():
         data = form.data
-        user = users.UserService.create(**data)
+        users.UserService.create(**data)
+        user = User.query.filter(User.email == data.get("email", "")).first()
 
         login_user(user, remember=True, force=True)  # This is necessary to remember the user
 
@@ -154,18 +167,64 @@ def signup():
     return render_template("public/signup.html", **locals())
 
 
+@www.route('/logout/')
+def logout():
+    logout_user()
+
+    # Remove session keys set by Flask-Principal
+    for key in (
+            'identity.name', 'identity.auth_type'):
+        session.pop(key, None)
+
+    # Tell Flask-Principal the user is anonymous
+    identity_changed.send(app, identity=AnonymousIdentity())
+
+    return redirect(url_for('.index'))
+
+
+@www.route('/fetch/section_categories/', methods=['GET', 'POST'])
+def fetch_dir_section_cats():
+    if request.method == "POST":
+        _data = request.data
+        if not _data:
+            response = make_response("Request Method not Allowed")
+            return response
+
+        try:
+            id = int(_data)
+            section = Section.query.get(id)
+
+            _refine = []
+            for i in section.categories:
+                refine = {}
+                refine["id"], refine["name"] = i.id, i.name
+                _refine.append(refine)
+
+            refine = json.dumps(_refine)
+            response = make_response(refine)
+            return response
+        except Exception as e:
+            print "---------Error: %s-----------" % str(e)
+            logger.info("---------Error: %s-----------" % str(e))
+            msg = "Failed with Error " + str(e)
+            response = make_response(msg)
+            return response
+
+    else:
+        response = make_response("Request Method not Allowed")
+        return response
+
+
 @www.route('/<string:path>/')
 @www.route('/')
 def index(path=None):
-    products = site_services.fetch_top_view_products()
-    states = site_services.fetch_states()
     universities = site_services.fetch_universities()
 
     form = SearchForm()
-    form.state_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in states]
-    form.university_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in universities]
-    form.section_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in Section.query.all()]
-    form.category_id.choices = [(0,"--- Select One ---")] + [(i.id,i.name) for i in Category.query.all()]
+    form.product_type.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in ProductType.query.all()]
+    form.university_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in universities]
+    form.sec_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
+    form.cat_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
 
     sections = Section.query.order_by(Section.name).all()
 
@@ -190,33 +249,281 @@ def index(path=None):
 @www.route('/products/<string:section_slug>/<category_slug>/', methods=["GET", "POST"])
 @www.route('/products/<string:section_slug>/', methods=["GET", "POST"])
 @www.route('/products/', methods=["GET", "POST"])
-def categories(section_slug=None, category_slug=None):
+def products(section_slug=None, category_slug=None):
     page_title = "Products"
 
-    return render_template("public/listing.html", **locals())
+    products = site_services.fetch_top_view_products()
+    universities = site_services.fetch_universities()
 
+    form = SearchForm()
+    form.product_type.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in ProductType.query.all()]
+    form.university_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in universities]
+    form.sec_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
+    form.cat_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
+
+    return render_template("public/products.html", **locals())
+
+
+@www.route('/search-results/', methods=["GET", "POST"])
+def search_results():
+    page_title = "Search results"
+
+    """ handles the search by composing the filters and query to make the results. Currently searching products/shops """
+
+    try:
+        pages = request.args.get("pages")
+        page = int(request.args.get("page", 1))
+        size = abs(int(request.args.get("size", 30)))
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+
+    products = site_services.fetch_top_view_products()
+    universities = site_services.fetch_universities()
+
+    form = SearchForm()
+    form.product_type.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in ProductType.query.all()]
+    form.university_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in universities]
+    form.sec_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
+    form.cat_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
+
+    request_args = utils.copy_dict(form.data, {})
+    logger.info(request_args)
+    # form = PageFilterForm(request_args, csrf_enabled=False)
+    # search_data = prepare_search_data(form)
+
+    # page = search_data['page']
+    # order_by = search_data['order_by']
+    # tag_id = search_data['tag_id']
+    # search_q = search_data['q']
+
+
+    query = Product.query.filter(Product.is_enabled == True).order_by(
+        desc(Product.date_created))
+
+    if search_q:
+        queries = [Product.name.ilike("%%%s%%" % search_q)]
+        query = query.filter(or_(*queries))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request.args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+
+    return render_template("public/search-results.html", **locals())
+
+
+# Profile View Functions Start >>>>>>>
 
 @www.route('/profile/')
+@login_required
 def profile():
-    page_title = "User Profile"
+    if current_user.is_authenticated:
+        welcome_note = "%s" % current_user.username if current_user.username else "%s" % current_user.first_name
+    else:
+        welcome_note = "Profile"
     return render_template("public/profile/index.html", **locals())
 
 
-@www.route('/profile/settings/', methods=['GET','POST'])
-def profile_settings():
-    page_title = "Profile Settings"
-    update_profile_form = ProfileUpdateForm()
-    update_profile_form.university_id.choices = [(0,"--- Select One ---")]+[(i.id,i.name) for i in University.query.filter(University.is_enabled==True)]
-    password_reset_form = PasswordResetForm()
-    flash("info|message")
+@www.route('/profile/my_products/')
+@login_required
+def profile_products():
+    page_title = "My Products"
 
-    if update_profile_form.validate_on_submit():
-        data=update_profile_form.data
-        user = UserService.update(current_user.id, **data)
-        flash("Profile Update Successful")
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+
+    request_args = utils.copy_dict(request.args, {})
+
+    query = Product.query.filter(Product.user_id == current_user.id).order_by(desc(Product.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+    return render_template("public/profile/products.html", **locals())
+
+
+@www.route('/profile/my_products/create/', methods=['GET','POST'])
+@login_required
+def create_product():
+    page_title = "Create Product"
+
+    files = request.files.getlist("images")
+
+    # Test for the first entry
+    empty_files = False
+    for _f in files:
+        if _f.filename == '' or utils.check_extension(_f.filename) is False:
+            empty_files = True
+            break
+
+    create_product_form = ProductForm()
+    create_product_form.section_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
+    create_product_form.category_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
+
+    if create_product_form.validate_on_submit() and empty_files is False:
+
+        uploaded_files, errors = handle_uploaded_photos(files, (160, 160))
+
+        if uploaded_files:
+
+            data = create_product_form.data
+            data["user_id"] = current_user.id
+            data["description"] = str(data.get("description"))
+
+            product = operations.ProductService.create(**data)
+
+            images = []
+            for upload_ in uploaded_files:
+                images = operations.ImageService.create(product_id=product.id, **upload_)
+
+                _d_ ={"cover_image_id":images.id}
+                product = operations.ProductService.set_cover_image(product.id, **_d_)
+
+            flash("Product successfully created. Please wait 24hours for Product display Approval")
+            _next = url_for(".profile_products")
+            return redirect(_next)
+        else:
+            img_errors = "At least one image is required per product"
+
+        # From SME
+        # uploaded_files, errors = handle_uploaded_photos(files, (160, 160))
+        #
+        # if uploaded_files:
+        #     data = create_product_form.data
+        #     data["user_id"] = current_user.id
+        #     data["_price"] = data["price"]
+        #     data["product_type"] = "Product"
+        #     data["_compare_at"] = data["compare_at"]
+        #     obj = operations.ProductService.create(**data)
+        #
+        #     if obj:
+        #         for _d in uploaded_files:
+        #             _d["alt_text"] = obj.name
+        #             try:
+        #                 img = operations.ImageService.create(product_id=product.id, **_d)
+        #             except:
+        #                 operations.ProductService.delete(obj.id)
+        #                 create_product_form.errors["images"] = errors
+        #                 raise
+        #
+        #         flash("Product successfully created. Please wait 24hours for Product display Approval")
+        #         _next = url_for(".products", shop_id=obj.shop.id)
+        #         return redirect(_next)
+        # else:
+        #     img_errors = "At least one image is required per product"
+
+    return render_template("public/profile/create_product.html", **locals())
+
+@www.route('/profile/my_products/<string:sku>/update/', methods=['GET','POST'])
+@login_required
+def update_product(sku):
+    page_title = "Create Product"
+
+    obj = Product.query.filter(Product.sku==sku, Product.user_id==current_user.id).first()
+
+    files = request.files.getlist("images")
+    next_url = request.args.get("next_url") or url_for(".profile_products")
+
+    # Test for the first entry
+    empty_files = False
+    for _f in files:
+        if _f.filename == '' or utils.check_extension(_f.filename) is False:
+            empty_files = True
+            break
+
+    existing_images = obj.images.all()
+
+    create_product_form = UpdateProductForm(obj=obj, data={"cover_image_id": obj.cover_image_id})
+    create_product_form.section_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
+    create_product_form.category_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
+    create_product_form.removables.choices = [(0, "---- Select One ----")] + [(l.id, l.name) for l in existing_images]
+    if create_product_form.validate_on_submit():
+        data = create_product_form.data
+        removables = data.pop("removables", [])
+        obj_ = operations.ProductService.update(obj.id, **data)
+        if obj_:
+            # If files are present, attach them to the product images
+            if empty_files is False:
+                uploaded_files, errors = handle_uploaded_photos(files, (160, 160))
+                if uploaded_files:
+                    for _d in uploaded_files:
+                        _d["alt_text"] = obj_.name
+                        img = operations.ImageService.create(product_id=obj.id, **_d)
+
+            for _img_id in removables:
+                if obj_.cover_image_id != _img_id:
+                    operations.ImageService.delete(_img_id)
+
+            flash("Product successfully updated")
+            return redirect(next_url)
+
+    return render_template("public/profile/create_product.html", **locals())
+
+
+@www.route('/profile/settings/', methods=['GET', 'POST'])
+@login_required
+def profile_settings():
+    page_title = "Settings"
+    logger.info(current_user)
+    update_profile_form = ProfileUpdateForm(obj=current_user)
+    update_profile_form.university_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in
+                                                                               University.query.filter(
+                                                                                   University.is_enabled == True).all()]
+    password_reset_form = PasswordResetForm()
 
     return render_template("public/profile/settings.html", **locals())
 
+
+@www.route('/profile/settings/update/', methods=['GET', 'POST'])
+@login_required
+def profile_update():
+    update_profile_form = ProfileUpdateForm()
+    update_profile_form.university_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in
+                                                                               University.query.filter(
+                                                                                   University.is_enabled == True).all()]
+    flash("info|message")
+
+    if update_profile_form.validate_on_submit():
+        data = update_profile_form.data
+        user = users.UserService.update(current_user.id, **data)
+        flash("Profile Update Successful")
+
+    return redirect(url_for('.profile_settings'))
+
+
+@www.route('/profile/settings/password_reset/', methods=['GET', 'POST'])
+@login_required
+def profile_password_reset():
+    password_reset_form = PasswordResetForm()
+    flash("info|message")
+
+    if password_reset_form.validate_on_submit():
+        data = password_reset_form.data
+        user = users.UserService.reset_password(current_user.id, **data)
+        flash("Password Reset Successful")
+
+    return redirect(url_for('.profile_settings'))
+
+
+# <<<<<<<<< Profile View functions end
 
 @www.route('/blog/')
 def blog():

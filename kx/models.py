@@ -1,15 +1,16 @@
 # Models
 
-from kx import db, bcrypt, app, logger
+from kx import bcrypt, app, logger
+db = app.db
 from kx.core.utils import slugify, id_generator
-from flask.ext.login import UserMixin
+from flask_login import UserMixin
 from sqlalchemy import or_
 from sqlalchemy.schema import UniqueConstraint
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method, Comparator
 from sqlalchemy.inspection import inspect
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 from sqlalchemy import func, asc, desc
 from sqlalchemy import inspect, UniqueConstraint, desc
@@ -20,6 +21,7 @@ from sqlalchemy.orm import dynamic
 from flask import url_for
 import inspect as pyinspect
 from socket import gethostname, gethostbyname
+
 
 
 # SQLAlchemy Continuum
@@ -34,7 +36,7 @@ def get_model_from_table_name(tablename):
     """ return the Model class for a given __tablename__ """
 
     _models = [args[1] for args in globals().items() if pyinspect.isclass(args[
-        1]) and issubclass(args[1], db.Model)]
+                                                                              1]) and issubclass(args[1], db.Model)]
 
     for _m in _models:
         try:
@@ -56,15 +58,15 @@ def slugify_from_name(context):
 
 
 def generate_user_token_code(context):
-    return hashlib.md5("%s:%s:%s" % (context.current_parameters["user_id"], context.current_parameters["email"], str(datetime.now()))).hexdigest()
-
-
+    return hashlib.md5("%s:%s:%s" % (
+        context.current_parameters["user_id"], context.current_parameters["email"], str(datetime.now()))).hexdigest()
 
 
 class AppMixin(object):
     """ Mixin class for general attributes and functions """
 
     __table_args__ = {'mysql_engine': 'InnoDB', 'mysql_charset': 'utf8'}
+
     # __versioned__ = {} # SQLAlchemy Continuum
 
     @declared_attr
@@ -93,9 +95,9 @@ class AppMixin(object):
             include_only = data.attrs.keys()
 
         return dict([(k, getattr(self, k)) for k in data.attrs.keys() + extras
-                     if k in include_only + extras and isinstance(getattr(self, k), (db.Model, db.Query, InstrumentedList, dynamic.AppenderMixin)) is False
+                     if k in include_only + extras and isinstance(getattr(self, k), (
+                db.Model, db.Query, InstrumentedList, dynamic.AppenderMixin)) is False
                      and k not in exclude])
-
 
     def as_dict_inner(self, include_only=None, exclude=["is_deleted"], extras=[], child=None, child_include=[]):
         """ Retrieve all values of this model as a dictionary """
@@ -161,6 +163,7 @@ class State(AppMixin, db.Model):
     code = db.Column(db.String(200), index=True)
     country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False, index=True)
     cities = db.relationship('City', backref='state', lazy='dynamic')
+    universities = db.relationship('University', backref='state', lazy='dynamic')
 
 
 class Country(AppMixin, db.Model):
@@ -181,7 +184,6 @@ class Timezone(AppMixin, db.Model):
 
 
 class Currency(AppMixin, db.Model):
-
     __searchable__ = True
 
     __include_in_index__ = ["name", "code",
@@ -199,7 +201,6 @@ class Currency(AppMixin, db.Model):
 
     def __repr__(self):
         return '<Currency %r>' % self.name
-
 
 
 class Image(AppMixin, db.Model):
@@ -230,7 +231,6 @@ class Image(AppMixin, db.Model):
 
 
 class Message(AppMixin, db.Model):
-
     __searchable__ = True
 
     __include_in_index__ = ["name", "email", "phone", "subject", "url", "is_read",
@@ -262,7 +262,6 @@ class MessageResponse(AppMixin, db.Model):
 
 
 class AdminMessage(AppMixin, db.Model):
-
     __searchable__ = True
 
     __include_in_index__ = ["name", "email", "phone", "subject", "is_read", "has_parent",
@@ -292,9 +291,7 @@ class AdminMessageResponse(AppMixin, db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
 
 
-
 class User(db.Model, UserMixin, AppMixin):
-
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True, index=True)
     email = db.Column(db.String(200), unique=True, index=True)
@@ -311,12 +308,15 @@ class User(db.Model, UserMixin, AppMixin):
     gender = db.Column(db.String(200))
     location = db.Column(db.String(200))
     dob = db.Column(db.DateTime)
+    phone = db.Column(db.String(200))
     login_count = db.Column(db.Integer, default=0)
     last_login_at = db.Column(db.DateTime)
     current_login_at = db.Column(db.DateTime)
     last_login_ip = db.Column(db.String(200))
     current_login_ip = db.Column(db.String(200))
     university_id = db.Column(db.Integer, db.ForeignKey('university.id'), nullable=True, index=True)
+    products = db.relationship(
+        'Product', backref='user', lazy='dynamic', cascade="all,delete-orphan")
 
     def update_last_login(self):
         if self.current_login_at is None and self.last_login_at is None:
@@ -392,80 +392,79 @@ class User(db.Model, UserMixin, AppMixin):
         db.session.add(self)
         db.session.commit()
 
-    def add_role(self, role):
-        """
-        Adds a the specified role to the user
-        :param role: Role ID or Role name or Role object to be added to the user
-
-        """
-        try:
-
-            if isinstance(role, Role) and hasattr(role, "id"):
-                role_obj = role
-            elif type(role) is int:
-                role_obj = Role.query.get(role)
-            elif type(role) is str:
-                role_obj = Role.query.filter(Role.name == role.lower()).one()
-
-            if not role_obj:
-                raise Exception("Specified role could not be found")
-
-            if self.has_role(role_obj) is False:
-                self.roles.append(role_obj)
-                db.session.add(self)
-                db.session.commit()
-                return self
-        except:
-            db.session.rollback()
-            raise
-
-    def has_role(self, role):
-        """
-        Returns true if a user identifies with a specific role
-
-        :param role: A role name or `Role` instance
-        """
-        return role in self.roles
-
-    def add_access_group(self, access_group):
-        """
-        Adds a the specified access group to the user
-        :param group: AccessGroup ID or AccessGroup name or AccessGroup object to be added to the user
-
-        """
-        try:
-
-            if isinstance(access_group, AccessGroup) and hasattr(access_group, "id"):
-                group_obj = access_group
-            elif type(access_group) is int:
-                group_obj = AccessGroup.query.get(access_group)
-            elif type(access_group) is str:
-                group_obj = AccessGroup.query.filter(
-                    AccessGroup.name == access_group.lower()).one()
-
-            if not group_obj:
-                raise Exception("Specified access_group could not be found")
-
-            if self.has_access_group(group_obj) is False:
-                self.access_groups.append(group_obj)
-                db.session.add(self)
-                db.session.commit()
-                return self
-        except:
-            db.session.rollback()
-            raise
-
-    def has_access_group(self, access_group):
-        """
-        Returns true if a user identifies with a specific access_group
-
-        :param access_group: A access_group name or `AccessGroup` instance
-        """
-        return access_group in self.access_groups
+        # def add_role(self, role):
+        #     """
+        #     Adds a the specified role to the user
+        #     :param role: Role ID or Role name or Role object to be added to the user
+        #
+        #     """
+        #     try:
+        #
+        #         if isinstance(role, Role) and hasattr(role, "id"):
+        #             role_obj = role
+        #         elif type(role) is int:
+        #             role_obj = Role.query.get(role)
+        #         elif type(role) is str:
+        #             role_obj = Role.query.filter(Role.name == role.lower()).one()
+        #
+        #         if not role_obj:
+        #             raise Exception("Specified role could not be found")
+        #
+        #         if self.has_role(role_obj) is False:
+        #             self.roles.append(role_obj)
+        #             db.session.add(self)
+        #             db.session.commit()
+        #             return self
+        #     except:
+        #         db.session.rollback()
+        #         raise
+        #
+        # def has_role(self, role):
+        #     """
+        #     Returns true if a user identifies with a specific role
+        #
+        #     :param role: A role name or `Role` instance
+        #     """
+        #     return role in self.roles
+        #
+        # # def add_access_group(self, access_group):
+        # #     """
+        # #     Adds a the specified access group to the user
+        # #     :param group: AccessGroup ID or AccessGroup name or AccessGroup object to be added to the user
+        # #
+        # #     """
+        # #     try:
+        # #
+        # #         if isinstance(access_group, AccessGroup) and hasattr(access_group, "id"):
+        # #             group_obj = access_group
+        # #         elif type(access_group) is int:
+        # #             group_obj = AccessGroup.query.get(access_group)
+        # #         elif type(access_group) is str:
+        # #             group_obj = AccessGroup.query.filter(
+        # #                 AccessGroup.name == access_group.lower()).one()
+        # #
+        # #         if not group_obj:
+        # #             raise Exception("Specified access_group could not be found")
+        # #
+        # #         if self.has_access_group(group_obj) is False:
+        # #             self.access_groups.append(group_obj)
+        # #             db.session.add(self)
+        # #             db.session.commit()
+        # #             return self
+        # #     except:
+        # #         db.session.rollback()
+        # #         raise
+        # #
+        # # def has_access_group(self, access_group):
+        # #     """
+        # #     Returns true if a user identifies with a specific access_group
+        # #
+        # #     :param access_group: A access_group name or `AccessGroup` instance
+        # #     """
+        # #     return access_group in self.access_groups
 
 
 class University(AppMixin, db.Model):
-
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False, nullable=False)
     handle = db.Column(db.String(200), unique=True, nullable=False, index=True)
@@ -479,7 +478,6 @@ class University(AppMixin, db.Model):
     country_id = db.Column(
         db.Integer, db.ForeignKey('country.id'), nullable=True, index=True)
     users = db.relationship('User', backref='university', lazy='dynamic')
-
 
 
 class Banner(AppMixin, db.Model):
@@ -497,7 +495,6 @@ class Banner(AppMixin, db.Model):
 
 
 class Section(AppMixin, db.Model):
-
     __searchable__ = True
 
     __include_in_index__ = ["name", "cover_image_id", "slug", "description",
@@ -515,7 +512,6 @@ class Section(AppMixin, db.Model):
         'Image', backref='section', lazy='dynamic', cascade="all,delete-orphan")
     products = db.relationship(
         'Product', backref='section', lazy='dynamic')
-
 
     @property
     def cover_image(self):
@@ -547,7 +543,6 @@ class Section(AppMixin, db.Model):
 
 
 class Category(AppMixin, db.Model):
-
     __searchable__ = True
 
     __include_in_index__ = ["name", "slug", "section_id", "show_on_grocery",
@@ -572,7 +567,9 @@ class Category(AppMixin, db.Model):
 class CategoryTag(AppMixin, db.Model):
     __searchable__ = True
 
-    __include_in_index__ = ["name", "url", "slug","description", "category_id", "is_redirect", "category", "search_category_id", "section_id", "search_query", "tag_key", "app_exclusion_lists", "search_category", "targeted_category"]
+    __include_in_index__ = ["name", "url", "slug", "description", "category_id", "is_redirect", "category",
+                            "search_category_id", "section_id", "search_query", "tag_key", "app_exclusion_lists",
+                            "search_category", "targeted_category"]
 
     __listeners_for_index__ = ["dir_category"]
 
@@ -590,22 +587,8 @@ class CategoryTag(AppMixin, db.Model):
     highlight = db.Column(db.String(200))
     is_redirect = db.Column(db.Boolean, default=False)
 
-    @property
-    def search_category(self):
-        if self.search_category_id:
-            return DirCategory.query.get(self.search_category_id)
-        else:
-            return None
 
-    @property
-    def targeted_category(self):
-        if self.search_category:
-            return self.search_category
-        else:
-            return DirCategory.query.get(self.category_id)
-
-
-class Tag(AppMixin, db.Model):
+class ProductTag(AppMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False)
     slug = db.Column(db.String(200), nullable=False,
@@ -613,7 +596,7 @@ class Tag(AppMixin, db.Model):
     classification = db.Column(db.String(200))
 
     def __repr__(self):
-        return '<Tag %r>' % self.name
+        return '<ProductTag %r>' % self.name
 
     def __unicode__(self):
         return self.name
@@ -631,40 +614,23 @@ class ProductType(AppMixin, db.Model):
 
 
 product_tags = db.Table('product_tags',
-    db.Column('tag_id', db.Integer,
-              db.ForeignKey('tag.id')),
-    db.Column('product_id', db.Integer,
-              db.ForeignKey('product.id'))
-    )
+                        db.Column('product_tag_id', db.Integer,
+                                  db.ForeignKey('product_tag.id')),
+                        db.Column('product_id', db.Integer,
+                                  db.ForeignKey('product.id'))
+                        )
 
 
-class Product(AppMixin, db.Model):
-
-    __searchable__ = True
-
-    __include_in_index__ = ["name", "raw_name", "currency", "description", "title", "sku", "show_price", "is_donation", "is_private", "product_type",
-                            "variants", "group", "section", "category", "cart_price", "price", "compare_at", "url",
-                            "cover_image_url", "alternate_image_url", "percentage_off", "track_stock_level", "is_featured", "visibility", "images", "is_flexible",
-                            "product_customs", "cart_choices", "handle", "quantity", "is_quick_product", "deal_end_timestamp", "on_deal", "deal_start",
-                             "deal_end"]
-
-    __listeners_for_index__ = ["user"]
-
-    __sub_cubes__ = [{'variant': ['name']}, {'option': ['name']}]
-
-    __simple_dimensions__ = [{'desc': ['name', 'title']}]
-
-    # __ngram_fields__ = ["name", "title", "caption", "description"]
-
+class Product(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), unique=False, index=True)
+    name = db.Column(db.String(200), index=True)
     description = db.Column(db.Text, unique=False)
     title = db.Column(db.String(200), unique=False)
     caption = db.Column(db.Text, unique=False, default=0)
     track_stock_level = db.Column(db.Boolean, default=False)
-    _price = db.Column(db.Float, unique=False, default=0)
-    _quantity = db.Column(db.Integer, unique=False)
-    _compare_at = db.Column(db.Float, default=0)
+    regular_price = db.Column(db.Float, unique=False, default=0)
+    quantity = db.Column(db.Integer, unique=False)
+    sale_price = db.Column(db.Float, default=0)
     sku = db.Column(db.String(200), unique=False)
     weight = db.Column(db.Float)
     require_shipping = db.Column(db.Boolean, default=False)
@@ -679,12 +645,10 @@ class Product(AppMixin, db.Model):
         'Variant', backref='product', lazy='dynamic', cascade="all,delete-orphan")
     options = db.relationship(
         'Option', backref='product', lazy='dynamic', cascade="all,delete-orphan")
-    tags = db.relationship('Tag', secondary="product_tags",
+    tags = db.relationship('ProductTag', secondary="product_tags",
                            backref=db.backref('products', lazy='dynamic'))
-    section_id = db.Column(db.Integer, db.ForeignKey(
-        'section.id', ondelete='SET NULL'), nullable=True, index=True)
-    category_id = db.Column(db.Integer, db.ForeignKey(
-        'category.id', ondelete='SET NULL'), nullable=True, index=True)
+    section_id = db.Column(db.Integer, db.ForeignKey('section.id'), index=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), index=True)
     show_price = db.Column(db.Boolean, default=True)
     is_donation = db.Column(db.Boolean, default=False)
     is_private = db.Column(db.Boolean, default=False, index=True)
@@ -693,6 +657,8 @@ class Product(AppMixin, db.Model):
     deal_start = db.Column(db.DateTime)
     deal_end = db.Column(db.DateTime)
     view_count = db.Column(db.Integer)
+    is_enabled = db.Column(db.Boolean, default=False, index=True)
+    has_variants = db.Column(db.Boolean)
 
     @property
     def deal_end_timestamp(self):
@@ -701,10 +667,6 @@ class Product(AppMixin, db.Model):
             return int(_full_day.strftime('%s')) * 1000
         else:
             return None
-
-    @property
-    def raw_name(self):
-        return self.name
 
 
     @property
@@ -729,6 +691,14 @@ class Product(AppMixin, db.Model):
             return cover_image
 
     @property
+    def cover_image_url(self):
+        if self.cover_image:
+            return self.cover_image.url
+        else:
+            return None
+
+
+    @property
     def alternate_image(self):
         return Image.query.filter(Image.product_id == self.id, Image.id != self.cover_image.id).first()
 
@@ -743,122 +713,42 @@ class Product(AppMixin, db.Model):
 
         return Variant.query.filter(Variant.product == self, Variant.untracked == True).first()
 
-    @hybrid_property
-    def quantity(self):
-        """ Hybrid property to return the total variant's count based """
-        if self.track_stock_level is False:
-            variant = self.untracked_variant()
-            if variant:
-                return variant.quantity
-        else:
-            # first build the base query to filter by
-            return db.session.query(func.sum(Variant.quantity)).filter(Variant.product == self, Variant.untracked == False).scalar()
-
-    @quantity.setter
-    def quantity(self, value):
-        """ the setter for quantity """
-        self._quantity = value
-
-    @hybrid_property
-    def price(self):
-        if self.track_stock_level is False:
-            if self.product_type == "Product":
-                variant = Variant.query.filter(
-                    Variant.product == self, Variant.untracked == True).first()
-                if not variant:
-                    return self._price
-                else:
-                    return variant.price
-            else:
-                return self._price
-        else:
-            return self._price
-
     @property
-    def cart_price(self):
-        _cart_price = self.compare_at or 0
-        if self.compare_at > 0:
-            _cart_price = self.compare_at
+    def price(self):
+        if self.on_deal:
+            price = self.sale_price
         else:
-            _cart_price = self.price
+            price = self.regular_price
 
-        return _cart_price
-
-    @price.setter
-    def price(self, value):
-        """ the setter for quantity """
-        self._price = value
-
-    @hybrid_property
-    def compare_at(self):
-        if self.track_stock_level is False:
-            variant = Variant.query.filter(
-                Variant.product == self, Variant.untracked == True).first()
-            if not variant:
-                return self._compare_at
-            else:
-                return variant.compare_at
-        else:
-            return self._compare_at
+        return price
 
     @property
     def percentage_off(self):
-        if self._compare_at > 0.0 and self.price > 0 and self._compare_at < self._price:
+        self_price = self.price
+        if self.sale_price > 0.0 and self.sale_price < self.regular_price:
             """ Gets the discount price """
-            dp = self.cart_price
+            dp = self.sale_price
             """ Gets the standard price """
-            sp = self.price
+            sp = self.regular_price
 
             """ Calculates the percentage off """
             po = int(((sp - dp) / sp) * 100)
-            return str(po) + "%"
+            return po
         else:
             return False
 
-    @compare_at.setter
-    def compare_at(self, value):
-        """ the setter for quantity """
-        self._compare_at = value
-
-    @property
-    def handle(self):
-        return slugify(self.name)
 
     def __repr__(self):
         return '<Product %r>' % self.name
 
-    @property
-    def avg_rating(self):
-        if self.reviews.count() > 0:
-            ratings = [r.rating for r in self.reviews if r.rating != None]
-            avg = sum(ratings) / self.reviews.count()
 
-            return avg
-        else:
-            return 0.0
-
-    # @property
-    # def url(self):
-    #     return "%s%s.%s/%ss/%s/%s/" % (app.config.get("PROTOCOL"), self.shop.handle, app.config.get("DOMAIN"), self.product_type.lower(), self.id, slugify(self.name))
-
-    @property
-    def cover_image_url(self):
-        if self.cover_image:
-            return self.cover_image.url
-        else:
-            return None
-
-    # @property
-    # def directory_url(self):
-    #     return url_for('.itempage', handle=self.shop.handle, id=self.id)
-    #
 
 class Variant(AppMixin, db.Model):
-
     __listeners_for_index__ = ["product"]
 
-    __sub_cubes__ = [{'transaction_entry': ['price'], 'measurables': [{'name': 'money_made', 'function': 'price*quantity', 'aggregations': ['sum']},
-                                                                      {'name': 'units_sold', 'function': 'quantity', 'aggregations': ['sum']}]}]
+    __sub_cubes__ = [{'transaction_entry': ['price'],
+                      'measurables': [{'name': 'money_made', 'function': 'price*quantity', 'aggregations': ['sum']},
+                                      {'name': 'units_sold', 'function': 'quantity', 'aggregations': ['sum']}]}]
 
     __simple_dimensions__ = [{'details': ['name']}]
     id = db.Column(db.Integer, primary_key=True)
@@ -898,9 +788,7 @@ class Option(AppMixin, db.Model):
         'product.id'), nullable=False, index=True)
 
 
-
 class Filter(AppMixin, db.Model):
-
     __searchable__ = True
 
     __include_in_index__ = ["name", "options", "category"]
@@ -912,7 +800,6 @@ class Filter(AppMixin, db.Model):
 
 
 class FilterOption(AppMixin, db.Model):
-
     __searchable__ = True
 
     __include_in_index__ = ["name", "slug", "values", "filter"]
@@ -924,3 +811,66 @@ class FilterOption(AppMixin, db.Model):
     slug = db.Column(db.String(200), index=True)
     values = db.Column(db.String(200), nullable=True)
     filter_id = db.Column(db.Integer, db.ForeignKey('filter.id'), index=True)
+
+
+class BlogPost(AppMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=False)
+    slug = db.Column(db.String(200), index=True)
+    content = db.Column(db.Text, nullable=True)
+    comments = db.relationship('BlogPostComment', backref='blog_post')
+    likes = db.relationship('BlogPostLike', backref='blog_post')
+    post_tags = db.relationship(
+        'BlogPostTag', secondary="post_tags", backref=db.backref('blog_post', lazy='dynamic'))
+
+
+class BlogPostComment(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    blog_post_id = db.Column(
+        db.Integer, db.ForeignKey('blog_post.id'), index=True)
+    comment = db.Column(db.Text)
+
+
+class BlogPostLike(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    blog_post_id = db.Column(
+        db.Integer, db.ForeignKey('blog_post.id'), index=True)
+
+
+post_tags = db.Table('post_tags',
+                     db.Column('blog_post_id', db.Integer,
+                               db.ForeignKey('blog_post.id')),
+                     db.Column('blog_post_tag_id', db.Integer,
+                               db.ForeignKey('blog_post_tag.id'))
+                     )
+
+
+class BlogPostTag(AppMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    slug = db.Column(db.String(200), unique=True, default=slugify_from_name, index=True)
+
+
+class Coupon(AppMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=False)
+    is_active = db.Column(db.Boolean, default=False, index=True)
+
+
+class Wishlist(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    slug = db.Column(db.String(200), nullable=True)
+    is_private = db.Column(db.Boolean, default=False)
+    entries = db.relationship(
+        'WishlistEntry', cascade="all,delete-orphan", backref='wishlist', lazy='dynamic')
+
+
+class WishlistEntry(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey(
+        'product.id'), nullable=False)
+    wishlist_id = db.Column(db.Integer, db.ForeignKey(
+        'wishlist.id'), nullable=False)
+
