@@ -157,6 +157,7 @@ class CityForm(Form):
 
 class ProductForm(Form):
     name = StringField('Name', validators=[DataRequired()], description="The name of your product")
+    caption = StringField('Product Caption', validators=[DataRequired()], description="Short description of product")
     regular_price = FloatField('Standard Price', validators=[DataRequired()], default=0.0,
                        description="Enter a numeric value. No commas allowed")
     sale_price = FloatField('Discount Price', default=0.0, validators=[Optional()],

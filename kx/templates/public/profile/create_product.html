@@ -92,6 +92,10 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="{{ create_product_form.caption.name }}">{{ create_product_form.caption.label.text }}</label>
+                    {{ create_product_form.caption(class='form-control') }}
+                </div>
+                <div class="form-group">
                     <label for="{{ create_product_form.description.name }}">{{ create_product_form.description.label.text }}</label>
                     {{ create_product_form.description(class='form-control rich-text') }}
                 </div>

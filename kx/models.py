@@ -657,7 +657,7 @@ class Product(UserMixin, db.Model):
     deal_start = db.Column(db.DateTime)
     deal_end = db.Column(db.DateTime)
     view_count = db.Column(db.Integer)
-    is_enabled = db.Column(db.Boolean, default=False, index=True)
+    is_enabled = db.Column(db.Boolean, default=True, index=True)
     has_variants = db.Column(db.Boolean)
 
     @property
