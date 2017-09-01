@@ -198,7 +198,7 @@
                                                 class="icon-search"></i></button>
                                         <ul class="dropdown-menu dropdown-menu-right dropdown-animation">
                                             <li>
-                                                <form role="search" class="search-box margin-clear">
+                                                <form role="search" class="search-box margin-clear" action="{{ url_for('.search_results') }}">
                                                     <div class="form-group has-feedback">
                                                         <input type="text" class="form-control" placeholder="Search">
                                                         <i class="icon-search form-control-feedback"></i>
@@ -285,7 +285,7 @@
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-right dropdown-animation">
                                                             <li>
-                                                                <form role="search" class="search-box margin-clear">
+                                                                <form role="search" class="search-box margin-clear" action="{{ url_for('.search_results') }}">
                                                                     <div class="form-group has-feedback">
                                                                         <input type="text" class="form-control"
                                                                                placeholder="Search">

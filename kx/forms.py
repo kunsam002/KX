@@ -159,16 +159,17 @@ class ProductForm(Form):
     name = StringField('Name', validators=[DataRequired()], description="The name of your product")
     caption = StringField('Product Caption', validators=[DataRequired()], description="Short description of product")
     regular_price = FloatField('Standard Price', validators=[DataRequired()], default=0.0,
-                       description="Enter a numeric value. No commas allowed")
+                               description="Enter a numeric value. No commas allowed")
     sale_price = FloatField('Discount Price', default=0.0, validators=[Optional()],
                             description="Enter the new discounted price. No commas allowed")
     description = StringField('Product Details', validators=[Optional()], widget=widgets.TextArea(),
                               description="A detailed description of this product. Please ensure all Video Embeded codes are of width and height 100%.")
     quantity = IntegerField('Quantity', validators=[Optional()], default=0,
-                          description="Enter a numeric value. No commas allowed")
+                            description="Enter a numeric value. No commas allowed")
     section_id = SelectField('Section', coerce=int, validators=[Optional()])
     category_id = SelectField('Category', coerce=int, validators=[Optional()])
     removables = SelectMultipleField(validators=[Optional()], coerce=int)
+    video = StringField('Video', validators=[Optional()], description="Video Embeded iframe")
 
     def validate_compare_at(form, field):
         if field.data > form.price.data:
@@ -208,6 +209,15 @@ class ProductVariantForm(Form):
     def validate_compare_at(form, field):
         if field.data > form.price.data:
             raise ValidationError("Discount cannot be more than price. Please adjust the value")
+
+
+class ProductReviewForm(Form):
+    user_id = IntegerField('User', validators=[DataRequired()])
+    product_id = IntegerField('Product', validators=[DataRequired()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    message = StringField('Message', validators=[DataRequired()], widget=widgets.TextArea())
+    rating = SelectField('Rating', coerce=int, choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+                         validators=[DataRequired()])
 
 
 class PageFilterForm(Form):

@@ -317,6 +317,7 @@ class User(db.Model, UserMixin, AppMixin):
     university_id = db.Column(db.Integer, db.ForeignKey('university.id'), nullable=True, index=True)
     products = db.relationship(
         'Product', backref='user', lazy='dynamic', cascade="all,delete-orphan")
+    profile_pic = db.Column(db.Text)
 
     def update_last_login(self):
         if self.current_login_at is None and self.last_login_at is None:
@@ -478,6 +479,7 @@ class University(AppMixin, db.Model):
     country_id = db.Column(
         db.Integer, db.ForeignKey('country.id'), nullable=True, index=True)
     users = db.relationship('User', backref='university', lazy='dynamic')
+    products = db.relationship('Product', backref='university', lazy='dynamic')
 
 
 class Banner(AppMixin, db.Model):
@@ -638,6 +640,7 @@ class Product(UserMixin, db.Model):
     visibility = db.Column(db.Boolean, default=False, index=True)
     images = db.relationship('Image', backref='product',
                              lazy='dynamic', cascade="all,delete-orphan")
+    video = db.Column(db.Text)
     type_id = db.Column(db.Integer, db.ForeignKey('product_type.id'), index=True)
     cover_image_id = db.Column(db.Integer)  # over image among all images
     is_flexible = db.Column(db.Boolean, default=False)
@@ -659,6 +662,9 @@ class Product(UserMixin, db.Model):
     view_count = db.Column(db.Integer)
     is_enabled = db.Column(db.Boolean, default=True, index=True)
     has_variants = db.Column(db.Boolean)
+    university_id = db.Column(db.Integer, db.ForeignKey('university.id'), index=True)
+    reviews = db.relationship(
+        'ProductReview', backref='product', lazy='dynamic', cascade="all,delete-orphan")
 
     @property
     def deal_end_timestamp(self):
@@ -741,6 +747,13 @@ class Product(UserMixin, db.Model):
     def __repr__(self):
         return '<Product %r>' % self.name
 
+class ProductReview(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey(
+        'product.id'), nullable=False, index=True)
+    rating = db.Column(db.Integer)
+    subject = db.Column(db.String(200), index=True)
+    message = db.Column(db.Text)
 
 
 class Variant(AppMixin, db.Model):

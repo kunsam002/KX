@@ -30,6 +30,7 @@ cloudinary.config(
 WishlistService = ServiceFactory.create_service(Wishlist, db)
 WishlistEntryService = ServiceFactory.create_service(WishlistEntry, db)
 ProductService = ServiceFactory.create_service(Product, db)
+ProductReviewService = ServiceFactory.create_service(ProductReview, db)
 BaseImageService = ServiceFactory.create_service(Image, db)
 BaseProductService = ServiceFactory.create_service(Product, db)
 BaseVariantService = ServiceFactory.create_service(Variant, db)
@@ -51,6 +52,7 @@ class ProductService(BaseProductService):
 
         print kwargs, '========im the kwargs======'
         user = User.query.get(kwargs.get("user_id"))
+        kwargs["university_id"] = user.university_id
         university = user.university
         section_id = kwargs.get("section_id", None)
         if section_id and section_id > 0 and Section.query.get(section_id).name == "Services":

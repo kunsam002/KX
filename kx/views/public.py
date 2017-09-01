@@ -89,6 +89,7 @@ def main_context():
     length = object_length
     join_list = utils.join_list
     slugify = utils.slugify
+    join_list = utils.join_list
     paging_url_build = build_page_url
     clean_ascii = utils.clean_ascii
     login_form = LoginForm()
@@ -317,6 +318,27 @@ def search_results():
         results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
 
     return render_template("public/search-results.html", **locals())
+
+
+
+@www.route('/products/<int:id>/<string:sku>/', methods=['GET', 'POST'])
+def product(id, sku):
+    page_title = "Product"
+
+    obj = Product.query.filter(Product.sku == sku).first()
+    user_id = None
+    if current_user.is_authenticated:
+        user_id = current_user.id
+
+    review_form = ProductReviewForm(product_id=obj.id, user_id=user_id)
+    logger.info(review_form.errors)
+    logger.info(review_form.data)
+    if review_form.validate_on_submit():
+        data = review_form.data
+        review = operations.ProductReviewService.create(**data)
+
+    return render_template("public/product.html", **locals())
+
 
 
 # Profile View Functions Start >>>>>>>
