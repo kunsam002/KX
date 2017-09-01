@@ -110,7 +110,76 @@
                             <div class="light-gray-bg p-20 bordered clearfix">
                                 <span class="product price"><i class="icon-tag pr-10"></i><del>₦{{ obj.regular_price }}</del> ₦{{ obj.sale_price }}</span>
                                 <div class="product elements-list pull-right clearfix">
-                                    <input type="button" value="Contact Seller" class="margin-clear btn btn-default">
+                                    {#                                    <input type="button" value="X" class="margin-clear btn btn-default">#}
+                                    <!-- Button trigger modal -->
+                                    <button class="btn btn-default" data-toggle="modal" data-target="#contactSeller">
+                                        Contact Seller
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="contactSeller" tabindex="-1" role="dialog"
+                                         aria-labelledby="contactSellerLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"><span
+                                                            aria-hidden="true">&times;</span><span
+                                                            class="sr-only">Close</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">Contact Seller</h4>
+                                                </div>
+                                                <form role="form" id="comment-form" name="message_form"
+                                                      action="{{ request.path }}"
+                                                      method="post">
+                                                    {{ message_form.csrf_token }}
+                                                    <div class="modal-body">
+                                                        {{ message_form.user_id(class="hidden") }}
+                                                        {{ message_form.product_id(class="hidden") }}
+                                                        <div class="">
+                                                            <div class="form-group has-feedback">
+                                                                <label for="{{ message_form.name.name }}">{{ message_form.name.label.text }}</label>
+                                                                {{ message_form.name(class='form-control') }}
+                                                                <i class="fa fa-user form-control-feedback"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group has-feedback col-md-6">
+                                                                <label for="{{ message_form.email.name }}">{{ message_form.email.label.text }}</label>
+                                                                {{ message_form.email(class='form-control') }}
+                                                                <i class="fa fa-at form-control-feedback" style="right: 15px;"></i>
+                                                            </div>
+                                                            <div class="form-group has-feedback col-md-6">
+                                                                <label for="{{ message_form.phone.name }}">{{ message_form.phone.label.text }}</label>
+                                                                {{ message_form.phone(class='form-control') }}
+                                                                <i class="fa fa-phone form-control-feedback" style="right: 15px;"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="">
+                                                            <div class="form-group has-feedback">
+                                                                <label for="{{ message_form.subject.name }}">{{ message_form.subject.label.text }}</label>
+                                                                {{ message_form.subject(class='form-control') }}
+                                                                <i class="fa fa-navicon form-control-feedback"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="">
+                                                            <div class="form-group has-feedback ">
+                                                                <label for="{{ message_form.body.name }}">{{ message_form.body.label.text }}</label>
+                                                                {{ message_form.body(class='form-control') }}
+                                                                <i class="fa fa-envelope-o form-control-feedback"></i>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-dark"
+                                                                data-dismiss="modal">Cancel
+                                                        </button>
+                                                        <button type="submit" class="btn btn-sm btn-default">Send
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +265,8 @@
                                 <!-- comments form start -->
                                 <div class="comments-form">
                                     <h2 class="title">Add your Review</h2>
-                                    <form role="form" id="comment-form" name="review_form" action="{{ request.path }}"
+                                    <form role="form" id="comment-form" name="review_form"
+                                          action="{{ url_for('.product_review',id=obj.user_id,sku=obj.sku) }}"
                                           method="post">
                                         {{ review_form.csrf_token }}
                                         {{ review_form.user_id(class="hidden") }}

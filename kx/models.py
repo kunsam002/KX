@@ -230,7 +230,7 @@ class Image(AppMixin, db.Model):
         return '<Image %r>' % self.name
 
 
-class Message(AppMixin, db.Model):
+class Message(UserMixin, db.Model):
     __searchable__ = True
 
     __include_in_index__ = ["name", "email", "phone", "subject", "url", "is_read",
@@ -248,6 +248,7 @@ class Message(AppMixin, db.Model):
     is_replied = db.Column(db.Boolean, default=False, index=True)
     date_replied = db.Column(db.DateTime, nullable=True)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False, index=True)
+    seller_id = db.Column(db.Integer)
     body = db.Column(db.Text)  # for plain text messages
     responses = db.relationship(
         'MessageResponse', backref='message', lazy='dynamic', cascade="all,delete-orphan")
@@ -293,7 +294,7 @@ class AdminMessageResponse(AppMixin, db.Model):
 
 class User(db.Model, UserMixin, AppMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(200), unique=True, index=True)
+    username = db.Column(db.String(200), index=True)
     email = db.Column(db.String(200), unique=True, index=True)
     first_name = db.Column(db.String(200), unique=False)
     last_name = db.Column(db.String(200), unique=False)
@@ -318,6 +319,10 @@ class User(db.Model, UserMixin, AppMixin):
     products = db.relationship(
         'Product', backref='user', lazy='dynamic', cascade="all,delete-orphan")
     profile_pic = db.Column(db.Text)
+    messages = db.relationship(
+        'Message', backref='user', lazy='dynamic', cascade="all,delete-orphan")
+    admin_messages = db.relationship(
+        'AdminMessage', backref='user', lazy='dynamic', cascade="all,delete-orphan")
 
     def update_last_login(self):
         if self.current_login_at is None and self.last_login_at is None:
@@ -665,6 +670,8 @@ class Product(UserMixin, db.Model):
     university_id = db.Column(db.Integer, db.ForeignKey('university.id'), index=True)
     reviews = db.relationship(
         'ProductReview', backref='product', lazy='dynamic', cascade="all,delete-orphan")
+    messages = db.relationship(
+        'Message', backref='product', lazy='dynamic', cascade="all,delete-orphan")
 
     @property
     def deal_end_timestamp(self):

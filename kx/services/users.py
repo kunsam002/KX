@@ -6,7 +6,7 @@ restful.py
 @Author: Ogunmokun Olukunle
 
 """
-from kx import logger
+from kx import logger, app
 from kx.models import *
 from sqlalchemy import or_, and_
 from kx.services import ServiceFactory
@@ -32,18 +32,18 @@ class UserService(BaseUserService):
     def create(cls, ignored_args=None, **kwargs):
 
         p = kwargs.pop("password")
-        logger.info(p)
         full_name = kwargs.get("full_name", "")
         full_name_split = full_name.split(" ")
         if len(full_name_split) > 1:
             kwargs["first_name"], kwargs["last_name"] = full_name.split(" ")
         else:
             kwargs["first_name"] = full_name
+        kwargs["profile_pic"] = "%s/static/images/avatar.jpg" % app.config.get("CANONICAL_URL", "")
         obj = BaseUserService.create(ignored_args=ignored_args, **kwargs)
         obj = generate_password(obj.id, p)
-        data = {"name": "General"}
-        cls.create_wishlist(obj.id, **data)
-        return
+        # data = {"name": "General"}
+        # cls.create_wishlist(obj.id, **data)
+        return obj
 
     @classmethod
     def reset_password(cls, obj_id, **kwargs):

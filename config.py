@@ -59,6 +59,12 @@ class Config(object):
     RECAPTCHA_PUB_KEY = "6LeC-OgSAAAAAOjhuihbl6ks-NxZ9jzcv7X4kG9M"
     RECAPTCHA_PRIV_KEY = "6LeC-OgSAAAAANbUdjXj_YTCHbocDQ48-bRRFYTr"
 
+    PROTOCOL = "http://"
+
+    DOMAIN = "kampusxchange"
+
+    CANONICAL_URL = "%s%s" % (PROTOCOL, DOMAIN)
+
 
 
 

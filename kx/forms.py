@@ -75,7 +75,7 @@ class LoginForm(Form):
 
 class SignupForm(Form):
     # phone = StringField('Phone', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired(), Email()])
     full_name = StringField('Full Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     verify_password = PasswordField('Verify Password', validators=[DataRequired(), EqualTo('password')],
@@ -84,6 +84,7 @@ class SignupForm(Form):
 
 
 class ProfileUpdateForm(Form):
+    username = StringField('UserName', validators=[Optional()])
     full_name = StringField('Full Name', validators=[DataRequired()])
     phone = StringField('Phone', validators=[DataRequired()])
     university_id = SelectField('University', coerce=int, validators=[DataRequired()])
@@ -339,14 +340,13 @@ class ReplyForm(Form):
 
 
 class MessageForm(Form):
+    user_id = IntegerField('User', validators=[Optional()])
+    product_id = IntegerField('Product', validators=[DataRequired()])
     name = StringField("Name", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired()])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
     phone = StringField("Phone", validators=[DataRequired()])
     subject = StringField("Subject", validators=[Optional()])
-    is_read = BooleanField("is read", validators=[Optional()])
-    is_replied = BooleanField("is replied", validators=[Optional()])
-    date_replied = DateTimeField("Date Replied", validators=[Optional()])
-    body = StringField("Body", validators=[Optional()])  # for plain text messages
+    body = StringField("Body", validators=[Optional()], widget=widgets.TextArea())  # for plain text messages
 
 
 class AdminMessageForm(MessageForm): pass

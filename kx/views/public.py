@@ -31,7 +31,7 @@ import xmltodict
 import os
 import sys
 import random
-import pprint
+from pprint import pprint
 import cgi
 
 www = Blueprint('public', __name__)
@@ -149,8 +149,12 @@ def signup():
     form = SignupForm()
     if form.validate_on_submit():
         data = form.data
-        users.UserService.create(**data)
+        user= users.UserService.create(**data)
+
+        _data = {"name": "General"}
+
         user = User.query.filter(User.email == data.get("email", "")).first()
+        users.UserService.create_wishlist(user.id, **_data)
 
         login_user(user, remember=True, force=True)  # This is necessary to remember the user
 
@@ -320,7 +324,6 @@ def search_results():
     return render_template("public/search-results.html", **locals())
 
 
-
 @www.route('/products/<int:id>/<string:sku>/', methods=['GET', 'POST'])
 def product(id, sku):
     page_title = "Product"
@@ -329,16 +332,37 @@ def product(id, sku):
     user_id = None
     if current_user.is_authenticated:
         user_id = current_user.id
+        message_form = MessageForm(obj=current_user, name=current_user.full_name, product_id=obj.id)
+    else:
+        message_form = MessageForm(product_id=obj.id, user_id=user_id)
 
     review_form = ProductReviewForm(product_id=obj.id, user_id=user_id)
-    logger.info(review_form.errors)
-    logger.info(review_form.data)
+    if message_form.validate_on_submit():
+        data = message_form.data
+        data["user_id"]=user_id
+        data["seller_id"] = obj.user_id
+        pprint(data)
+        review = operations.MessageService.create(**data)
+        return redirect(url_for('.product', id=id, sku=sku))
+
+    return render_template("public/product.html", **locals())
+
+
+@www.route('/products/<int:id>/<string:sku>/create_review/', methods=['GET', 'POST'])
+def product_review(id, sku):
+    page_title = "Product"
+
+    obj = Product.query.filter(Product.sku == sku).first()
+    user_id = None
+    if current_user.is_authenticated:
+        user_id = current_user.id
+
+    review_form = ProductReviewForm(product_id=obj.id, user_id=user_id)
     if review_form.validate_on_submit():
         data = review_form.data
         review = operations.ProductReviewService.create(**data)
 
-    return render_template("public/product.html", **locals())
-
+    return redirect(url_for('.product', id=obj.user_id, sku=obj.sku))
 
 
 # Profile View Functions Start >>>>>>>
@@ -531,12 +555,34 @@ def profile_messages():
 
     return render_template("public/profile/messages.html", **locals())
 
+
 @www.route('/profile/customer_messages/')
 @login_required
 def profile_cust_messages():
     welcome_note = "Customers"
-    return render_template("public/profile/cust_messages.html", **locals())
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
 
+    request_args = utils.copy_dict(request.args, {})
+
+    query = Message.query.filter(Message.seller_id == current_user.id).order_by(desc(Message.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+
+    return render_template("public/profile/cust_messages.html", **locals())
 
 
 @www.route('/profile/settings/', methods=['GET', 'POST'])
@@ -586,7 +632,7 @@ def profile_password_reset():
 
 # <<<<<<<<< Profile View functions end
 
-@www.route('/contact/', methods=['GET','POST'])
+@www.route('/contact/', methods=['GET', 'POST'])
 def contact():
     page_title = "Contact Us"
     user_id = None
@@ -620,7 +666,7 @@ def contact_sending():
         contact_form = ContactForm(obj=_data)
         if contact_form.validate_on_submit():
             data = contact_form.data
-            u=User.query.filter(User.email==data.get("email")).first()
+            u = User.query.filter(User.email == data.get("email")).first()
             if u:
                 data["user_id"] = u.id
             msg = operations.AdminMessageService.create(**data)
