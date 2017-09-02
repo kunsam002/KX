@@ -49,7 +49,7 @@ def runadmin():
     # Initialize the app blueprints
     initialize_blueprints(app, control)
 
-    port = int(os.environ.get('PORT', 5550))
+    port = int(os.environ.get('PORT', 5560))
     app.run(host='0.0.0.0', port=port)
 
 

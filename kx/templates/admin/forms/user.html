@@ -1,0 +1,100 @@
+{% extends "admin/layout.html" %}
+
+{% block body %}
+<section id="main-content">
+  <section class="wrapper site-min-height">
+  	<div class="row">
+  		<div class="col-md-12">
+  			<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+  			<h2 class="page-title shink border-bottom">
+  				<!-- Blank Page <small>blank page</small> -->
+  				{{page_title}} <small>Ensure all required fields are filled</small>
+  			</h2>
+  			<!-- END PAGE TITLE & BREADCRUMB-->
+  		</div>
+  	</div>
+  	<!-- END PAGE HEADER-->
+  	<!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+      <div class="col-md-12">
+        <form name="form" action="{{request.path}}" enctype="multipart/form-data" method="post">
+          {{form.csrf_token()}}
+           <div class="form-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group {% if form.full_name.errors %} has-error {% endif %}">
+                    <label for="{{form.full_name.name}}">{{form.full_name.label.text}}</label>
+                    {{form.full_name(class='form-control')}}
+                    {% if form.full_name.description %} <span class="help-block">{{form.full_name.description}}</span>{% endif %}
+                    {% if form.full_name.errors %}
+                    {% for e in form.full_name.errors %}<span class="help-block">{{e}}</span>{% endfor %}
+                    {% endif %}
+                 </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+                    <label for="{{form.email.name}}">{{form.email.label.text}}</label>
+                    {{form.email(class='form-control')}}
+                    {% if form.email.description %} <span class="help-block">{{form.email.description}}</span>{% endif %}
+                    {% if form.email.errors %}
+                    {% for e in form.email.errors %}<span class="help-block">{{e}}</span>{% endfor %}
+                    {% endif %}
+                  </div>
+                    
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group {% if form.username.errors %} has-error {% endif %}">
+                    <label for="{{form.username.name}}">{{form.username.label.text}}</label>
+                    {{form.username(class='form-control')}}
+                    {% if form.username.description %} <span class="help-block">{{form.username.description}}</span>{% endif %}
+                    {% if form.username.errors %}
+                    {% for e in form.username.errors %}<span class="help-block">{{e}}</span>{% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                  <div class="form-group {% if form.gender.errors %} has-error {% endif %}">
+                    <label for="{{form.full_name.name}}">{{form.gender.label.text}}</label>
+                    {{form.gender(class='form-control')}}
+                    {% if form.gender.description %} <span class="help-block">{{form.gender.description}}</span>{% endif %}
+                    {% if form.gender.errors %}
+                    {% for e in form.gender.errors %}<span class="help-block">{{e}}</span>{% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="col-md-6">
+                  <div class="form-group {% if form.password.errors %} has-error {% endif %}">
+                    <label for="{{form.full_name.name}}">{{form.password.label.text}}</label>
+                    {{form.password(class='form-control')}}
+                    {% if form.password.description %} <span class="help-block">{{form.password.description}}</span>{% endif %}
+                    {% if form.password.errors %}
+                    {% for e in form.password.errors %}<span class="help-block">{{e}}</span>{% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group {% if form.verify_password.errors %} has-error {% endif %}">
+                    <label for="{{form.verify_password.name}}">{{form.verify_password.label.text}}</label>
+                    {{form.verify_password(class='form-control')}}
+                    {% if form.verify_password.description %} <span class="help-block">{{form.verify_password.description}}</span>{% endif %}
+                    {% if form.verify_password.errors %}
+                    {% for e in form.verify_password.errors %}<span class="help-block">{{e}}</span>{% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <!--/row-->        
+           </div>
+           <div class="form-actions right">
+           	<a href="{{url_for('.users')}}" class="btn default">Cancel</a>
+              <button type="submit" class="btn green"><i class="fa fa-ok"></i> Save</button>
+           </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "admin/layout.html" %}
+
+{% block body %}
+<section id="main-content">
+  <section class="wrapper site-min-height">
+  	<div class="row">
+  		<div class="col-md-12">
+  			<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+  			<h2 class="page-title shink border-bottom">
+  				<!-- Blank Page <small>blank page</small> -->
+  				{{page_title}} <small>Ensure all required fields are filled</small>
+  			</h2>
+  			<!-- END PAGE TITLE & BREADCRUMB-->
+  		</div>
+  	</div>
+  	<!-- END PAGE HEADER-->
+  	<!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+      <div class="col-md-12">
+        <form name="form" action="{{request.path}}" method="post" class="horizontal-form">
+           <div class="form-body">
+              <div class="row">
+                <div class="col-md-12">
+                    
+                 </div>
+                 <div class="col-md-6">
+                    
+                 </div>
+                 <div class="col-md-6">
+                    
+                 </div>
+                 <div class="clearfix"></div>
+                 <div class="col-md-6">
+                    
+                 </div>
+                 <div class="col-md-6">
+                    
+                 </div>
+                 <div class="clearfix"></div>
+                 <div class="col-md-12">
+                  
+                 </div>
+              </div>
+              <!--/row-->        
+           </div>
+           <div class="form-actions right">
+           	<a href="{{url_for('.staff')}}" class="btn default">Cancel</a>
+              <button type="submit" class="btn green"><i class="icon-ok"></i> Save</button>
+           </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</section>
+{% endblock %}
