@@ -336,7 +336,7 @@ class ComplaintForm(Form):
 
 
 class ReplyForm(Form):
-    message = StringField('Reply Message', validators=[DataRequired()], widget=widgets.TextArea())
+    body = StringField('Reply Message', validators=[DataRequired()], widget=widgets.TextArea())
 
 
 class MessageForm(Form):

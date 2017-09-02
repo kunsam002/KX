@@ -323,6 +323,10 @@ class User(db.Model, UserMixin, AppMixin):
         'Message', backref='user', lazy='dynamic', cascade="all,delete-orphan")
     admin_messages = db.relationship(
         'AdminMessage', backref='user', lazy='dynamic', cascade="all,delete-orphan")
+    message_responses = db.relationship(
+        'MessageResponse', backref='user', lazy='dynamic', cascade="all,delete-orphan")
+    admin_message_responses = db.relationship(
+        'AdminMessageResponse', backref='user', lazy='dynamic', cascade="all,delete-orphan")
 
     def update_last_login(self):
         if self.current_login_at is None and self.last_login_at is None:

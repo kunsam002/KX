@@ -8,10 +8,10 @@
         <!-- ================ -->
         <!-- Nav tabs -->
         <ul class="nav nav-tabs style-1" role="tablist" style="margin-bottom: 0;">
-            <li ><a
+            <li class="{% if not is_cust %}active{% endif %}"><a
                     href="{{ url_for('.profile_messages') }}"><i
                     class="fa fa-home pr-10"></i>KampusXchange</a></li>
-            <li class="active"><a
+            <li class="{% if is_cust %}active{% endif %}"><a
                     href="{{ url_for('.profile_cust_messages') }}"><i class="fa fa-users pr-10"></i>Customers</a></li>
         </ul>
         <!-- Tab panes -->
@@ -36,7 +36,7 @@
                                 <div class="comment-content">
                                     <div class="comment-body clearfix">
                                         <p>{{ obj.body }}</p>
-                                        <a href="{{ url_for('.profile_cust_message_response',id=obj.id) }}" class="btn-sm-link link-dark pull-right"><i
+                                        <a href="{{ url_for('.profile_message_response',id=obj.id) }}" class="btn-sm-link link-dark pull-right"><i
                                             class="fa fa-reply"></i> Reply</a>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@
 
 
             </div>
-            {% include 'public/snippets/pagination.html' %}
+        {% include 'public/snippets/pagination.html' %}
         </div>
         <!-- tabs end -->
     </section>

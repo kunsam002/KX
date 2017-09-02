@@ -555,6 +555,46 @@ def profile_messages():
 
     return render_template("public/profile/messages.html", **locals())
 
+@www.route('/profile/messages/<int:id>/response/', methods=["GET","POST"])
+@login_required
+def profile_message_response(id):
+    obj = AdminMessage.query.get(id)
+    if not obj:
+        abort(404)
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+
+
+    request_args = utils.copy_dict(request.args, {})
+
+    is_cust = False
+
+    query = AdminMessage.query.filter(AdminMessage.user_id == current_user.id).order_by(desc(AdminMessage.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+
+    reply_form = ReplyForm()
+    if reply_form.validate_on_submit():
+        data = reply_form.data
+        data["admin_message_id"]=id
+        data["user_id"] = current_user.id
+        reply = operations.AdminMessageResponseService.create(**data)
+        return redirect(url_for('.profile_message_response',id=id))
+    return render_template("public/profile/message_response.html", **locals())
+
 
 @www.route('/profile/customer_messages/')
 @login_required
@@ -583,6 +623,45 @@ def profile_cust_messages():
         results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
 
     return render_template("public/profile/cust_messages.html", **locals())
+
+@www.route('/profile/customer_messages/<int:id>/response/', methods=["GET","POST"])
+@login_required
+def profile_cust_message_response(id):
+
+    obj = Message.query.get(id)
+    if not obj:
+        abort(404)
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+    request_args = utils.copy_dict(request.args, {})
+    is_cust = True
+
+    query = Message.query.filter(Message.seller_id == current_user.id).order_by(desc(Message.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+
+    reply_form = ReplyForm()
+    if reply_form.validate_on_submit():
+        data = reply_form.data
+        data["message_id"]=id
+        data["user_id"] = current_user.id
+        reply = operations.MessageResponseService.create(**data)
+        return redirect(url_for('.profile_cust_message_response',id=id))
+    return render_template("public/profile/message_response.html", **locals())
+
 
 
 @www.route('/profile/settings/', methods=['GET', 'POST'])

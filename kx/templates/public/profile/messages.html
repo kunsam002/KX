@@ -7,46 +7,86 @@
         <!-- tabs start -->
         <!-- ================ -->
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs style-1" role="tablist">
-            <li {% if request.path==url_for('.profile_messages') %}class="active"{% endif %}><a
+        <ul class="nav nav-tabs style-1" role="tablist" style="margin-bottom: 0;">
+            <li class="active"><a
                     href="{{ url_for('.profile_messages') }}"><i
                     class="fa fa-home pr-10"></i>KampusXchange</a></li>
-            <li {% if request.path==url_for('.profile_cust_messages') %}class="active"{% endif %}><a
+            <li><a
                     href="{{ url_for('.profile_cust_messages') }}"><i class="fa fa-users pr-10"></i>Customers</a></li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-            <div class="tab-pane fade in active">
-                <!-- comments start -->
-                <div class="comments margin-clear space-top">
-                    {% for obj in results.items %}
+            <div class="tab-pane fade in active" style="box-shadow: 0 1px 1px #ddd;">
+                <div class="col-md-4 light-gray-bg">
+                    <!-- comments start -->
+                    <div class="comments margin-clear space-top">
+                        {% for obj in results.items %}
+                            <!-- comment start -->
+                            <div class="comment clearfix">
+                                <div class="comment-avatar">
+                                    <img class="img-circle" src="{{ url_for('static', filename='images/avatar.jpg') }}"
+                                         alt="avatar">
+                                </div>
+                                <header>
+                                    <h3>{{ obj.subject }}</h3>
+                                    <div class="comment-meta">{{ moment(obj.date_created).format('MMM Do, YYYY') }} |
+                                        <small class="caption">{{ moment(obj.date_created).calendar() }}</small>
+                                    </div>
+                                </header>
+                                <div class="comment-content">
+                                    <div class="comment-body clearfix">
+                                        <p>{{ obj.body }}</p>
+                                        <a href="{{ url_for('.profile_message_response',id=obj.id) }}" class="btn-sm-link link-dark pull-right"><i
+                                            class="fa fa-reply"></i> Reply</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- comment end -->
+                        {% endfor %}
+                    </div>
+                    <!-- comments end -->
+                </div>
+                {% if obj %}
+                <div class="col-md-8">
+                    {% for resp in obj.responses %}
                         <!-- comment start -->
                         <div class="comment clearfix">
                             <div class="comment-avatar">
-                                <img class="img-circle" src="{{ url_for('static', filename='images/avatar.jpg') }}"
+                                <img class="img-circle" src="{{ resp.user.profile_pic }}"
                                      alt="avatar">
                             </div>
                             <header>
-                                <h3>{{ obj.subject }}</h3>
-                                <div class="comment-meta">{{ moment(obj.date_created).format('MMM Do, YYYY') }} |
-                                    <small class="caption">{{ moment(obj.date_created).calendar() }}</small>
+                                <div class="comment-meta">{{ moment(resp.date_created).format('MMM Do, YYYY') }} |
+                                    <small class="caption">{{ moment(resp.date_created).calendar() }}</small>
                                 </div>
                             </header>
                             <div class="comment-content">
                                 <div class="comment-body clearfix">
-                                    <p>{{ obj.body }}</p>
-                                    <a href="" class="btn-sm-link link-dark pull-right"><i
-                                            class="fa fa-reply"></i> Reply</a>
+                                    <p>{{ resp.body }}</p>
                                 </div>
                             </div>
                         </div>
                         <!-- comment end -->
                     {% endfor %}
-                    {% include 'public/snippets/pagination.html' %}
+                    <form role="form" id="comment-form" name="reply_form"
+                          action=""
+                          method="post">
+                        {{ reply_form.csrf_token }}
+                        <div class="form-group has-feedback ">
+                            <label for="{{ reply_form.body.name }}">{{ reply_form.body.label.text }}</label>
+                            {{ reply_form.body(class='form-control') }}
+                            <i class="fa fa-envelope-o form-control-feedback"></i>
+                        </div>
+
+                        <button type="submit" class="btn btn-sm btn-default">Reply
+                        </button>
+                    </form>
                 </div>
-                <!-- comments end -->
+                {% endif %}
+
 
             </div>
+            {% include 'public/snippets/pagination.html' %}
         </div>
         <!-- tabs end -->
     </section>
