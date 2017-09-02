@@ -43,7 +43,7 @@ def page_not_found(e):
     error_title = "Page not found!"
     error_info = "The requested page cannot be found or does not exist. Please contact the Administrator."
 
-    return render_template('main/error.html', **locals()), 404
+    return render_template('public/error.html', **locals()), 404
 
 
 @app.errorhandler(500)
@@ -53,7 +53,7 @@ def internal_server_error(e):
     error_title = "Server Error!"
     error_info = "There has been an Internal server Error. Please try again later or Contact the Administrator."
 
-    return render_template('main/error.html', **locals()), 500
+    return render_template('public/error.html', **locals()), 500
 
 
 @app.errorhandler(PermissionDenied)
@@ -101,6 +101,64 @@ def main_context():
     user = User.query.filter().first()
 
     return locals()
+
+@control.route('/login/', methods=["GET","POST"])
+def login():
+    if current_user.is_authenticated:
+        flash("Please Logout to Login with an existing account")
+        return redirect(url_for('.index', next_url=request.args.get("next", None)))
+
+    page_title = "Log In"
+
+    next_url_ = request.args.get("next_url") or url_for(".index")
+
+    form = LoginForm()
+    if form.validate_on_submit():
+        data = form.data
+        username = data["username"]
+        password = data["password"]
+
+        user = authenticate_user(username, password)
+
+        if user and user.deactivate:
+            login_error = "User has been deactivated. Please contact support team."
+        else:
+            if user is not None:
+
+                login_user(user, remember=True, force=True)  # This is necessary to remember the user
+
+                identity_changed.send(app, identity=Identity(user.id))
+
+                resp = redirect(next_url_)
+                user.update_last_login()
+
+                # Transfer auth token to the frontend for use with api requests
+                __xcred = base64.b64encode("%s:%s" % (user.username, user.get_auth_token()))
+
+                resp.set_cookie("__xcred", __xcred)
+
+                return resp
+
+            else:
+                login_error = "The username or password is invalid"
+
+    return render_template('admin/login.html', **locals())
+
+
+
+@control.route('/logout/')
+def logout():
+    logout_user()
+
+    # Remove session keys set by Flask-Principal
+    for key in (
+            'identity.name', 'identity.auth_type'):
+        session.pop(key, None)
+
+    # Tell Flask-Principal the user is anonymous
+    identity_changed.send(app, identity=AnonymousIdentity())
+
+    return redirect(url_for('.login'))
 
 
 @control.route('/')
