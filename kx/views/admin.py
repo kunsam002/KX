@@ -166,16 +166,30 @@ def index():
     # user = User.query.filter().first()
     return render_template('admin/index.html', **locals())
 
-
-@control.route('/gallery/')
-def gallery():
-    page_title = "Gallery"
-    return render_template('admin/gallery.html', **locals())
-
-
 @control.route('/staff')
 def staff():
     page_title = "Staff Members"
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+
+    request_args = utils.copy_dict(request.args, {})
+
+    query = User.query.filter(User.is_staff==True).order_by(desc(User.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
     return render_template('admin/staff.html', **locals())
 
 
@@ -212,6 +226,70 @@ def messages():
 
     return render_template('admin/messages.html', **locals())
 
+@control.route('/gallery/')
+def gallery():
+    page_title = "Gallery"
+
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+
+    request_args = utils.copy_dict(request.args, {})
+
+    query = Image.query.order_by(desc(Image.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+
+    return render_template('admin/gallery.html', **locals())
+
+
+
+@control.route('/users/')
+def users():
+    page_title = "Users"
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+
+    request_args = utils.copy_dict(request.args, {})
+
+    query = User.query.filter(User.is_staff!=True).order_by(desc(User.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+    return render_template('admin/users.html', **locals())
+
+
+@control.route('/users/create/', methods=["GET", "POST"])
+def create_user():
+    page_title = "Create User Account"
+
+
+    return render_template('admin/forms/user.html', **locals())
+
 
 @control.route('/products/')
 def products():
@@ -241,16 +319,3 @@ def products():
     return render_template('admin/messages.html', **locals())
 
 
-
-@control.route('/users/')
-def users():
-    page_title = "Users"
-    return render_template('admin/users.html', **locals())
-
-
-@control.route('/users/create/', methods=["GET", "POST"])
-def create_user():
-    page_title = "Create User Account"
-
-
-    return render_template('admin/forms/user.html', **locals())

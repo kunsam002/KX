@@ -1,192 +1,76 @@
 {% extends "admin/layout.html" %}
 
 {% block body %}
-<!-- **********************************************************************************************************************************************************
-MAIN CONTENT
-*********************************************************************************************************************************************************** -->
-<!--main content start-->
-<section id="main-content">
-  <section class="wrapper site-min-height">
-  	<h2>
-  		{{page_title}}
-	  	<a href="{{url_for('.add_staff')}}" class="btn btn-success pull-right">Add Staff Member</a>
-	  </h2>
-  	<div class="margin-bottom-10">
-			<form action="{{request.path}}" method="get">
-			  <div class="input-group input-xxlarge">
-	        <input type="text" name="q" class="form-control" {% if search_q %} value="{{search_q}}" {% endif %} placeholder="Search">
-	        <span class="input-group-btn">
+    <!-- **********************************************************************************************************************************************************
+    MAIN CONTENT
+    *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            <h2>
+                {{ page_title }}
+                <a href="{{ url_for('.add_staff') }}" class="btn btn-success pull-right">Add Staff Member</a>
+            </h2>
+            <div class="margin-bottom-10">
+                <form action="{{ request.path }}" method="get">
+                    <div class="input-group input-xxlarge">
+                        <input type="text" name="q" class="form-control" {% if search_q %}
+                               value="{{ search_q }}" {% endif %} placeholder="Search">
+                        <span class="input-group-btn">
 	          <button class="btn btn-info" title="Search" type="submit"><i class="fa fa-search"></i></button>
 	        </span>
-	      </div>
-			</form>
-			<div class="clearfix"></div>
-			<div class="clearfix">
-			  {% if search_q %}
-			    <h5><b>Search Result for : </b><i>{{search_q}}</i></h5>
-			  {% endif %}
-			</div>
-		</div>
-		<div class="row mt">
-  		<div class="col-lg-12">
-        <div>
-          <section id="unseen">
-            <table class="table table-striped ">
-              <thead>
-                <tr>
-                  <th style="width: 25px;"><input type="checkbox"></th>
-                  <th>Name</th>
-                  <th style="width: 200px;">Date Created</th>
-                  <th style="text-align:right;width: 300px;"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>
-                  	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-                  	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-                  </td>
-                  <td class="numeric">Jan 23, 2014 02:01 AM</td>
-                  <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-		                <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-                </tr>
-                <tr>
-	                <td><input type="checkbox"></td>
-	                <td>
-	                	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-	                	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-	                </td>
-	                <td class="numeric">Jan 23, 2014 02:01 AM</td>
-	                <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-                    <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>
-                  	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-                  	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-                  </td>
-                  <td class="numeric">Jan 23, 2014 02:01 AM</td>
-                  <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-                    <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>
-                  	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-                  	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-                  </td>
-                  <td class="numeric">Jan 23, 2014 02:01 AM</td>
-                  <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-		                <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-	              </tr>
-	              <tr>
-	                <td><input type="checkbox"></td>
-	                <td>
-	                	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-	                	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-	                </td>
-	                <td class="numeric">Jan 23, 2014 02:01 AM</td>
-	                <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-                    <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>
-                  	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-                  	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-                  </td>
-                  <td class="numeric">Jan 23, 2014 02:01 AM</td>
-                  <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-                    <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>
-                  	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-                  	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-                  </td>
-                  <td class="numeric">Jan 23, 2014 02:01 AM</td>
-                  <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-		                <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-	              </tr>
-	              <tr>
-	                <td><input type="checkbox"></td>
-	                <td>
-	                	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-	                	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-	                </td>
-	                <td class="numeric">Jan 23, 2014 02:01 AM</td>
-	                <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-                    <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>
-                  	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-                  	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-                  </td>
-                  <td class="numeric">Jan 23, 2014 02:01 AM</td>
-                  <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-                    <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox"></td>
-                  <td>
-                  	<a href="#">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</a><br/>your@email.com</br>
-                  	Manage Internal Pages, View Transactions & Orders, View & Respond to Complaints, Manage Payment Options, Manage Merchant Shops, Activate/Deactivate Shops, Manage Delivery Options, Manage Platform Assets, View & Respond to Messages, View & Generate Reports, Manage Staff Members
-                  </td>
-                  <td class="numeric">Jan 23, 2014 02:01 AM</td>
-                  <td style="text-align:right;">
-                  	<a class="edit" title="Manage" href="#">Manage</a> |
-										<a class="edit" title="Activate" href="#">Enable</a>
-		                <span>|</span>
-										<a class="edit" title="Reset" href="#">Reset Password</a>
-                  </td>
-	              </tr>
-              </tbody>
-            </table>
-          </section>
-        </div>
-      </div><!-- /content-panel -->
-    </div><!-- /col-lg-4 -->			
-	</section>
-</section><!-- /MAIN CONTENT -->
+                    </div>
+                </form>
+                <div class="clearfix"></div>
+                <div class="clearfix">
+                    {% if search_q %}
+                        <h5><b>Search Result for : </b><i>{{ search_q }}</i></h5>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mt">
+                <div class="col-lg-12">
+                    <div>
+                        <section id="unseen">
+                            <table class="table table-striped ">
+                                <thead>
+                                <tr>
+                                    <th style="width: 25px;"><input type="checkbox"></th>
+                                    <th>Name</th>
+                                    <th style="width: 200px;">Date Created</th>
+                                    <th style="text-align:right;width: 300px;"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for obj in results.items %}
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td>
+                                            <a href="#">{{ obj.full_name }}</a> {% if obj.username %}(
+                                            <i>{{ obj.username }}</i>){% endif %}<br/>{{ obj.email }}
+                                            <div>
+                                                Manage Internal Pages, View Transactions & Orders, View & Respond to
+                                                Complaints, Manage Payment Options, Manage Merchant Shops,
+                                                Activate/Deactivate Shops, Manage Delivery Options, Manage Platform
+                                                Assets, View & Respond to Messages, View & Generate Reports, Manage
+                                                Staff Members
+                                            </div>
+                                        </td>
+                                        <td class="numeric">Jan 23, 2014 02:01 AM</td>
+                                        <td style="text-align:right;">
+                                            <a class="edit" title="Manage" href="#">Manage</a> |
+                                            <a class="edit" title="Activate" href="#">Enable</a>
+                                            <span>|</span>
+                                            <a class="edit" title="Reset" href="#">Reset Password</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                </div><!-- /content-panel -->
+            </div><!-- /col-lg-4 -->
+        </section>
+    </section><!-- /MAIN CONTENT -->
 {% endblock %}

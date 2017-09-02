@@ -230,35 +230,23 @@
               <h5 class="centered">{{user.username}}</h5>
               <ul class="sidebar-menu" id="nav-accordion">
               	  
-                  <li class="mt active">
+                  <li class="mt {% if request.path==url_for('.index') %}active{% endif %}">
                       <a class="" href="{{url_for('.index')}}">
                           <i class="fa fa-dashboard"></i>
                           <span>Dashboard</span>
                       </a>
                   </li>
 
-                  <li>
+                  <li class="{% if request.path==url_for('.staff') %}active{% endif %}">
                       <a href="{{url_for('.staff')}}">
                           <i class="fa fa-male"></i>
                           <span>Staff</span>
                       </a>
                   </li>
-                  <li>
+                  <li class="{% if request.path==url_for('.messages') %}active{% endif %}">
                       <a href="{{url_for('.messages')}}">
                           <i class="fa fa-envelope"></i>
                           <span>Messages</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="{{url_for('.gallery')}}">
-                          <i class="fa fa-picture-o"></i>
-                          <span>Gallery</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#">
-                          <i class="fa fa-gift"></i>
-                          <span>Products</span>
                       </a>
                   </li>
                   <li>
@@ -267,12 +255,26 @@
                           <span>Category</span>
                       </a>
                   </li>
-                  <li>
+                  <li class="{% if request.path==url_for('.gallery') %}active{% endif %}">
+                      <a href="{{url_for('.gallery')}}">
+                          <i class="fa fa-picture-o"></i>
+                          <span>Gallery</span>
+                      </a>
+                  </li>
+                  <li class="{% if request.path==url_for('.users') %}active{% endif %}">
                       <a href="{{url_for('.users')}}">
                           <i class="fa fa-group"></i>
                           <span>Users</span>
                       </a>
                   </li>
+                  <li class="{% if request.path==url_for('.products') %}active{% endif %}">
+                      <a href="{{ url_for('.products') }}">
+                          <i class="fa fa-gift"></i>
+                          <span>Products</span>
+                      </a>
+                  </li>
+
+
                   <li>
                       <a href="#">
                           <i class="fa fa-credit-card"></i>
