@@ -34,7 +34,7 @@ import random
 from pprint import pprint
 import cgi
 
-www = Blueprint('public', __name__)
+www = Blueprint('public', __name__, template_folder='../templates', static_folder='../static')
 
 
 @app.errorhandler(404)

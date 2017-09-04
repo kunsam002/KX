@@ -33,7 +33,7 @@ import sys
 import random
 from pprint import pprint
 import cgi
-control = Blueprint('admin', __name__)
+control = Blueprint('admin', __name__, template_folder='../templates', static_folder='../static')
 
 
 @app.errorhandler(404)
