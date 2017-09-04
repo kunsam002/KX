@@ -112,7 +112,7 @@ def authenticate_admin(username, password, **kwargs):
 
     :returns: a user object or None
     """
-    user = User.query.filter(and_(User.is_super_admin == True, User.is_staff == True)).filter(
+    user = User.query.filter(and_(User.is_staff == True)).filter(
         or_(User.username == username, User.email == username)).first()
     if user and user.check_password(password):
         # search.index(user)

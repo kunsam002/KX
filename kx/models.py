@@ -303,6 +303,7 @@ class User(db.Model, UserMixin, AppMixin):
     active = db.Column(db.Boolean, default=False)
     is_confirmed = db.Column(db.Boolean, default=False, index=True)
     is_staff = db.Column(db.Boolean, default=False, index=True)
+    is_seller = db.Column(db.Boolean, default=False, index=True)
     is_global = db.Column(db.Boolean, default=False, index=True)
     is_super_admin = db.Column(db.Boolean, default=False)
     deactivate = db.Column(db.Boolean, default=False)

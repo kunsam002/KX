@@ -1,0 +1,77 @@
+{% extends "admin/layout.html" %}
+
+{% block body %}
+<!-- **********************************************************************************************************************************************************
+MAIN CONTENT
+*********************************************************************************************************************************************************** -->
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <h2 class="page-title">
+                    <!-- Blank Page <small>blank page</small> -->
+                    <div class="btn-group pull-right">
+
+                    </div>
+                    {{ page_title }}
+                </h2>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <div class="col-md-12">
+
+            <div class="inbox-view-info">
+                <div class="row">
+                    <div class="col-md-7">
+                        <span class="bold">{{ obj.name }}</span>
+                        <span>&#60;{{ obj.email }}&#62;</span> to <span class="bold">me</span>
+                        on {{ obj.date_created.strftime('%b %d, %Y %H:%M %p') }}<br>
+                        <span><i class="fa fa-phone"></i>... {{ obj.phone }}</span>
+
+                    </div>
+                    <div class="col-md-5 inbox-info-btn">
+                    </div>
+                </div>
+            </div>
+            <h4>{{ obj.subject }}</h4>
+            <div class="inbox-view">
+                {{ obj.body|safe }}
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <form action="{{ request.path }}" method="post" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                <div class="form-group {% if form.body.errors %} has-error {% endif %}">
+                    <label style="font-weight: bold;"
+                           for="{{ form.body.name }}">{{ form.body.label.text }}</label>
+                    {{ form.body(class='form-control rich-text') }}
+                    {% if form.body.errors %}
+                        {% for e in form.body.errors %}<span class="help-block">{{ e }}</span>{% endfor %}
+                    {% endif %}
+                </div>
+                <div class="right" style="text-align: right;">
+                    <a href="javascript:history.go(-1)" class="btn default">Cancel</a>
+                    <button type="submit" class="btn green"><i class="fa fa-check"></i> Send</button>
+                </div>
+            </form>
+        </div>
+        <h3>Responses</h3>
+        <hr class="faded"/>
+        {% for resp in obj.responses %}
+        <div>
+            <p><strong>{% if resp.user.username %}{{ resp.user.username }}{% else %}
+                {{ resp.user.full_name }}{% endif %}</strong>
+                on {{ resp.date_created.strftime('%b %d, %Y %H:%M %p') }}</p>
+            {% autoescape off %}
+            {{ resp.body|default("") }}
+            {% endautoescape %}
+            <hr class="faded"></hr>
+        </div>
+        {% endfor %}
+
+    </section>
+</section>
+{% endblock %}

@@ -446,6 +446,9 @@ def create_product():
 
             flash("Product successfully created. Please wait 24hours for Product display Approval")
             _next = url_for(".profile_products")
+            current_user.is_seller=True
+            db.session.add(current_user)
+            db.session.commit()
             return redirect(_next)
         else:
             img_errors = "At least one image is required per product"
@@ -631,6 +634,7 @@ def profile_cust_message_response(id):
     obj = Message.query.get(id)
     if not obj:
         abort(404)
+    logger.info(obj)
     try:
         page = int(request.args.get("page", 1))
         pages = request.args.get("pages")

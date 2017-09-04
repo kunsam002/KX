@@ -1755,9 +1755,17 @@ h5 + .separator {
   margin: 0 15px 0 0;
 }
 .comment-content {
-  border-bottom: 1px solid #f1f1f1;
+  box-shadow: 0 1px 0 #ddd;
+  -moz-box-shadow: 0 1px 0 #ddd;
+  -webkit-box-shadow: 0 1px 0 #ddd;
   margin-bottom: 15px;
   clear: both;
+  padding: 5px 10px 0;
+}
+.comment:last-child .comment-content {
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
 }
 .comment-meta {
   margin-bottom: 15px;
@@ -1769,6 +1777,25 @@ h5 + .separator {
 }
 .comment-meta a:hover {
   text-decoration: underline;
+}
+.comment.reverse {
+  direction: rtl;
+}
+.comment.reverse .comment-avatar {
+  float: right;
+  margin: 0 0 0 15px;
+}
+.comment.opened {
+  color: #00b545;
+}
+.comment.opened header h3 {
+  color: #00b545;
+}
+.comment.opened header .comment-meta {
+  color: #00b545;
+}
+.comment.opened .comment-content {
+  color: #00b545;
 }
 /* Blog Masonry Grid
 ---------------------------------- */

@@ -59,7 +59,7 @@
                             <td class="view-message  hidden-xs">
                                 {% if obj.user.username %}{{ obj.user.username }}{% else %}
                                     {{ obj.user.first_name }}{% endif %}</td>
-                            <td class="view-message "><a href="#"><strong> {{ obj.subject }}- </strong> {{ obj.body }}
+                            <td class="view-message "><a href="{{ url_for('.message',id=obj.id) }}"><strong> {{ obj.subject }}- </strong> {{ obj.body }}
                             </a></td>
                             <td class="view-message  text-right">
                                 <div class="comment-meta">{{ moment(obj.date_created).format('MMM Do, YYYY') }} |

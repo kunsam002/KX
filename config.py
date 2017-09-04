@@ -33,7 +33,7 @@ class Config(object):
     LOGFILE_NAME = "kx"
 
     ADMIN_USERNAME = "KampusXchange"
-    ADMIN_PASSWORD = "kampusXchange"
+    ADMIN_PASSWORD = "KampusXchange"
     ADMIN_EMAIL = "kampus.xchange@gmail.com"
     ADMIN_FULL_NAME = "Kampus Xchange"
 
@@ -85,10 +85,25 @@ class SiteDevConfig(Config):
     LOGIN_VIEW = '.login'
 
 #
-# class TestProdConfig(SiteDevConfig):
-#     DEV_MODE = False
-#
-#     PROTOCOL = "http://"
-#     DOMAIN = "k-x.herokuapp.com"
-#
-#     SQLALCHEMY_DATABASE_URI = "postgres://xpzqyykkgoloce:f8a8db502e81618de9c7253a987a4d6c54e42d48e105311fb64da0ad42f261aa@ec2-54-75-239-190.eu-west-1.compute.amazonaws.com:5432/dcstr4ghk35c7m"
+class SiteProdConfig(SiteDevConfig):
+    DEV_MODE = True
+
+    PROTOCOL = "http://"
+    DOMAIN = "kampusxchange.com"
+    CANONICAL_URL = "%s%s" % (PROTOCOL, DOMAIN)
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://kampusxchange:KampusXchange@localhost/kx'
+
+
+class AdminProdConfig(SiteDevConfig):
+    """ Configuration class for production admin environment """
+
+    PROTOCOL = "http://"
+    DOMAIN = "kampusxchange.com"
+    DEBUG = False
+    TEST = False
+    LOGFILE_NAME = "kx-admin"
+
+    EMAIL_DEV_ONLY = False
+
+    CANONICAL_URL = "%s%s" % (PROTOCOL, DOMAIN)
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://kampusxchange:KampusXchange@localhost/kx'

@@ -13,7 +13,7 @@ from kx import db, logger, app, handle_uploaded_photos
 from kx.forms import *
 from kx.services import *
 from kx.services import users, site_services, operations
-from kx.services.authentication import authenticate_user
+from kx.services.authentication import authenticate_admin
 from datetime import date, datetime, timedelta
 from kx.models import *
 from sqlalchemy import asc, desc, or_, and_, func
@@ -115,10 +115,12 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         data = form.data
+        logger.info(data)
         username = data["username"]
         password = data["password"]
 
-        user = authenticate_user(username, password)
+        user = authenticate_admin(username, password)
+        logger.info(user)
 
         if user and user.deactivate:
             login_error = "User has been deactivated. Please contact support team."
@@ -225,6 +227,50 @@ def messages():
         results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
 
     return render_template('admin/messages.html', **locals())
+
+@control.route('/messages/sellers/')
+def seller_messages():
+    page_title = "Messages"
+    try:
+        page = int(request.args.get("page", 1))
+        pages = request.args.get("pages")
+        search_q = request.args.get("q", None)
+    except:
+        abort(404)
+
+    request_args = utils.copy_dict(request.args, {})
+
+    query = AdminMessage.query.order_by(desc(AdminMessage.date_created))
+
+    results = query.paginate(page, 20, False)
+    if results.has_next:
+        # build next page query parameters
+        request_args["page"] = results.next_num
+        results.next_page = "%s%s" % ("?", urllib.urlencode(request_args))
+
+    if results.has_prev:
+        # build previous page query parameters
+        request_args["page"] = results.prev_num
+        results.previous_page = "%s%s" % ("?", urllib.urlencode(request.args))
+
+    return render_template('admin/messages.html', **locals())
+
+
+@control.route('/messages/<int:id>/', methods=['GET','POST'])
+def message(id):
+    page_title = "Message"
+    obj=AdminMessage.query.get(id)
+    form = ReplyForm()
+
+    if form.validate_on_submit():
+        data = form.data
+        data["admin_message_id"]=id
+        data["user_id"] = current_user.id
+        obj = operations.AdminMessageResponseService.create(**data)
+        flash("message successfully replied")
+        return redirect(url_for(".messages"))
+    return render_template('admin/details/message.html', **locals())
+
 
 @control.route('/gallery/')
 def gallery():

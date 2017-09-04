@@ -15,9 +15,9 @@
                     href="{{ url_for('.profile_cust_messages') }}"><i class="fa fa-users pr-10"></i>Customers</a></li>
         </ul>
         <!-- Tab panes -->
-        <div class="tab-content">
-            <div class="tab-pane fade in active" style="box-shadow: 0 1px 1px #ddd;">
-                <div class="col-md-4 light-gray-bg">
+        <div class="tab-content" style="box-shadow: 0 1px 1px #ddd;">
+            <div class="tab-pane fade in active">
+                <div class="col-md-4 light-gray-bg" >
                     <!-- comments start -->
                     <div class="comments margin-clear space-top">
                         {% for obj in results.items %}
@@ -44,10 +44,16 @@
                             <!-- comment end -->
                         {% endfor %}
                     </div>
+                {% if results.total ==0 %}
+                <div style="padding: 60px 20px;text-align: center;">
+                            <i class="glyphicon glyphicon-envelope" style="font-size: 60px;"></i><br>
+                            No Messages
+                        </div>
+                {% endif %}
                     <!-- comments end -->
                 </div>
                 {% if obj %}
-                <div class="col-md-8">
+                <div class="col-md-8" style="padding: 15px 15px 0;    border-left: 2px solid #efefef;">
                     {% for resp in obj.responses %}
                         <!-- comment start -->
                         <div class="comment clearfix">
@@ -86,8 +92,9 @@
 
 
             </div>
-            {% include 'public/snippets/pagination.html' %}
+            <div class="clearfix"></div>
         </div>
         <!-- tabs end -->
+    {% include 'public/snippets/pagination.html' %}
     </section>
 {% endblock profile_body %}

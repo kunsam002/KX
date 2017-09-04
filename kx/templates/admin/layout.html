@@ -242,11 +242,16 @@
                           <span>Staff</span>
                       </a>
                   </li>
-                  <li class="{% if request.path==url_for('.messages') %}active{% endif %}">
-                      <a href="{{url_for('.messages')}}">
+
+                    <li class="sub-menu">
+                      <a href="javascript:;" >
                           <i class="fa fa-envelope"></i>
                           <span>Messages</span>
                       </a>
+                      <ul class="sub">
+                          <li class="{% if request.path==url_for('.messages') %}active{% endif %}"><a  href="{{ url_for('.messages') }}">KampusXchange</a></li>
+                          <li class="{% if request.path==url_for('.seller_messages') %}active{% endif %}"><a href="{{ url_for('.seller_messages') }}">Sellers</a></li>
+                      </ul>
                   </li>
                   <li>
                       <a href="#">
