@@ -172,9 +172,6 @@ def create_app(app_name, config_obj, with_api=True):
         ))
         app.logger.addHandler(file_handler)
 
-        # Implement Sentry logging here
-        sentry = Sentry(app)
-        app.sentry = sentry
 
     # include an api_registry to the application
     app.api_registry = []  # a simple list holding the values to be registered
