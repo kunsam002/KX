@@ -164,11 +164,13 @@ def logout():
 
 
 @control.route('/')
+@login_required
 def index():
     # user = User.query.filter().first()
     return render_template('admin/index.html', **locals())
 
 @control.route('/staff')
+@login_required
 def staff():
     page_title = "Staff Members"
     try:
@@ -196,12 +198,14 @@ def staff():
 
 
 @control.route('/staff/add/')
+@login_required
 def add_staff():
     page_title = "Add Staff"
     return render_template('admin/forms/staff.html', **locals())
 
 
 @control.route('/messages/')
+@login_required
 def messages():
     page_title = "Messages"
     try:
@@ -229,6 +233,7 @@ def messages():
     return render_template('admin/messages.html', **locals())
 
 @control.route('/messages/sellers/')
+@login_required
 def seller_messages():
     page_title = "Messages"
     try:
@@ -257,6 +262,7 @@ def seller_messages():
 
 
 @control.route('/messages/<int:id>/', methods=['GET','POST'])
+@login_required
 def message(id):
     page_title = "Message"
     obj=AdminMessage.query.get(id)
@@ -273,6 +279,7 @@ def message(id):
 
 
 @control.route('/gallery/')
+@login_required
 def gallery():
     page_title = "Gallery"
 
@@ -303,6 +310,7 @@ def gallery():
 
 
 @control.route('/users/')
+@login_required
 def users():
     page_title = "Users"
     try:
@@ -330,6 +338,7 @@ def users():
 
 
 @control.route('/users/create/', methods=["GET", "POST"])
+@login_required
 def create_user():
     page_title = "Create User Account"
 
@@ -338,6 +347,7 @@ def create_user():
 
 
 @control.route('/products/')
+@login_required
 def products():
     page_title = "Products"
     try:
