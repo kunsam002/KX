@@ -1,5 +1,5 @@
 main-global-css:
- directory: /static
+ directory: static
  filters: yui_css
  output: global.min.css
  contents:
@@ -17,7 +17,7 @@ main-global-css:
 
 
 main-global-less:
- directory: /static
+ directory: static
  filters: less
  output: main-global.less.min.css
  contents:
@@ -28,7 +28,7 @@ main-global-less:
 
 
 main-global-js:
-  directory: /static
+  directory: static
   filters: uglifyjs
   output: global.min.js
   contents:
