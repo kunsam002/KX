@@ -483,7 +483,7 @@ def create_product():
     return render_template("public/profile/create_product.html", **locals())
 
 
-@www.route('/profile/my_products/<string:sku>/update/', methods=['GET', 'POST'])
+@www.route('/profile/my_product/<string:sku>/update/', methods=['GET', 'POST'])
 @login_required
 def update_product(sku):
     page_title = "Create Product"
