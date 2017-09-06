@@ -721,6 +721,10 @@ class Product(UserMixin, db.Model):
         return Image.query.filter(Image.product_id == self.id, Image.id != self.cover_image.id).first()
 
     @property
+    def alternate_images(self):
+        return Image.query.filter(Image.product_id == self.id, Image.id != self.cover_image.id).all()
+
+    @property
     def alternate_image_url(self):
         image = Image.query.filter(
             Image.product_id == self.id, Image.id != self.cover_image.id).first()

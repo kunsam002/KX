@@ -36,18 +36,19 @@
                                 <div class="tab-pane active" id="prod_img">
                                     <div class="owl-carousel content-slider-with-large-controls">
                                         <div class="overlay-container overlay-visible">
-                                            <img src="{{ url_for('static', filename='images/product-1.jpg') }}" alt="">
-                                            <a href="{{ url_for('static', filename='images/product-1.jpg') }}"
+                                            <img src="{{ img.cover_image_url }}" alt="">
+                                            <a href="{{ img.cover_image_url }}"
                                                class="popup-img overlay-link"
                                                title="image title"><i class="icon-plus-1"></i></a>
                                         </div>
+                                        {% for img in obj.alternate_images %}
                                         <div class="overlay-container overlay-visible">
-                                            <img src="{{ url_for('static', filename='images/product-1-2.jpg') }}"
-                                                 alt="">
-                                            <a href="{{ url_for('static', filename='images/product-1-2.jpg') }}"
+                                            <img src="{{ img.url }}" alt="">
+                                            <a href="{{ img.url }}"
                                                class="popup-img overlay-link"
                                                title="image title"><i class="icon-plus-1"></i></a>
                                         </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 {% if obj.video %}
@@ -62,7 +63,7 @@
                         </div>
                         <div class="col-md-8 pv-30">
                             <h2>Description</h2>
-                            <p>{{ obj.description }}</p>
+                            <p>{{ obj.description|safe }}</p>
 
                             <hr class="mb-10">
                             <div class="clearfix mb-20">

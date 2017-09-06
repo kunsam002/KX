@@ -424,7 +424,9 @@ def create_product():
     create_product_form.section_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
     create_product_form.category_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in
                                                                              Category.query.all()]
-
+    pprint(create_product_form.errors)
+    pprint(create_product_form.data)
+    pprint(files)
     if create_product_form.validate_on_submit() and empty_files is False:
 
         uploaded_files, errors = handle_uploaded_photos(files, (160, 160))
