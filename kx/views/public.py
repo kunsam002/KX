@@ -441,10 +441,13 @@ def create_product():
 
             images = []
             for upload_ in uploaded_files:
-                images = operations.ImageService.create(product_id=product.id, **upload_)
-
-                _d_ = {"cover_image_id": images.id}
+                img = operations.ImageService.create(product_id=product.id, **upload_)
+                images.append(img)
+                _d_ = {"cover_image_id": img.id}
                 product = operations.ProductService.set_cover_image(product.id, **_d_)
+
+            if len(images) < 1:
+                operations.ProductService.delete(product.id)
 
             flash("Product successfully created. Please wait 24hours for Product display Approval")
             _next = url_for(".profile_products")
