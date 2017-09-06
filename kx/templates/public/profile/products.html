@@ -1,39 +1,44 @@
 {% extends 'public/profile/layout.html' %}
 {% block profile_btns %}
     <div class="btn-group pull-right">
-        <a href="{{ url_for('.create_product') }}" class="btn btn-animated btn-default btn-hvr">Create <i class="icon-gift btn-alert"></i></a>
+        <a href="{{ url_for('.create_product') }}" class="btn btn-animated btn-default btn-hvr">Create <i
+                class="icon-gift btn-alert"></i></a>
     </div>
 {% endblock profile_btns %}
 {% block profile_body %}
     <section class="clearfix main-container">
         <div class="row masonry-grid-fitrows grid-space-10">
-            {% for obj in results.items %}
-            <div class="col-md-3 col-sm-6 masonry-grid-item">
-                <div class="listing-item my-listing-item white-bg bordered mb-20">
-                    <div class="overlay-container"
-                         style="background-image: url('{{ obj.cover_image_url }}');">
-                        <a class="overlay-link popup-img-single"
-                           href="{{ obj.cover_image_url }}"><i
-                                class="fa fa-search-plus"></i></a>
-                        <span class="badge">{{ obj.percentage_off }}% OFF</span>
-                        <div class="overlay-to-top links">
+            {% if results.total >0 %}
+                {% for obj in results.items %}
+                    <div class="col-md-3 col-sm-6 masonry-grid-item">
+                        <div class="listing-item my-listing-item white-bg bordered mb-20">
+                            <div class="overlay-container"
+                                 style="background-image: url('{{ obj.cover_image_url }}');">
+                                <a class="overlay-link popup-img-single"
+                                   href="{{ obj.cover_image_url }}"><i
+                                        class="fa fa-search-plus"></i></a>
+                                <span class="badge">{{ obj.percentage_off }}% OFF</span>
+                                <div class="overlay-to-top links">
                   <span class="small">
-                    <a href="{{ url_for('.update_product', sku=obj.sku) }}" class="btn-sm-link"><i class="icon-link pr-5"></i>Edit Details</a>
+                    <a href="{{ url_for('.update_product', sku=obj.sku) }}" class="btn-sm-link"><i
+                            class="icon-link pr-5"></i>Edit Details</a>
                   </span>
+                                </div>
+                            </div>
+                            <div class="body">
+                                <h3><a href="#">{{ obj.name }}</a></h3>
+                                <div class="elements-list clearfix center">
+                                    <span class="price"><del>₦{{ obj.regular_price }}</del> ₦{{ obj.sale_price }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="body">
-                        <h3><a href="#">{{ obj.name }}</a></h3>
-                        <div class="elements-list clearfix center">
-                            <span class="price"><del>₦{{ obj.regular_price }}</del> ₦{{ obj.sale_price }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
 
 
-            {% include 'public/snippets/pagination.html' %}
+
+                {% include 'public/snippets/pagination.html' %}
+            {% endif %}
         </div>
     </section>
 
