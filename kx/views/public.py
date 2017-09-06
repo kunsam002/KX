@@ -491,7 +491,7 @@ def create_product():
 @www.route('/profile/my_product/<string:sku>/update/', methods=['GET', 'POST'])
 @login_required
 def update_product(sku):
-    page_title = "Create Product"
+    page_title = "Update Product"
 
     obj = Product.query.filter(Product.sku == sku, Product.user_id == current_user.id).first()
 
