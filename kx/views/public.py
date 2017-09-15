@@ -223,17 +223,18 @@ def fetch_dir_section_cats():
 @www.route('/<string:path>/')
 @www.route('/')
 def index(path=None):
-    universities = site_services.fetch_universities()
+    page_title="Comming Soon"
+    # universities = site_services.fetch_universities()
+    #
+    # form = SearchForm()
+    # form.product_type.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in ProductType.query.all()]
+    # form.university_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in universities]
+    # form.sec_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
+    # form.cat_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
+    #
+    # sections = Section.query.order_by(Section.name).all()
 
-    form = SearchForm()
-    form.product_type.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in ProductType.query.all()]
-    form.university_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in universities]
-    form.sec_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Section.query.all()]
-    form.cat_id.choices = [(0, "--- Select One ---")] + [(i.id, i.name) for i in Category.query.all()]
-
-    sections = Section.query.order_by(Section.name).all()
-
-    return render_template("public/index.html", **locals())
+    return render_template("public/coming-soon.html", **locals())
 
 
 # @www.route('/categories/', methods=["GET", "POST"])
