@@ -10,7 +10,7 @@ click==6.7
 cloudinary==1.6.1
 decorator==4.0.10
 enum34==1.1.6
-eventlet==0.17.4
+eventlet==0.31.0
 Flask==0.12.2
 Flask-Alembic==2.0.1
 Flask-Assets==0.10
